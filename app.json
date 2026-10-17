@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Little Color World",
+    "slug": "little-color-world",
+    "scheme": "littlecolorworld",
+    "version": "0.1.0",
+    "orientation": "landscape",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#FFF7EC",
+    "ios": {
+      "bundleIdentifier": "app.littlecolorworld.ios",
+      "supportsTablet": true,
+      "isTabletOnly": true,
+      "requireFullScreen": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": ["expo-router", "expo-sqlite"]
+  }
+}
