@@ -23,7 +23,7 @@ Newest first. Each entry records what changed, how it was verified, and what is 
 
 **Not yet verified (needs a human or a dev build)**
 - Tapping on the coloring canvas, undo/redo/reset buttons, and kill/relaunch restore *in the running app*. I can't send taps to the simulator (macOS blocks scripted input without Accessibility permission), and deep links reload Expo Go to Home. The logic underneath is unit-tested; the on-device wiring is not.
-- Landscape lock: Expo Go ignores the app's orientation. This needs a development build (`npx expo run:ios`), which needs more free disk.
+- Landscape lock on a device: config and runtime lock are in place (see the 2026-10-17 entry), but rotation has not been checked on a dev build or real iPad.
 - Real-iPad performance.
 
 **Known limitations / interim choices**
@@ -66,3 +66,13 @@ Reclaimable caches (not touched): Xcode DerivedData 26 GB, iOS DeviceSupport 23 
 **Verified:** documentation only. There is no code to test yet.
 
 **Next:** await approval of the plan and the open decisions in ROADMAP.md, then Milestone 0.1.
+
+## 2026-10-17: Strict landscape lock
+
+**Changed:** `app.json` now sets `UISupportedInterfaceOrientations` and `UISupportedInterfaceOrientations~ipad` to LandscapeLeft/Right only, and adds the `expo-screen-orientation` plugin with `initialOrientation: LANDSCAPE`. `src/app/_layout.tsx` calls `ScreenOrientation.lockAsync(LANDSCAPE)` on mount. New dependency `expo-screen-orientation` (installed with `npx expo install`): it enforces the lock at runtime, which also covers Expo Go, where the app.json orientation is ignored.
+
+**Verified:** `npx expo config --type introspect` shows only landscape orientations for iPhone and iPad, plus `EXDefaultScreenOrientationMask = Landscape`. typecheck, lint, and tests pass (53/53). `npm run doctor` failed: `expo-doctor` is not installed locally.
+
+**Not verified:** rotating a real device or dev build. Expo Go on iPad may refuse the runtime lock, because Expo Go allows multitasking.
+
+**Next:** run `npx expo prebuild` (or `run:ios`) so the generated `ios/` picks up the plugin, then rotate the iPad simulator to confirm.

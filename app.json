@@ -14,7 +14,9 @@
       "isTabletOnly": true,
       "requireFullScreen": true,
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "UISupportedInterfaceOrientations": ["UIInterfaceOrientationLandscapeLeft", "UIInterfaceOrientationLandscapeRight"],
+        "UISupportedInterfaceOrientations~ipad": ["UIInterfaceOrientationLandscapeLeft", "UIInterfaceOrientationLandscapeRight"]
       }
     },
     "android": {
@@ -26,6 +28,6 @@
       },
       "predictiveBackGestureEnabled": false
     },
-    "plugins": ["expo-router", "expo-sqlite"]
+    "plugins": ["expo-router", "expo-sqlite", ["expo-screen-orientation", { "initialOrientation": "LANDSCAPE" }]]
   }
 }
