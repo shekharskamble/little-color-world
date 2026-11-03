@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Little princess with a crown and ball gown (Princesses). Layer convention: docs/ARTWORK_PIPELINE.md. -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   width="1024"
+   height="768"
+   viewBox="0 0 1024 768"
+   version="1.1">
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#999999" inkscape:document-units="px" showgrid="false" />
+  <g inkscape:groupmode="layer" id="reference" inkscape:label="reference" style="opacity:0.35" sodipodi:insensitive="true" />
+  <g inkscape:groupmode="layer" id="regions" inkscape:label="regions" style="stroke:#1e1b2e;stroke-width:10;stroke-linejoin:round;stroke-linecap:round">
+    <rect inkscape:label="sky" x="0" y="0" width="1024" height="768" style="fill:#e3f2ff;stroke:none" />
+    <path inkscape:label="ground" d="M -20,640 C 260,610 760,610 1044,640 V 790 H -20 Z" style="fill:#e4f4d0" />
+    <path inkscape:label="heart-left" d="M 180,262 C 118,220 108,178 134,154 C 156,134 180,146 180,168 C 180,146 204,134 226,154 C 252,178 242,220 180,262 Z" style="fill:#ffd6de" />
+    <path inkscape:label="heart-right" d="M 844,262 C 782,220 772,178 798,154 C 820,134 844,146 844,168 C 844,146 868,134 890,154 C 916,178 906,220 844,262 Z" style="fill:#ffd6de" />
+    <path inkscape:label="hair" d="M 512,168 C 626,168 666,244 666,330 C 666,404 700,456 656,494 C 616,486 600,456 598,430 L 426,430 C 424,456 408,486 368,494 C 324,456 358,404 358,330 C 358,244 398,168 512,168 Z" style="fill:#ffe9a8" />
+    <ellipse inkscape:label="shoes" cx="466" cy="700" rx="42" ry="22" style="fill:#d9cff2" />
+    <ellipse inkscape:label="shoes" cx="558" cy="700" rx="42" ry="22" style="fill:#d9cff2" />
+    <path inkscape:label="arms" d="M 452,430 C 418,444 398,478 394,516 C 392,538 420,544 428,522 C 434,494 450,470 472,456 Z" style="fill:#ffe3d1" />
+    <path inkscape:label="arms" d="M 572,430 C 606,444 626,478 630,516 C 632,538 604,544 596,522 C 590,494 574,470 552,456 Z" style="fill:#ffe3d1" />
+    <path inkscape:label="dress" d="M 462,476 H 562 C 596,560 648,624 672,688 Q 512,724 352,688 C 376,624 428,560 462,476 Z" style="fill:#e9d8ff" />
+    <path inkscape:label="bodice" d="M 466,412 H 558 L 566,486 H 458 Z" style="fill:#e9d8ff" />
+    <circle inkscape:label="sleeves" cx="460" cy="426" r="34" style="fill:#ffd6de" />
+    <circle inkscape:label="sleeves" cx="564" cy="426" r="34" style="fill:#ffd6de" />
+    <circle inkscape:label="face" cx="512" cy="316" r="108" style="fill:#ffe3d1" />
+    <path inkscape:label="bangs" d="M 406,300 C 404,222 452,196 512,196 C 572,196 620,222 618,300 C 598,274 572,262 550,262 C 540,282 518,290 500,286 C 480,282 470,268 466,260 C 442,266 420,280 406,300 Z" style="fill:#ffe9a8" />
+    <path inkscape:label="crown" d="M 450,208 L 440,132 L 480,166 L 512,116 L 544,166 L 584,132 L 574,208 Z" style="fill:#fff3a6" />
+  </g>
+  <g inkscape:groupmode="layer" id="details" inkscape:label="details" style="stroke:none">
+    <circle inkscape:label="eye-left" cx="474" cy="326" r="17" style="fill:#1e1b2e" />
+    <circle inkscape:label="eye-right" cx="550" cy="326" r="17" style="fill:#1e1b2e" />
+    <circle inkscape:label="eye-left-shine" cx="479" cy="319" r="5.5" style="fill:#ffffff" />
+    <circle inkscape:label="eye-right-shine" cx="555" cy="319" r="5.5" style="fill:#ffffff" />
+    <ellipse inkscape:label="cheek-left" cx="446" cy="364" rx="22" ry="13" style="fill:#ffb3c1" />
+    <ellipse inkscape:label="cheek-right" cx="578" cy="364" rx="22" ry="13" style="fill:#ffb3c1" />
+    <circle inkscape:label="jewel" cx="512" cy="182" r="11" style="fill:#ff8fb3" />
+  </g>
+  <g inkscape:groupmode="layer" id="outline" inkscape:label="outline" style="fill:none;stroke:#1e1b2e;stroke-width:10;stroke-linecap:round;stroke-linejoin:round">
+    <path inkscape:label="smile" d="M 490,370 Q 512,390 534,370" />
+    <path inkscape:label="dress-ruffle" d="M 380,640 Q 410,664 440,644 Q 476,668 512,646 Q 548,668 584,644 Q 614,664 644,640" />
+    <path inkscape:label="sparkles" d="M 300,110 V 150 M 280,130 H 320 M 724,110 V 150 M 704,130 H 744 M 150,420 V 452 M 134,436 H 166 M 874,420 V 452 M 858,436 H 890" />
+    <path inkscape:label="grass" d="M 96,712 L 106,684 L 116,712 L 126,674 L 136,712 L 146,686 L 156,712 M 852,712 L 862,684 L 872,712 L 882,674 L 892,712 L 902,686 L 912,712" />
+  </g>
+</svg>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Happy little car, front view (Vehicles). Layer convention: docs/ARTWORK_PIPELINE.md. -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   width="1024"
+   height="768"
+   viewBox="0 0 1024 768"
+   version="1.1">
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#999999" inkscape:document-units="px" showgrid="false" />
+  <g inkscape:groupmode="layer" id="reference" inkscape:label="reference" style="opacity:0.35" sodipodi:insensitive="true" />
+  <g inkscape:groupmode="layer" id="regions" inkscape:label="regions" style="stroke:#1e1b2e;stroke-width:10;stroke-linejoin:round;stroke-linecap:round">
+    <rect inkscape:label="sky" x="0" y="0" width="1024" height="768" style="fill:#e3f2ff;stroke:none" />
+    <path inkscape:label="hill" d="M -20,560 C 180,470 380,500 520,560 C 660,500 860,460 1044,540 V 790 H -20 Z" style="fill:#e4f4d0" />
+    <path inkscape:label="road" d="M -20,640 H 1044 V 790 H -20 Z" style="fill:#e6e6ea" />
+    <circle inkscape:label="sun" cx="140" cy="120" r="62" style="fill:#fff6c2" />
+    <path inkscape:label="cloud" d="M 700,170 C 664,170 660,124 700,116 C 706,76 768,68 790,97 C 818,62 886,74 890,116 C 930,118 932,170 896,170 Z" style="fill:#ffffff" />
+    <rect inkscape:label="wheel-left" x="296" y="560" width="96" height="124" rx="30" style="fill:#5b5f6e" />
+    <rect inkscape:label="wheel-right" x="632" y="560" width="96" height="124" rx="30" style="fill:#5b5f6e" />
+    <ellipse inkscape:label="mirror-left" cx="236" cy="388" rx="44" ry="30" style="fill:#ff8f8f" />
+    <ellipse inkscape:label="mirror-right" cx="788" cy="388" rx="44" ry="30" style="fill:#ff8f8f" />
+    <path inkscape:label="roof" d="M 330,392 L 380,232 C 390,204 410,192 440,192 H 584 C 614,192 634,204 644,232 L 694,392 Z" style="fill:#ff8f8f" />
+    <path inkscape:label="windshield" d="M 382,372 L 420,252 C 426,236 436,230 452,230 H 572 C 588,230 598,236 604,252 L 642,372 Z" style="fill:#d5ecff" />
+    <rect inkscape:label="body" x="248" y="364" width="528" height="236" rx="70" style="fill:#ff8f8f" />
+    <circle inkscape:label="headlight-left" cx="364" cy="462" r="62" style="fill:#ffffff" />
+    <circle inkscape:label="headlight-right" cx="660" cy="462" r="62" style="fill:#ffffff" />
+    <rect inkscape:label="bumper" x="232" y="566" width="560" height="58" rx="29" style="fill:#c9cedb" />
+    <rect inkscape:label="plate" x="452" y="560" width="120" height="44" rx="10" style="fill:#fff6c2" />
+  </g>
+  <g inkscape:groupmode="layer" id="details" inkscape:label="details" style="stroke:none">
+    <circle inkscape:label="pupil-left" cx="374" cy="470" r="26" style="fill:#1e1b2e" />
+    <circle inkscape:label="pupil-right" cx="650" cy="470" r="26" style="fill:#1e1b2e" />
+    <circle inkscape:label="shine-left" cx="383" cy="460" r="8" style="fill:#ffffff" />
+    <circle inkscape:label="shine-right" cx="659" cy="460" r="8" style="fill:#ffffff" />
+    <ellipse inkscape:label="cheek-left" cx="300" cy="546" rx="26" ry="15" style="fill:#ffb3c1" />
+    <ellipse inkscape:label="cheek-right" cx="724" cy="546" rx="26" ry="15" style="fill:#ffb3c1" />
+  </g>
+  <g inkscape:groupmode="layer" id="outline" inkscape:label="outline" style="fill:none;stroke:#1e1b2e;stroke-width:10;stroke-linecap:round;stroke-linejoin:round">
+    <path inkscape:label="smile" d="M 456,500 Q 512,546 568,500" />
+    <path inkscape:label="road-lines" d="M 40,712 H 120 M 240,712 H 320 M 704,712 H 784 M 904,712 H 984" />
+    <path inkscape:label="sun-rays" d="M 140,32 V 48 M 140,192 V 208 M 52,120 H 68 M 212,120 H 228 M 78,58 L 89,69 M 191,171 L 202,182 M 202,58 L 191,69 M 89,171 L 78,182" />
+  </g>
+</svg>

@@ -28,6 +28,18 @@
       },
       "predictiveBackGestureEnabled": false
     },
-    "plugins": ["expo-router", "expo-sqlite", ["expo-screen-orientation", { "initialOrientation": "LANDSCAPE" }]]
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      ["expo-screen-orientation", { "initialOrientation": "LANDSCAPE" }],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": false,
+          "savePhotosPermission": "Little Color World saves your child's finished pictures to Photos when they tap the big tick. It never looks at your photos.",
+          "isAccessMediaLocationEnabled": false
+        }
+      ]
+    ]
   }
 }

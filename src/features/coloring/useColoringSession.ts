@@ -5,7 +5,7 @@ import { AppState } from 'react-native';
 
 import type { ColoringPage } from '@/content/schema/page';
 import { createAutosaver } from '@/engine/autosave';
-import { coloringReducer, initialColoringState, sanitizeFills, type FillMap } from '@/engine/coloring/history';
+import { coloringReducer, initialColoringState, sanitizeFills, sanitizeStrokes, type Artwork } from '@/engine/coloring/history';
 import { findInProgressColoring, newArtworkId, saveColoring } from '@/persistence/artworkRepository';
 
 const AUTOSAVE_DELAY_MS = 1500;
@@ -32,7 +32,7 @@ export function useColoringSession(page: ColoringPage) {
       .then((saved) => {
         if (cancelled || !saved) return;
         setArtwork({ id: saved.id, createdAt: saved.createdAt });
-        dispatch({ type: 'load', fills: sanitizeFills(saved.fills, fillable) });
+        dispatch({ type: 'load', fills: sanitizeFills(saved.fills, fillable), strokes: sanitizeStrokes(saved.strokes, fillable) });
       })
       .catch((e: unknown) => console.warn('Could not restore artwork', e))
       .finally(() => {
@@ -45,8 +45,8 @@ export function useColoringSession(page: ColoringPage) {
 
   const saver = useMemo(
     () =>
-      createAutosaver<FillMap>(
-        (fills) => saveColoring(db, { ...artwork, pageId: page.id, pageVersion: page.version, fills }),
+      createAutosaver<Artwork>(
+        ({ fills, strokes }) => saveColoring(db, { ...artwork, pageId: page.id, pageVersion: page.version, fills, strokes }),
         AUTOSAVE_DELAY_MS,
         (e) => console.warn('Autosave failed', e),
       ),
@@ -55,8 +55,8 @@ export function useColoringSession(page: ColoringPage) {
   );
 
   useEffect(() => {
-    if (state.revision > 0) saver.schedule(state.fills);
-  }, [saver, state.revision, state.fills]);
+    if (state.revision > 0) saver.schedule({ fills: state.fills, strokes: state.strokes });
+  }, [saver, state.revision, state.fills, state.strokes]);
 
   useEffect(() => {
     const sub = AppState.addEventListener('change', (next) => {

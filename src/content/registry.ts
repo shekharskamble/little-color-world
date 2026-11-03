@@ -1,25 +1,28 @@
 import themesJson from '../../content/themes.json';
-import dinoStegosaurus01 from '../../content/pages/dino-stegosaurus-01.json';
+import { BUNDLED_PAGES } from './bundledPages';
 import { Theme, type ColoringPage } from './schema/page';
 import { validatePage } from './schema/validatePage';
 
 /**
- * Bundled content registry. Downloaded packs join this in Phase 5
+ * Bundled content registry. `BUNDLED_PAGES` is generated from content/pages
+ * by `npm run lcw -- index` (run automatically by `page import`). Downloaded packs join this in Phase 5
  * (docs/CONTENT_DELIVERY.md). Pages are validated on first access; a page
  * that fails validation is excluded rather than crashing the app.
  */
-const BUNDLED_PAGES: Record<string, unknown> = {
-  'dino-stegosaurus-01': dinoStegosaurus01,
-};
-
 const themes: Theme[] = Theme.array()
   .parse(themesJson)
   .sort((a, b) => a.order - b.order);
 
 const pageCache = new Map<string, ColoringPage | null>();
 
+/** Themes shown in the catalog; hidden ones are left out. */
 export function listThemes(): Theme[] {
-  return themes;
+  return themes.filter((t) => !t.hidden);
+}
+
+/** The page shown on a theme's catalog card: its `cover`, else its first page. */
+export function themeCover(theme: Theme): ColoringPage | undefined {
+  return (theme.cover ? getPage(theme.cover) : null) ?? listPages(theme.id)[0];
 }
 
 export function getTheme(id: string): Theme | undefined {

@@ -1,1 +1,13 @@
-[{ "id": "dinosaurs", "title": "Dinosaurs", "color": "#CFF5E7", "emoji": "🦕", "order": 1 }]
+[
+  { "id": "shapes", "title": "Shapes", "color": "#2BA89C", "emoji": "🔷", "order": 0, "hidden": true },
+  { "id": "animals", "title": "Animals", "color": "#5AA9F0", "emoji": "🐘", "order": 1, "cover": "animal-09" },
+  { "id": "dinosaurs", "title": "Dinosaurs", "color": "#7CC35A", "emoji": "🦕", "order": 2, "cover": "dino-03" },
+  { "id": "unicorns", "title": "Unicorns", "color": "#F2A93B", "emoji": "🦄", "order": 3, "cover": "unicorn-14" },
+  { "id": "insects", "title": "Insects", "color": "#A07FE0", "emoji": "🐞", "order": 4, "cover": "insect-butterfly-01" },
+  { "id": "sea-animals", "title": "Sea Animals", "color": "#F07F5A", "emoji": "🐬", "order": 5, "cover": "sea-orca" },
+  { "id": "space", "title": "Space", "color": "#5A62D6", "emoji": "🚀", "order": 6, "cover": "space-70" },
+  { "id": "christmas", "title": "Christmas", "color": "#D64545", "emoji": "🎄", "order": 7, "cover": "christmas-11" },
+  { "id": "monsters", "title": "Monsters", "color": "#C46BD6", "emoji": "👾", "order": 8, "cover": "monster-08" },
+  { "id": "vehicles", "title": "Vehicles", "color": "#F08FB0", "emoji": "🚗", "order": 9, "cover": "vehicle-school-bus-01" },
+  { "id": "food", "title": "Food", "color": "#2BB3A3", "emoji": "🍩", "order": 10, "cover": "food-03" }
+]

@@ -10,6 +10,8 @@ export type PageValidationResult =
 /** Minimum region area as a fraction of the page, per age band (docs/ARTWORK_PIPELINE.md). */
 const MIN_AREA = { '2-3': 0.004, '4-5': 0.0015, all: 0.004 } as const;
 const MIN_OUTLINE = { '2-3': 8, '4-5': 6, all: 8 } as const; // per 1024 units of width
+/** The minimum area of a region marked `small` (a ridge, a spot), as a fraction of the page: about 7×7 units. */
+export const SMALL_MIN_AREA = 0.00006;
 const MAX_REGIONS = { '2-3': 25, '4-5': 80, all: 25 } as const;
 const CLOSE_EPSILON = 0.5;
 
@@ -61,7 +63,7 @@ export function validatePage(input: unknown): PageValidationResult {
     }
     if (!region.locked) {
       const fraction = area(subpaths) / pageArea;
-      const min = MIN_AREA[page.ageBand];
+      const min = region.small ? SMALL_MIN_AREA : MIN_AREA[page.ageBand];
       if (fraction < min / 2) {
         issues.push({ severity: 'error', path: at, message: `Region too small (${pct(fraction)} < ${pct(min / 2)})` });
       } else if (fraction < min) {
@@ -74,6 +76,10 @@ export function validatePage(input: unknown): PageValidationResult {
   if (fillable === 0) issues.push({ severity: 'error', path: 'regions', message: 'No fillable regions' });
   if (page.regions.length > MAX_REGIONS[page.ageBand]) {
     issues.push({ severity: 'warning', path: 'regions', message: `Many regions for age ${page.ageBand}` });
+  }
+
+  if (page.outline.length === 0 && !page.regions.some((r) => r.locked)) {
+    issues.push({ severity: 'error', path: 'outline', message: 'No outlines and no locked artwork to draw the lines' });
   }
 
   const minStroke = (MIN_OUTLINE[page.ageBand] * w) / 1024;

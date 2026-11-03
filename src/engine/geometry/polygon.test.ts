@@ -1,6 +1,6 @@
 import { flattenPath } from './path';
 import { containsPoint, distanceToEdges } from './polygon';
-import { fitContain, pageToScreen, screenToPage } from './viewTransform';
+import { fitContain, fitCover, pageToScreen, screenToPage } from './viewTransform';
 
 // Outer square with an inner square hole, both wound clockwise.
 const SAME_WINDING = flattenPath('M0 0 H100 V100 H0 Z M25 25 H75 V75 H25 Z');
@@ -44,5 +44,13 @@ describe('view transform', () => {
     const back = screenToPage(t, pageToScreen(t, p));
     expect(back.x).toBeCloseTo(p.x);
     expect(back.y).toBeCloseTo(p.y);
+  });
+
+  it('cover fills the whole view, cropping the overflow evenly', () => {
+    const t = fitCover(1024, 768, 2048, 768);
+    expect(t.scale).toBe(2);
+    expect(t.tx).toBe(0);
+    expect(t.ty).toBe(-384);
+    expect(fitCover(1024, 768, 512, 384)).toEqual({ scale: 0.5, tx: 0, ty: 0 }); // same shape: nothing cropped
   });
 });

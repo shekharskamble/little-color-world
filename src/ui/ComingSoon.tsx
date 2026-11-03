@@ -12,7 +12,7 @@ import { colors } from './tokens';
 export function ComingSoon({ glyph, phase, title }: { glyph: string; phase: number; title: string }) {
   return (
     <Screen>
-      <IconButton glyph="⬅️" accessibilityLabel="Back" onPress={() => router.back()} />
+      <IconButton icon="back" accessibilityLabel="Back" onPress={() => router.dismissTo('/')} />
       <View style={styles.center}>
         <Text style={styles.glyph}>{glyph}</Text>
         <Text style={styles.title}>{title}</Text>

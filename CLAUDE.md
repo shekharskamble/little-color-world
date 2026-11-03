@@ -14,6 +14,7 @@ Read before non-trivial work, and update when requirements, architecture, or sta
 ## Commands
 - `npm run typecheck`, `npm run lint`, `npm test`: run all three after every change
 - `npx expo start --port 8082`: dev server (8081 is often used by another local project); `i` for the iOS simulator (choose an iPad)
+- `npm run lcw -- page import <file.svg> --theme <id>`: turn an Inkscape SVG into a page (docs/ARTWORK_PIPELINE.md). `page validate`, `page preview <id>`, `page export-svg <id>`, `index`.
 - `npx expo install <pkg>`: **always** use this for native packages; then `npm run doctor`
 - Expo changes every SDK. Check installed `.d.ts` files or https://docs.expo.dev/versions/v58.0.0/ before using an API from memory. Known gotchas: docs/ARCHITECTURE.md §13.
 

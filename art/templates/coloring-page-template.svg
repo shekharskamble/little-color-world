@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Little Color World coloring page template (1024 × 768 px). Open in Inkscape, then File > Save As.
+  How to use: docs/ARTWORK_PIPELINE.md, "Drawing a page in Inkscape".
+
+  Layers (Layer > Layers and Objects):
+    reference  Import your sketch or AI image here (File > Import, choose "Link").
+               Ignored by the importer, so it can stay in the file.
+    regions    Closed shapes children color. Name each one in Object > Object Properties (Label),
+               e.g. "body", "ear-left". Give them a dark stroke of 10: the stroke becomes the outline.
+    details    Locked shapes with their own color (pupils, nose). Children cannot fill these.
+    outline    Extra lines with no fill (smiles, whiskers). Stroke 10, round caps.
+-->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   width="1024"
+   height="768"
+   viewBox="0 0 1024 768"
+   version="1.1">
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#999999" inkscape:document-units="px" showgrid="false" />
+  <g inkscape:groupmode="layer" id="reference" inkscape:label="reference" style="opacity:0.35" sodipodi:insensitive="true" />
+  <g inkscape:groupmode="layer" id="regions" inkscape:label="regions">
+    <rect id="sky" inkscape:label="sky" x="0" y="0" width="1024" height="768" style="fill:#e3f2ff;stroke:none" />
+    <path id="ground" inkscape:label="ground" d="M -20,610 C 260,570 760,570 1044,610 V 790 H -20 Z" style="fill:#e4f4d0;stroke:#1e1b2e;stroke-width:10;stroke-linejoin:round" />
+    <circle id="sun" inkscape:label="sun" cx="512" cy="330" r="170" style="fill:#fff6c2;stroke:#1e1b2e;stroke-width:10" />
+  </g>
+  <g inkscape:groupmode="layer" id="details" inkscape:label="details">
+    <circle id="eye-left" inkscape:label="eye-left" cx="455" cy="300" r="18" style="fill:#1e1b2e" />
+    <circle id="eye-right" inkscape:label="eye-right" cx="569" cy="300" r="18" style="fill:#1e1b2e" />
+  </g>
+  <g inkscape:groupmode="layer" id="outline" inkscape:label="outline">
+    <path id="smile" inkscape:label="smile" d="M 440,370 Q 512,430 584,370" style="fill:none;stroke:#1e1b2e;stroke-width:10;stroke-linecap:round" />
+  </g>
+</svg>

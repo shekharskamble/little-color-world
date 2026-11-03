@@ -1,4 +1,5 @@
-import dinoJson from '../../../content/pages/dino-stegosaurus-01.json';
+// The original hand-drawn stegosaurus (replaced in the app by clipart pages), kept as a fixture with known regions.
+import dinoJson from './fixtures/stegosaurus-handmade.json';
 import { ColoringPage } from '../../content/schema/page';
 import { fitContain, pageToScreen, screenToPage } from '../geometry/viewTransform';
 import { hitTest, prepareRegions } from './hitTest';

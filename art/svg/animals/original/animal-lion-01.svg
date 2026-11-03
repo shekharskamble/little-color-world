@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Sitting lion (Animals). Converted from the Affinity export art/svg/animals/lion.svg: closed shapes are regions,
+     every open line is kept as an outline, and fill-only body and ground regions sit behind the original lines.
+     Layer convention: docs/ARTWORK_PIPELINE.md. -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   width="1024"
+   height="768"
+   viewBox="0 0 1024 768"
+   version="1.1">
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#999999" inkscape:document-units="px" showgrid="false" />
+  <g inkscape:groupmode="layer" id="reference" inkscape:label="reference" style="opacity:0.35" sodipodi:insensitive="true" />
+  <g inkscape:groupmode="layer" id="regions" inkscape:label="regions" style="stroke:#1e1b2e;stroke-width:10;stroke-linejoin:round;stroke-linecap:round">
+    <rect inkscape:label="background" x="0" y="0" width="1024" height="768" style="fill:#e3f2ff;stroke:none" />
+    <g transform="matrix(0.083455,0,0,0.083455,21.285,-151.238)">
+      <path inkscape:label="ground" d="M274.959,10697.9C478.096,10712.5 1504.45,11116.1 3531.63,10305.2C3575.47,10287.6 3577.49,10306.3 4096.23,10133.3 L5000,10200 L5945,10060 L6900,10200 L7860.23,9994.24 C9331.36,10031 9623.22,10404.2 10535.9,10599.8C11342.4,10772.6 11465.4,10666.9 11485.1,10657 L11485.1,11014.8 L274.96,11014.8 Z" style="fill:#e4f4d0;stroke:none" />
+      <g transform="matrix(1.35,0,0,1.35,-1071.00,-2520.00)"><path inkscape:label="tail-tip" d="M2498.81,6717.43C2667.89,6812.76 2531.16,7532.17 3021.46,7214.28C3402.04,6967.53 3063.48,6734.26 2770.17,6730.68C2721.57,6730.08 2662.64,6727.57 2498.81,6717.43Z" style="fill:#ffffff;stroke-width:88.76" /></g>
+      <path inkscape:label="body" d="M4406.27,6131.39C4220.11,6242 4095.76,7750.86 4129.8,8159.24C4139.17,8271.68 4242.37,9510.13 4292.49,9560.26 L5000,9900 L5945,10040 L6900,9900 L7663.98,9650.65 C7699.02,9580.56 7733.62,9072.45 7754.37,8999.85C8033.32,8023.53 7261.85,5917.56 7298.36,6095.48 L7298,5600 L4406,5600 Z" style="fill:#ffe2a8;stroke:none" />
+      <path inkscape:label="paw-left" d="M5630.24,9560.26C5612.13,9533.3 4091.39,9261.75 4066.52,9957.97C4029.42,10996.9 5843.12,10536.3 5929.27,10108.8C6006.9,9723.69 5675.28,9552.75 5630.24,9560.26Z" style="fill:#ffffff;stroke-width:119.83" />
+      <path inkscape:label="paw-right" d="M7132.43,9448.36C6901.32,9441.58 6083.02,9266.39 5962.67,9988.5C5878.1,10495.9 7941.05,10839.5 7844.76,9876.62C7825.32,9682.21 7347.85,9454.68 7132.43,9448.36Z" style="fill:#ffffff;stroke-width:119.83" />
+      <g transform="matrix(1.45051,0,0,1.40541,-3478.56,455.912)"><path inkscape:label="mane" d="M5932.07,1467.17C5950.77,1269.07 6135.34,1109.98 6358.26,1109.98C6581.19,1109.98 6765.75,1269.07 6784.45,1467.17C6922.62,1317.31 7170.76,1291.26 7351.11,1415.25C7531.46,1539.25 7581.96,1770.62 7474.03,1941.28C7678.91,1896.89 7895.83,2013.83 7964.72,2214.46C8033.61,2415.09 7930.75,2630.36 7737.43,2708.4C7930.75,2786.45 8033.61,3001.71 7964.72,3202.34C7895.83,3402.97 7678.91,3519.91 7474.03,3475.53C7581.96,3646.19 7531.46,3877.56 7351.11,4001.56C7170.76,4125.55 6922.62,4099.5 6784.45,3949.63C6765.75,4147.73 6581.19,4306.83 6358.26,4306.83C6135.34,4306.83 5950.77,4147.73 5932.07,3949.63C5793.9,4099.5 5545.77,4125.55 5365.41,4001.56C5185.06,3877.56 5134.57,3646.19 5242.49,3475.53C5037.62,3519.91 4820.69,3402.97 4751.8,3202.34C4682.91,3001.71 4785.77,2786.45 4979.09,2708.4C4785.77,2630.36 4682.91,2415.09 4751.8,2214.46C4820.69,2013.83 5037.62,1896.89 5242.49,1941.28C5134.57,1770.62 5185.06,1539.25 5365.41,1415.25C5545.77,1291.26 5793.9,1317.31 5932.07,1467.17Z" style="fill:#f2a93b;stroke-width:83.92" /></g>
+      <g transform="matrix(1.06,0,0,1.06,-278.54,-210.73)"><g transform="matrix(1,0,0,1.1011,-321.038,-185.272)"><ellipse inkscape:label="ear-left" cx="4963.45" cy="3357.98" rx="384.929" ry="335.858" style="fill:#ffe2a8;stroke-width:107.73" /></g></g>
+      <g transform="matrix(1.06,0,0,1.06,-406.34,-206.51)"><g transform="matrix(1,0,0,1.06191,-20.2824,-123.41)"><ellipse inkscape:label="ear-right" cx="6792.58" cy="3357.41" rx="375.502" ry="336.423" style="fill:#ffe2a8;stroke-width:109.7" /></g></g>
+      <g transform="matrix(1.07221,0,0,1.09642,-637.648,-549.117)"><ellipse inkscape:label="face" cx="5923.87" cy="4547.88" rx="1141.69" ry="1076.72" style="fill:#ffe2a8;stroke-width:110.51" /></g>
+    </g>
+  </g>
+  <g inkscape:groupmode="layer" id="details" inkscape:label="details" style="stroke:none" />
+  <g inkscape:groupmode="layer" id="outline" inkscape:label="outline" style="fill:none;stroke:#1e1b2e;stroke-width:10;stroke-linecap:round;stroke-linejoin:round">
+    <g transform="matrix(0.083455,0,0,0.083455,21.285,-151.238)">
+      <path inkscape:label="eye-left" d="M5166.26,3929.87C5045.1,3829.76 5005.83,4362.44 5201.1,4191.58C5326.2,4082.12 5142.16,3766.42 5118.24,3987.62C5110.12,4062.71 5117.7,4061 5139.03,4133.39C5194.33,4047.38 5172.98,4041.42 5178.18,3978.98C5145.4,4041.51 5145.43,4041.39 5155.62,4109.3C5183.27,4046.89 5194.99,4049.98 5188.36,4003.55C5179.09,3938.69 5079.91,4101.97 5124.62,4111.9C5180.8,4124.39 5173.09,4039.63 5172.42,4032.23" style="stroke-width:119.83" />
+      <path inkscape:label="eye-right" d="M6320.17,3881.35C6275.3,3890.57 6207.34,3868.45 6224.11,4086.41C6238.77,4276.98 6516.87,4000.14 6332.46,3907.94C6215.93,3849.67 6283.45,4188.83 6332.46,4041.79C6361.41,3954.95 6333.55,3886.11 6303.78,3949.37C6265.89,4029.89 6273.49,4078.45 6310.15,4041.79C6356.35,3995.6 6333.5,3879.44 6300.59,3949.37C6270.74,4012.81 6317.01,4058.39 6335.65,4009.92C6387.38,3875.44 6186.93,3844.22 6220.92,3971.68C6221.99,3975.69 6224.49,3985.07 6259.16,4006.74" style="stroke-width:119.83" />
+      <path inkscape:label="nose" d="M5794.53,4612.6C5787.37,4588.1 5671.85,4619.97 5665.63,4638.62C5661.9,4649.81 5663.2,4695.55 5812.91,4645.14C5682.14,4617.46 5689.47,4668.4 5698.39,4671.38C5748.48,4688.07 5823.88,4665.62 5813.03,4622.24C5796.74,4557.07 5716.8,4629.01 5710.67,4634.53" style="stroke-width:119.83" />
+      <path inkscape:label="nose-line" d="M5745.73,4714.51C5749.35,4713.16 5779,4924.97 5767.99,4957.99" style="stroke-width:119.83" />
+      <path inkscape:label="nose-2" d="M5785.82,4564.07C5720.52,4535.79 5527.14,4635.57 5694.91,4659.54C5704.15,4660.86 5860.79,4692.49 5849.58,4591.64C5847.24,4570.54 5713.39,4555.23 5768.47,4569" style="stroke-width:119.83" />
+      <path inkscape:label="mouth" d="M5483.65,4876.46C5577.98,4892.18 5736.27,5206.69 6068.39,4874.57C6094.09,4848.88 6108.31,4859.22 6113.66,4821.76" style="stroke-width:119.83" />
+      <path inkscape:label="whisker-1" d="M3913.14,4681.39C3913.1,4659.76 4640.59,4497.74 4933.05,4590.8" style="stroke-width:95.86" />
+      <path inkscape:label="whisker-2" d="M4005.25,5005.56C3997.14,4990.75 4206.96,4915.43 4225.03,4908.94C4330.56,4871.06 4499.17,4819.36 4864.43,4774.82" style="stroke-width:95.86" />
+      <path inkscape:label="whisker-3" d="M4306.13,5323.77C4566.4,5106.88 4676.01,5074.12 4958.98,4981.09" style="stroke-width:95.86" />
+      <path inkscape:label="whisker-4" d="M6523.75,4668.78C6802.22,4668.78 7015.26,4663.14 7397.08,4790.42" style="stroke-width:95.86" />
+      <path inkscape:label="whisker-5" d="M6520.63,4802.89C6957.42,4877.47 7028.96,4913.85 7256.72,5089.84" style="stroke-width:95.86" />
+      <path inkscape:label="whisker-6" d="M6452.01,4990.03C6472.44,4995.14 6647.36,5095.8 6664.11,5105.44C6864.65,5220.84 6875.13,5204.18 7038.39,5367.44" style="stroke-width:95.86" />
+      <path inkscape:label="body-left" d="M4406.27,6131.39C4220.11,6242 4095.76,7750.86 4129.8,8159.24C4139.17,8271.68 4242.37,9510.13 4292.49,9560.26" style="stroke-width:119.83" />
+      <path inkscape:label="body-right" d="M7298.36,6095.48C7261.85,5917.56 8033.32,8023.53 7754.37,8999.85C7733.62,9072.45 7699.02,9580.56 7663.98,9650.65" style="stroke-width:119.83" />
+      <path inkscape:label="leg-line" d="M5928.52,8864.27C5934.93,9274.35 5967.85,9373.89 5935.68,9775.99" style="stroke-width:119.83" />
+      <path inkscape:label="toe-1" d="M4520.18,10390C4523.81,10401.8 4532.04,10428.6 4549.82,10541.2" style="stroke-width:119.83" />
+      <path inkscape:label="toe-2" d="M4955.88,10372.3C4955.94,10373.4 4946.19,10414.8 4991.44,10523.4" style="stroke-width:119.83" />
+      <path inkscape:label="toe-3" d="M5388.61,10313C5397.4,10374.6 5395.36,10372.5 5409.35,10434.5" style="stroke-width:119.83" />
+      <path inkscape:label="toe-4" d="M6544.53,10250.7C6541.31,10308.6 6542.27,10306.9 6556.39,10363.4" style="stroke-width:119.83" />
+      <path inkscape:label="toe-5" d="M6941.69,10292.2C6947.48,10286.4 6944.29,10295.8 6959.48,10393" style="stroke-width:119.83" />
+      <path inkscape:label="toe-6" d="M7350.71,10265.6C7358.29,10337.5 7360.94,10334.8 7383.32,10401.9" style="stroke-width:119.83" />
+      <path inkscape:label="tail" d="M3074.35,7178.54C3294.24,7233.51 3389.94,7711.02 3744.43,8136.41C3924.54,8352.55 3955.73,8302.91 4146.96,8398.52" style="stroke-width:119.83" />
+      <path inkscape:label="ground-left" d="M274.959,10697.9C478.096,10712.5 1504.45,11116.1 3531.63,10305.2C3575.47,10287.6 3577.49,10306.3 4096.23,10133.3" style="stroke-width:119.83" />
+      <path inkscape:label="ground-right" d="M7860.23,9994.24C9331.36,10031 9623.22,10404.2 10535.9,10599.8C11342.4,10772.6 11465.4,10666.9 11485.1,10657" style="stroke-width:119.83" />
+    </g>
+  </g>
+</svg>

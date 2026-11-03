@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
-import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import { StyleSheet, Text, type StyleProp, type ViewStyle } from 'react-native';
 
-import { colors, radius, shadow } from './tokens';
+import { shade } from './shade';
+import { ToyButton } from './ToyButton';
+import { colors, radius } from './tokens';
 
 type Props = {
   accessibilityLabel: string;
@@ -14,25 +16,21 @@ type Props = {
 };
 
 export function BigCard({ accessibilityLabel, onPress, tint = colors.bgCard, glyph, children, style }: Props) {
+  const lip = tint === colors.bgCard ? colors.sand : shade(tint, 0.2);
   return (
-    <Pressable
-      accessibilityRole="button"
+    <ToyButton
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}
-      style={({ pressed }) => [styles.card, { backgroundColor: tint }, pressed && styles.pressed, style]}
+      colors={{ face: tint, lip }}
+      borderRadius={radius.card}
+      lip={10}
+      style={style}
     >
-      {children ?? (
-        <View style={styles.center}>
-          <Text style={styles.glyph}>{glyph}</Text>
-        </View>
-      )}
-    </Pressable>
+      {children ?? <Text style={styles.glyph}>{glyph}</Text>}
+    </ToyButton>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { borderRadius: radius.card, overflow: 'hidden', ...shadow },
-  pressed: { transform: [{ scale: 0.96 }] },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   glyph: { fontSize: 88 },
 });

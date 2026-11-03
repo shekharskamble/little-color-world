@@ -66,6 +66,20 @@ describe('validatePage', () => {
     expect(errorsOf({ ...base, regions: [...base.regions, { id: 'tiny', d: 'M10 10 H20 V20 H10 Z', locked: true }] })).toEqual([]);
   });
 
+  it('allows regions marked small down to their own minimum', () => {
+    // 20×20 = 0.05% of the page: far below the 2-3 minimum, above the small-part minimum (0.006%).
+    const ridge = { id: 'small-1', d: 'M10 10 H30 V30 H10 Z', small: true };
+    expect(validatePage({ ...base, regions: [...base.regions, ridge] }).issues).toEqual([]);
+    // 4×4 is too small even for a small part.
+    const speck = { ...ridge, d: 'M10 10 H14 V14 H10 Z' };
+    expect(errorsOf({ ...base, regions: [...base.regions, speck] }).map((i) => i.path)).toContain('regions.2(small-1)');
+  });
+
+  it('allows no outline strokes only when locked artwork draws the lines', () => {
+    expect(errorsOf({ ...base, outline: [] })).toHaveLength(1);
+    expect(errorsOf({ ...base, outline: [], regions: [...base.regions, { id: 'artwork', d: 'M10 10 H20 V20 Z', locked: true }] })).toEqual([]);
+  });
+
   it('requires outlines thick enough for the age band', () => {
     expect(errorsOf({ ...base, outline: [{ d: 'M512 0 V768', strokeWidth: 6 }] })).toHaveLength(1);
     expect(errorsOf({ ...base, ageBand: '4-5', outline: [{ d: 'M512 0 V768', strokeWidth: 6 }] })).toEqual([]);

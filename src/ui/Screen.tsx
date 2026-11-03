@@ -2,13 +2,21 @@ import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors } from './tokens';
+import { SunnyBackdrop, type Scenery } from './SunnyBackdrop';
 
-export function Screen({ children, background = colors.bgApp }: { children: ReactNode; background?: string }) {
+/**
+ * Every screen sits on the Sunny Meadow backdrop; `sky` is the quieter variant for the canvas. `overlay` is drawn
+ * edge to edge above everything, ignoring the safe-area padding (celebration stars).
+ */
+export function Screen({ children, scenery = 'full', overlay }: { children: ReactNode; scenery?: Scenery; overlay?: ReactNode }) {
   return (
-    <SafeAreaView style={[styles.root, { backgroundColor: background }]} edges={['top', 'bottom', 'left', 'right']}>
-      <View style={styles.inner}>{children}</View>
-    </SafeAreaView>
+    <View style={styles.root}>
+      <SunnyBackdrop variant={scenery} />
+      <SafeAreaView style={styles.root} edges={['top', 'bottom', 'left', 'right']}>
+        <View style={styles.inner}>{children}</View>
+      </SafeAreaView>
+      {overlay}
+    </View>
   );
 }
 

@@ -5,13 +5,17 @@ import {
   coloringReducer,
   HISTORY_LIMIT,
   initialColoringState,
+  isBlank,
   sanitizeFills,
+  sanitizeStrokes,
   type ColoringAction,
   type ColoringState,
+  type Stroke,
 } from './history';
 
 const red: FillStyle = { type: 'solid', color: '#FF0000' };
 const blue: FillStyle = { type: 'solid', color: '#0000FF' };
+const stroke = (regionId: string, color = '#E8453C'): Stroke => ({ regionId, color, width: 24, points: [10, 10, 40, 30] });
 const run = (actions: ColoringAction[], from: ColoringState = initialColoringState) => actions.reduce(coloringReducer, from);
 
 describe('coloringReducer', () => {
@@ -117,6 +121,103 @@ describe('coloringReducer', () => {
     expect(loaded.revision).toBe(3);
     expect(loaded.fills).toEqual({ head: blue });
     expect(canUndo(loaded) || canRedo(loaded)).toBe(false);
+  });
+});
+
+describe('brush strokes', () => {
+  it('adds strokes in order, and undo and redo remove and restore them', () => {
+    const a = stroke('body');
+    const b = stroke('head', '#3A7BEB');
+    const s = run([{ type: 'stroke', stroke: a }, { type: 'stroke', stroke: b }]);
+    expect(s.strokes).toEqual([a, b]);
+    const undone = coloringReducer(s, { type: 'undo' });
+    expect(undone.strokes).toEqual([a]);
+    expect(coloringReducer(undone, { type: 'redo' }).strokes).toEqual([a, b]);
+  });
+
+  it('ignores a stroke with no points', () => {
+    const s = coloringReducer(initialColoringState, { type: 'stroke', stroke: { ...stroke('body'), points: [] } });
+    expect(s).toBe(initialColoringState);
+  });
+
+  it('erasing a region clears its fill and its strokes only, and undo puts them back in place', () => {
+    const a = stroke('body');
+    const b = stroke('head');
+    const c = stroke('body', '#3A7BEB');
+    const s = run([
+      { type: 'fill', regionId: 'body', fill: red },
+      { type: 'stroke', stroke: a },
+      { type: 'stroke', stroke: b },
+      { type: 'stroke', stroke: c },
+      { type: 'erase', regionId: 'body' },
+    ]);
+    expect(s.fills).toEqual({});
+    expect(s.strokes).toEqual([b]);
+    const undone = coloringReducer(s, { type: 'undo' });
+    expect(undone.fills).toEqual({ body: red });
+    expect(undone.strokes).toEqual([a, b, c]);
+  });
+
+  it('erasing a region with only strokes is an edit; with nothing at all it is not', () => {
+    const s = run([{ type: 'stroke', stroke: stroke('body') }]);
+    expect(coloringReducer(s, { type: 'erase', regionId: 'body' }).strokes).toEqual([]);
+    expect(coloringReducer(s, { type: 'erase', regionId: 'head' })).toBe(s);
+  });
+
+  it('keeps rubbing-eraser strokes when a part is cleared, and undoes a rub like any stroke', () => {
+    const paint = stroke('body');
+    const rub: Stroke = { ...stroke('body'), erase: true };
+    const s = run([{ type: 'fill', regionId: 'body', fill: red }, { type: 'stroke', stroke: paint }, { type: 'stroke', stroke: rub }]);
+    expect(s.fills).toEqual({ body: red }); // rubbing never touches fills
+    expect(coloringReducer(s, { type: 'undo' }).strokes).toEqual([paint]);
+    const cleared = coloringReducer(s, { type: 'erase', regionId: 'body' });
+    expect(cleared.strokes).toEqual([rub]);
+    expect(coloringReducer(cleared, { type: 'undo' }).strokes).toEqual([paint, rub]);
+  });
+
+  it('a rub clears the bucket colour of the parts it crossed, in one undo step', () => {
+    const rub: Stroke = { ...stroke('body'), erase: true };
+    const s = run([
+      { type: 'fill', regionId: 'body', fill: red },
+      { type: 'fill', regionId: 'head', fill: blue },
+      { type: 'stroke', stroke: rub, clearFills: ['body', 'tail'] },
+    ]);
+    expect(s.fills).toEqual({ head: blue });
+    const undone = coloringReducer(s, { type: 'undo' });
+    expect(undone.fills).toEqual({ body: red, head: blue });
+    expect(undone.strokes).toEqual([]);
+    expect(coloringReducer(undone, { type: 'redo' }).fills).toEqual({ head: blue });
+  });
+
+  it('a rub over nothing coloured is not an edit', () => {
+    const rub: Stroke = { ...stroke('body'), erase: true };
+    const s = run([{ type: 'fill', regionId: 'head', fill: blue }]);
+    expect(coloringReducer(s, { type: 'stroke', stroke: rub, clearFills: ['body'] })).toBe(s);
+  });
+
+  it('reset clears fills and strokes, and undo restores both', () => {
+    const a = stroke('body');
+    const s = run([{ type: 'fill', regionId: 'head', fill: blue }, { type: 'stroke', stroke: a }, { type: 'reset' }]);
+    expect(isBlank(s)).toBe(true);
+    const undone = coloringReducer(s, { type: 'undo' });
+    expect(undone.fills).toEqual({ head: blue });
+    expect(undone.strokes).toEqual([a]);
+  });
+
+  it('a page with only strokes can be reset', () => {
+    const s = run([{ type: 'stroke', stroke: stroke('body') }]);
+    expect(coloringReducer(s, { type: 'reset' }).strokes).toEqual([]);
+  });
+
+  it('load restores strokes and clears history', () => {
+    const a = stroke('body');
+    const loaded = coloringReducer(initialColoringState, { type: 'load', fills: {}, strokes: [a] });
+    expect(loaded.strokes).toEqual([a]);
+    expect(canUndo(loaded)).toBe(false);
+  });
+
+  it('sanitizeStrokes drops strokes in regions that are gone or locked', () => {
+    expect(sanitizeStrokes([stroke('body'), stroke('gone')], new Set(['body']))).toEqual([stroke('body')]);
   });
 });
 

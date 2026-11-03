@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "shapes-04-rectangle",
+  "version": 1,
+  "themeId": "shapes",
+  "title": "Rectangle",
+  "subtitle": "2 long sides, 2 short sides",
+  "ageBand": "2-3",
+  "viewBox": [0,0,1024,768],
+  "background": "#FFFFFF",
+  "outlineColor": "#1E1B2E",
+  "regions": [
+    {"id":"background","d":"M0 0 L1024 0 L1024 768 L0 768 Z","fillRule":"nonzero","locked":false},
+    {"id":"rectangle","d":"M162 184 L862 184 L862 584 L162 584 Z","fillRule":"nonzero","locked":false},
+    {"id":"eye","d":"M426.5 351 C426.5 336.92 437.92 325.5 452 325.5 C466.08 325.5 477.5 336.92 477.5 351 C477.5 365.08 466.08 376.5 452 376.5 C437.92 376.5 426.5 365.08 426.5 351 Z M546.5 351 C546.5 336.92 557.92 325.5 572 325.5 C586.08 325.5 597.5 336.92 597.5 351 C597.5 365.08 586.08 376.5 572 376.5 C557.92 376.5 546.5 365.08 546.5 351 Z","fillRule":"nonzero","defaultFill":{"type":"solid","color":"#1E1B2E"},"locked":true},
+    {"id":"eye-shine","d":"M452 342 C452 337.03 456.03 333 461 333 C465.97 333 470 337.03 470 342 C470 346.97 465.97 351 461 351 C456.03 351 452 346.97 452 342 Z M572 342 C572 337.03 576.03 333 581 333 C585.97 333 590 337.03 590 342 C590 346.97 585.97 351 581 351 C576.03 351 572 346.97 572 342 Z","fillRule":"nonzero","defaultFill":{"type":"solid","color":"#FFFFFF"},"locked":true}
+  ],
+  "outline": [
+    {"d":"M162 184 L862 184 L862 584 L162 584 Z M455 423 Q512 483 569 423","strokeWidth":10,"lineCap":"round","lineJoin":"round"}
+  ]
+}

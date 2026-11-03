@@ -1,49 +1,32 @@
-import { Pressable, StyleSheet, Text, type StyleProp, type ViewStyle } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 
-import { colors, radius, shadow, size } from './tokens';
+import { Icon } from './Icon';
+import type { IconName } from './icons';
+import { ToyButton } from './ToyButton';
+import { size, tones, type Tone } from './tokens';
 
 type Props = {
-  /** Interim glyph until illustrated icons land (docs/PROGRESS.md). */
-  glyph: string;
+  icon: IconName;
   accessibilityLabel: string;
   onPress: () => void;
   disabled?: boolean;
   diameter?: number;
+  tone?: Tone;
   style?: StyleProp<ViewStyle>;
 };
 
-export function IconButton({ glyph, accessibilityLabel, onPress, disabled = false, diameter = 72, style }: Props) {
+export function IconButton({ icon, accessibilityLabel, onPress, disabled = false, diameter = 80, tone = 'white', style }: Props) {
   const d = Math.max(diameter, size.touchMin);
   return (
-    <Pressable
-      accessibilityRole="button"
+    <ToyButton
       accessibilityLabel={accessibilityLabel}
-      accessibilityState={{ disabled }}
-      disabled={disabled}
       onPress={onPress}
+      disabled={disabled}
+      tone={tone}
       hitSlop={8}
-      style={({ pressed }) => [
-        styles.base,
-        { width: d, height: d },
-        disabled && styles.disabled,
-        pressed && styles.pressed,
-        style,
-      ]}
+      style={[{ width: d, height: d + size.lip }, style]}
     >
-      <Text style={[styles.glyph, { fontSize: d * 0.45 }]}>{glyph}</Text>
-    </Pressable>
+      <Icon name={icon} size={d * (d >= 88 ? 0.56 : 0.5)} color={tones[tone].icon} strokeWidth={d >= 88 ? 6 : d >= 80 ? 5.5 : 4.5} />
+    </ToyButton>
   );
 }
-
-const styles = StyleSheet.create({
-  base: {
-    backgroundColor: colors.bgCard,
-    borderRadius: radius.button,
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...shadow,
-  },
-  glyph: { color: colors.ink },
-  disabled: { opacity: 0.35 },
-  pressed: { transform: [{ scale: 0.92 }] },
-});
