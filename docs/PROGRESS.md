@@ -1041,3 +1041,27 @@ reviewed in a coloured region overlay and a blank render.
 
 Not seen on a device yet: it needs a native rebuild (`npx expo run:ios`, or the TestFlight archive).
 - `MARKETING_VERSION` in the iOS project is still 1.0, while `app.json` says 0.1.0. Set the version in Xcode before archiving (TestFlight steps).
+
+## 2026-11-13: New Flowers theme (40 pages)
+
+**What changed (owner request: "lets add new category flowers", with the 40 SVGs attached):**
+- New theme `flowers` ("Flowers", 🌷, rose `#E2609A`, order 11, last in the picker, cover `flower-20` Sunflower) in `content/themes.json`.
+- 40 pages `flower-01` … `flower-40` from the owner's "Bold Flowers" pack (`~/Desktop/Little Color World/BoldflowersSVG/Flowers-01…40.svg`), converted by the new `tools/flowers/generate.ts` like the Monsters pages: no background, big and centred, every closed shape a part. Sources are in `art/svg/flowers/source/`.
+- No licence file came with the pack: provenance rows say **licence for use in a paid app: to be confirmed by the owner**.
+
+**Verified:**
+- All 40 pages import with 0 errors and 0 warnings; `lcw page validate` passes 495/495 pages. Typecheck and lint are clean, and 672/672 tests pass.
+- I checked previews of the trickier pages: Sunflower's seeds, the solid-black centres (Black-Eyed Susan, Gerbera) opened into colourable parts, and the small flowers on Forget-Me-Not, Snapdragon and Flower Spike are separate parts. None has a background shape. Two tiny centres (on Forget-Me-Not and Flower Spike) stay solid black, which is fine at that size.
+- Manual check needed on an iPad: open Flowers from the theme picker and colour a page or two. The drawings are tall, so they fill the page height but not its width.
+
+## 2026-11-13: New Buildings theme (35 pages)
+
+**What changed (owner request: "now lets add building category", with 35 SVGs attached):**
+- New theme `buildings` ("Buildings", 🏠, brick `#C9733F`, order 12, last in the picker, cover `building-castle`) in `content/themes.json`.
+- 35 pages `building-<name>` (house, castle, barn, fire station, police station, hospital, school, library, lighthouse, log cabin, skyscraper, apartments, office, hotel, shop, shopping mall, post office, museum, theatre, stadium, train station, airport, gas station, car park, city hall, courthouse, clock tower, observatory, greenhouse, stable, water tower, watchtower, factory, warehouse, power plant) from the owner's potrace-traced clipart in `~/Desktop/Little Color World/Building SVG/`. They are converted by the new `tools/buildings/generate.ts` like the Flowers pages: no background, big and centred, every closed shape a part. Sources are in `art/svg/buildings/source/`.
+- No licence file came with the files: provenance rows say **licence for use in a paid app: to be confirmed by the owner**.
+
+**Verified:**
+- All 35 pages import with 0 errors and 0 warnings; `lcw page validate` passes 530/530 pages. Typecheck and lint are clean, and 707/707 tests pass.
+- I checked the previews of Castle, House, Log Cabin, Theatre, Stadium, Airport, Clock Tower, Factory and Power Plant: windows, doors, roofs, logs and marquee bulbs are separate parts, with no background shape. The power plant's steam is an open line in the drawing, so it is not colourable.
+- Manual check needed on an iPad: open Buildings from the theme picker and colour a page or two.

@@ -9,5 +9,7 @@
   { "id": "christmas", "title": "Christmas", "color": "#D64545", "emoji": "🎄", "order": 7, "cover": "christmas-11" },
   { "id": "monsters", "title": "Monsters", "color": "#C46BD6", "emoji": "👾", "order": 8, "cover": "monster-08" },
   { "id": "vehicles", "title": "Vehicles", "color": "#F08FB0", "emoji": "🚗", "order": 9, "cover": "vehicle-school-bus-01" },
-  { "id": "food", "title": "Food", "color": "#2BB3A3", "emoji": "🍩", "order": 10, "cover": "food-03" }
+  { "id": "food", "title": "Food", "color": "#2BB3A3", "emoji": "🍩", "order": 10, "cover": "food-03" },
+  { "id": "flowers", "title": "Flowers", "color": "#E2609A", "emoji": "🌷", "order": 11, "cover": "flower-20" },
+  { "id": "buildings", "title": "Buildings", "color": "#C9733F", "emoji": "🏠", "order": 12, "cover": "building-castle" }
 ]

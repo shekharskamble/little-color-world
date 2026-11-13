@@ -19,6 +19,41 @@ import page_animal_17 from '../../content/pages/animal-17.json';
 import page_animal_18 from '../../content/pages/animal-18.json';
 import page_animal_19 from '../../content/pages/animal-19.json';
 import page_animal_20 from '../../content/pages/animal-20.json';
+import page_building_airport from '../../content/pages/building-airport.json';
+import page_building_apartments from '../../content/pages/building-apartments.json';
+import page_building_barn from '../../content/pages/building-barn.json';
+import page_building_castle from '../../content/pages/building-castle.json';
+import page_building_city_hall from '../../content/pages/building-city-hall.json';
+import page_building_clock_tower from '../../content/pages/building-clock-tower.json';
+import page_building_courthouse from '../../content/pages/building-courthouse.json';
+import page_building_factory from '../../content/pages/building-factory.json';
+import page_building_fire_station from '../../content/pages/building-fire-station.json';
+import page_building_gas_station from '../../content/pages/building-gas-station.json';
+import page_building_greenhouse from '../../content/pages/building-greenhouse.json';
+import page_building_hospital from '../../content/pages/building-hospital.json';
+import page_building_hotel from '../../content/pages/building-hotel.json';
+import page_building_house from '../../content/pages/building-house.json';
+import page_building_library from '../../content/pages/building-library.json';
+import page_building_lighthouse from '../../content/pages/building-lighthouse.json';
+import page_building_log_cabin from '../../content/pages/building-log-cabin.json';
+import page_building_museum from '../../content/pages/building-museum.json';
+import page_building_observatory from '../../content/pages/building-observatory.json';
+import page_building_office from '../../content/pages/building-office.json';
+import page_building_parking_garage from '../../content/pages/building-parking-garage.json';
+import page_building_police_station from '../../content/pages/building-police-station.json';
+import page_building_post_office from '../../content/pages/building-post-office.json';
+import page_building_power_plant from '../../content/pages/building-power-plant.json';
+import page_building_school from '../../content/pages/building-school.json';
+import page_building_shop from '../../content/pages/building-shop.json';
+import page_building_shopping_mall from '../../content/pages/building-shopping-mall.json';
+import page_building_skyscraper from '../../content/pages/building-skyscraper.json';
+import page_building_stable from '../../content/pages/building-stable.json';
+import page_building_stadium from '../../content/pages/building-stadium.json';
+import page_building_theater from '../../content/pages/building-theater.json';
+import page_building_train_station from '../../content/pages/building-train-station.json';
+import page_building_warehouse from '../../content/pages/building-warehouse.json';
+import page_building_watchtower from '../../content/pages/building-watchtower.json';
+import page_building_water_tower from '../../content/pages/building-water-tower.json';
 import page_christmas_01 from '../../content/pages/christmas-01.json';
 import page_christmas_02 from '../../content/pages/christmas-02.json';
 import page_christmas_03 from '../../content/pages/christmas-03.json';
@@ -103,6 +138,46 @@ import page_dino_73 from '../../content/pages/dino-73.json';
 import page_dino_77 from '../../content/pages/dino-77.json';
 import page_dino_78 from '../../content/pages/dino-78.json';
 import page_dino_85 from '../../content/pages/dino-85.json';
+import page_flower_01 from '../../content/pages/flower-01.json';
+import page_flower_02 from '../../content/pages/flower-02.json';
+import page_flower_03 from '../../content/pages/flower-03.json';
+import page_flower_04 from '../../content/pages/flower-04.json';
+import page_flower_05 from '../../content/pages/flower-05.json';
+import page_flower_06 from '../../content/pages/flower-06.json';
+import page_flower_07 from '../../content/pages/flower-07.json';
+import page_flower_08 from '../../content/pages/flower-08.json';
+import page_flower_09 from '../../content/pages/flower-09.json';
+import page_flower_10 from '../../content/pages/flower-10.json';
+import page_flower_11 from '../../content/pages/flower-11.json';
+import page_flower_12 from '../../content/pages/flower-12.json';
+import page_flower_13 from '../../content/pages/flower-13.json';
+import page_flower_14 from '../../content/pages/flower-14.json';
+import page_flower_15 from '../../content/pages/flower-15.json';
+import page_flower_16 from '../../content/pages/flower-16.json';
+import page_flower_17 from '../../content/pages/flower-17.json';
+import page_flower_18 from '../../content/pages/flower-18.json';
+import page_flower_19 from '../../content/pages/flower-19.json';
+import page_flower_20 from '../../content/pages/flower-20.json';
+import page_flower_21 from '../../content/pages/flower-21.json';
+import page_flower_22 from '../../content/pages/flower-22.json';
+import page_flower_23 from '../../content/pages/flower-23.json';
+import page_flower_24 from '../../content/pages/flower-24.json';
+import page_flower_25 from '../../content/pages/flower-25.json';
+import page_flower_26 from '../../content/pages/flower-26.json';
+import page_flower_27 from '../../content/pages/flower-27.json';
+import page_flower_28 from '../../content/pages/flower-28.json';
+import page_flower_29 from '../../content/pages/flower-29.json';
+import page_flower_30 from '../../content/pages/flower-30.json';
+import page_flower_31 from '../../content/pages/flower-31.json';
+import page_flower_32 from '../../content/pages/flower-32.json';
+import page_flower_33 from '../../content/pages/flower-33.json';
+import page_flower_34 from '../../content/pages/flower-34.json';
+import page_flower_35 from '../../content/pages/flower-35.json';
+import page_flower_36 from '../../content/pages/flower-36.json';
+import page_flower_37 from '../../content/pages/flower-37.json';
+import page_flower_38 from '../../content/pages/flower-38.json';
+import page_flower_39 from '../../content/pages/flower-39.json';
+import page_flower_40 from '../../content/pages/flower-40.json';
 import page_food_01 from '../../content/pages/food-01.json';
 import page_food_02 from '../../content/pages/food-02.json';
 import page_food_03 from '../../content/pages/food-03.json';
@@ -476,6 +551,41 @@ export const BUNDLED_PAGES: Readonly<Record<string, unknown>> = {
   'animal-18': page_animal_18,
   'animal-19': page_animal_19,
   'animal-20': page_animal_20,
+  'building-airport': page_building_airport,
+  'building-apartments': page_building_apartments,
+  'building-barn': page_building_barn,
+  'building-castle': page_building_castle,
+  'building-city-hall': page_building_city_hall,
+  'building-clock-tower': page_building_clock_tower,
+  'building-courthouse': page_building_courthouse,
+  'building-factory': page_building_factory,
+  'building-fire-station': page_building_fire_station,
+  'building-gas-station': page_building_gas_station,
+  'building-greenhouse': page_building_greenhouse,
+  'building-hospital': page_building_hospital,
+  'building-hotel': page_building_hotel,
+  'building-house': page_building_house,
+  'building-library': page_building_library,
+  'building-lighthouse': page_building_lighthouse,
+  'building-log-cabin': page_building_log_cabin,
+  'building-museum': page_building_museum,
+  'building-observatory': page_building_observatory,
+  'building-office': page_building_office,
+  'building-parking-garage': page_building_parking_garage,
+  'building-police-station': page_building_police_station,
+  'building-post-office': page_building_post_office,
+  'building-power-plant': page_building_power_plant,
+  'building-school': page_building_school,
+  'building-shop': page_building_shop,
+  'building-shopping-mall': page_building_shopping_mall,
+  'building-skyscraper': page_building_skyscraper,
+  'building-stable': page_building_stable,
+  'building-stadium': page_building_stadium,
+  'building-theater': page_building_theater,
+  'building-train-station': page_building_train_station,
+  'building-warehouse': page_building_warehouse,
+  'building-watchtower': page_building_watchtower,
+  'building-water-tower': page_building_water_tower,
   'christmas-01': page_christmas_01,
   'christmas-02': page_christmas_02,
   'christmas-03': page_christmas_03,
@@ -560,6 +670,46 @@ export const BUNDLED_PAGES: Readonly<Record<string, unknown>> = {
   'dino-77': page_dino_77,
   'dino-78': page_dino_78,
   'dino-85': page_dino_85,
+  'flower-01': page_flower_01,
+  'flower-02': page_flower_02,
+  'flower-03': page_flower_03,
+  'flower-04': page_flower_04,
+  'flower-05': page_flower_05,
+  'flower-06': page_flower_06,
+  'flower-07': page_flower_07,
+  'flower-08': page_flower_08,
+  'flower-09': page_flower_09,
+  'flower-10': page_flower_10,
+  'flower-11': page_flower_11,
+  'flower-12': page_flower_12,
+  'flower-13': page_flower_13,
+  'flower-14': page_flower_14,
+  'flower-15': page_flower_15,
+  'flower-16': page_flower_16,
+  'flower-17': page_flower_17,
+  'flower-18': page_flower_18,
+  'flower-19': page_flower_19,
+  'flower-20': page_flower_20,
+  'flower-21': page_flower_21,
+  'flower-22': page_flower_22,
+  'flower-23': page_flower_23,
+  'flower-24': page_flower_24,
+  'flower-25': page_flower_25,
+  'flower-26': page_flower_26,
+  'flower-27': page_flower_27,
+  'flower-28': page_flower_28,
+  'flower-29': page_flower_29,
+  'flower-30': page_flower_30,
+  'flower-31': page_flower_31,
+  'flower-32': page_flower_32,
+  'flower-33': page_flower_33,
+  'flower-34': page_flower_34,
+  'flower-35': page_flower_35,
+  'flower-36': page_flower_36,
+  'flower-37': page_flower_37,
+  'flower-38': page_flower_38,
+  'flower-39': page_flower_39,
+  'flower-40': page_flower_40,
   'food-01': page_food_01,
   'food-02': page_food_02,
   'food-03': page_food_03,
