@@ -13,8 +13,11 @@ const MIN_CORE = Number(process.env.MIN_CORE ?? 1500);
 const FIT = { footY: 0, centerY: 384, height: 690, maxWidth: 930 };
 const THIN_SPOTS = 5;
 
-/** `n` is the source number; the page id is `dino-<n>`. 01-30 are the files the owner attached. */
-type Pic = { n: string; title: string; subtitle: string; minCore?: number; maxRegions?: number };
+/**
+ * `n` is the source number; the page id is `dino-<n>`. 01-30 are the files the owner attached. `eyeAt` marks each eye
+ * (source coordinates) where there are more than two, so they all stay black (otherwise only one pair is found).
+ */
+type Pic = { n: string; title: string; subtitle: string; minCore?: number; maxRegions?: number; eyeAt?: [number, number][] };
 
 const PICS: Pic[] = [
   { n: '01', title: 'Baby Dino', subtitle: 'A happy little dino!' },
@@ -51,7 +54,7 @@ const PICS: Pic[] = [
   // stars, rocks, sun, footprints, grass), the two busy full scenes (55, 56) and near-repeats of 01-30.
   { n: '31', title: 'Smiling T-Rex', subtitle: 'A T-Rex with a big smile!' },
   { n: '32', title: 'Spotty T-Rex', subtitle: 'Spots from head to tail!' },
-  { n: '33', title: 'Hatching Friends', subtitle: 'Three babies say hello!' },
+  { n: '33', title: 'Hatching Friends', subtitle: 'Three babies say hello!', eyeAt: [[219, 216], [334, 254], [469, 258], [638, 266], [766, 295]] },
   { n: '34', title: 'Happy Pterodactyl', subtitle: 'Wings out wide!' },
   { n: '37', title: 'Swimming Dino', subtitle: 'Splash, splash, little dino!' },
   { n: '38', title: 'Sea Long Neck', subtitle: 'A dino in the sea!' },
@@ -72,7 +75,7 @@ const PICS: Pic[] = [
   { n: '73', title: 'Little Triceratops', subtitle: 'A frill and two horns!' },
   { n: '77', title: 'Little Crest Dino', subtitle: 'A crest like a hat!' },
   { n: '78', title: 'Little Pterodactyl', subtitle: 'Ready to fly!' },
-  { n: '85', title: 'Dino Triplets', subtitle: 'Three babies, one big egg!' },
+  { n: '85', title: 'Dino Triplets', subtitle: 'Three babies, one big egg!', eyeAt: [[183, 300], [284, 277], [369, 289], [494, 291], [578, 309], [675, 340]] },
 ];
 
 async function main() {
@@ -81,7 +84,7 @@ async function main() {
   for (const p of PICS.filter((x) => !only || only.some((w) => `dino-${x.n}`.includes(w)))) {
     const a = new Art();
     const clip = loadClipart(join(ROOT, `art/svg/dinosaurs/cute-source/dino-${p.n}.svg`), FIT, { dedupe: true });
-    await addClipartRegions(a, clip, { minArea: 0.0015 * 1024 * 768, minCore: p.minCore ?? MIN_CORE, maxRegions: p.maxRegions ?? 80, thinSpots: THIN_SPOTS });
+    await addClipartRegions(a, clip, { minArea: 0.0015 * 1024 * 768, minCore: p.minCore ?? MIN_CORE, maxRegions: p.maxRegions ?? 80, thinSpots: THIN_SPOTS, eyeAt: p.eyeAt });
     pages.push({ id: `dino-${p.n}`, title: p.title, subtitle: p.subtitle, age: '4-5', regions: a.regions, details: a.details, lines: a.lines });
   }
   writePages(pages, join(ROOT, 'art/svg/dinosaurs'), 'dinosaurs', { theme: 'Dinosaurs', generator: 'tools/dinosaurs/generate.ts' });

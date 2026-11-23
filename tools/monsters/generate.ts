@@ -58,7 +58,7 @@ const PICS: Pic[] = [
   { n: '39', src: '039', title: 'Unicorn Monster', subtitle: 'A horn and a spiky tail!' },
   { n: '40', src: '040', title: 'Hello Monster', subtitle: 'Wave hello!' },
   { n: '41', src: '048', title: 'Happy Blob', subtitle: 'One eye and arms up!' },
-  { n: '42', src: '054', title: 'Three Eyes', subtitle: 'One, two, three eyes!' },
+  { n: '42', src: '054', title: 'Three Eyes', subtitle: 'One, two, three eyes!', eyeAt: [[181, 213], [277, 214], [376, 214]] },
   { n: '43', src: '064', title: 'Curly Horns', subtitle: 'Fluffy with curly horns!' },
 ];
 

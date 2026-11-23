@@ -19,7 +19,7 @@ describe('migrations', () => {
     expect(await migrate(db)).toBe(LATEST_SCHEMA_VERSION);
     expect(await migrate(db)).toBe(LATEST_SCHEMA_VERSION);
     const tables = await db.getAllAsync<{ name: string }>("SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name");
-    expect(tables.map((t) => t.name)).toEqual(['artwork', 'preferences']);
+    expect(tables.map((t) => t.name)).toEqual(['artwork', 'installed_content', 'new_page', 'preferences']);
   });
 
   it('rolls back a failing migration and leaves the version unchanged', async () => {

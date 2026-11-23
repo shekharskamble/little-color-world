@@ -9,6 +9,7 @@ Read before non-trivial work, and update when requirements, architecture, or sta
 - docs/UX.md: toddler UX rules, layout, tokens
 - docs/ROADMAP.md: phases, milestones, **open decisions**
 - docs/ARTWORK_PIPELINE.md, docs/CONTENT_DELIVERY.md
+- docs/ASO.md: App Store listing text, screenshots, preview video and how to remake them
 - docs/PROGRESS.md: append an entry after every milestone (what changed, how it was verified, what is next)
 
 ## Commands
@@ -21,8 +22,8 @@ Read before non-trivial work, and update when requirements, architecture, or sta
 ## Hard rules
 - TypeScript strict. No `any` without a comment explaining why.
 - `src/engine/**` and `src/content/schema/**` are pure TS: no imports from react, react-native, expo-*, or @shopify/react-native-skia.
-- No new dependency without a stated reason. Never add analytics, ads, crash reporting, Firebase/Supabase, expo-updates, or auth.
-- Network access only in `src/features/content-updates`, only after an explicit tap in New Pictures (not parent-gated, decision D7), HTTPS + host allowlist + size limits. Never automatic or in the background.
+- No new dependency without a stated reason. Never add analytics, ads, crash reporting, Firebase/Supabase SDKs, expo-updates, or auth. (Firebase **Hosting** serves the content packs as plain files, owner decision 2026-11-13; the app contains no Firebase code.)
+- Network access only in `src/features/content-updates`: one check for new pictures per app launch while the app is open (decision D7, revised 2026-11-13), never in the background. Plain GETs of public files, no identifiers sent. HTTPS + host allowlist + size limits + timeouts + signed manifest + SHA-256 on every file + full page validation before install (docs/CONTENT_DELIVERY.md).
 - Remote content is data only. Never eval, download JS, or download shaders.
 - Outlines always render above fills. Fills are drawn as region paths with a shader, not as clip stacks.
 - Undo history stores commands, never bitmaps.

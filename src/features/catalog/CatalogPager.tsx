@@ -27,12 +27,17 @@ const ROW_GAP = 16;
 const CARD_ASPECT = 1.5;
 /** CatalogCard's box includes room for the pill; it pokes out a few points more. */
 const PILL_OVERHANG = 4;
+/**
+ * Empty space kept around the grid inside each page. The ScrollView clips at its edges, so without it the card
+ * shadows (and the NEW badge) get cut off in a hard line, and a neighbouring page's shadow shows at the edge.
+ */
+const SHADOW_MARGIN = 24;
 
 /**
  * Horizontally paged catalog: 3×3 cards per page, swipe or tap the big arrows. Arrows dim (rather than disappear) at
  * either end so the layout never jumps.
  */
-export function CatalogPager({ themes }: { themes: readonly Theme[] }) {
+export function CatalogPager({ themes, newThemeIds }: { themes: readonly Theme[]; newThemeIds?: ReadonlyMap<string, number> }) {
   const pages = useMemo(() => chunk(themes, CARDS_PER_PAGE), [themes]);
   const scroller = useRef<ScrollViewInstance>(null);
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
@@ -48,8 +53,8 @@ export function CatalogPager({ themes }: { themes: readonly Theme[] }) {
   const onLayout = (e: LayoutChangeEvent) => setViewport({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height });
 
   // The biggest card that fits three across and three down.
-  const byWidth = (viewport.width - COLUMN_GAP * (CATALOG_COLUMNS - 1)) / CATALOG_COLUMNS;
-  const byHeight = ((viewport.height - ROW_GAP * (CATALOG_ROWS - 1)) / CATALOG_ROWS - PILL_OVERHANG) * CARD_ASPECT;
+  const byWidth = (viewport.width - SHADOW_MARGIN * 2 - COLUMN_GAP * (CATALOG_COLUMNS - 1)) / CATALOG_COLUMNS;
+  const byHeight = ((viewport.height - SHADOW_MARGIN * 2 - ROW_GAP * (CATALOG_ROWS - 1)) / CATALOG_ROWS - PILL_OVERHANG) * CARD_ASPECT;
   const cardWidth = Math.max(0, Math.min(byWidth, byHeight));
   const gridWidth = cardWidth * CATALOG_COLUMNS + COLUMN_GAP * (CATALOG_COLUMNS - 1);
 
@@ -63,7 +68,7 @@ export function CatalogPager({ themes }: { themes: readonly Theme[] }) {
               <View key={i} style={[styles.page, viewport]}>
                 <View style={[styles.grid, { width: gridWidth }]}>
                   {group.map((t) => (
-                    <ThemeCard key={t.id} theme={t} width={cardWidth} />
+                    <ThemeCard key={t.id} theme={t} width={cardWidth} isNew={newThemeIds?.has(t.id) ?? false} />
                   ))}
                 </View>
               </View>
@@ -76,7 +81,7 @@ export function CatalogPager({ themes }: { themes: readonly Theme[] }) {
   );
 }
 
-function ThemeCard({ theme, width }: { theme: Theme; width: number }) {
+function ThemeCard({ theme, width, isNew }: { theme: Theme; width: number; isNew: boolean }) {
   const cover = useMemo(() => themeCover(theme), [theme]);
   const db = useSQLiteContext();
   const [progress, setProgress] = useState<Artwork | null>(null);
@@ -99,6 +104,7 @@ function ThemeCard({ theme, width }: { theme: Theme; width: number }) {
     <CatalogCard
       label={theme.title}
       accent={theme.color}
+      isNew={isNew}
       onPress={() => router.push({ pathname: '/themes/[themeId]', params: { themeId: theme.id } })}
       style={{ width, aspectRatio: CARD_ASPECT }}
     >

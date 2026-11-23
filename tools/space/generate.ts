@@ -15,9 +15,10 @@ const THIN_SPOTS = 5;
 /** `n` is the source number; the page id is `space-<n>`. 01-31 are the files the owner attached; the rest are a
  * chosen subset of 32-120 (owner, 2026-11-02): new subjects only, skipping repeats, very busy scenes, text and big
  * solid-black areas. `maxRegions` works around addClipartRegions counting its parts twice in the small-part budget
- * (budget = max - 2 × parts): the rover's 40 parts need 117 to stay within the validator's 80, which also counts
- * the background and locked layers. */
-type Pic = { n: string; title: string; subtitle: string; minCore?: number; maxRegions?: number };
+ * (budget = max - 2 × parts): the rover's 39 parts need 116 to stay within the validator's 80, which also counts
+ * the background and locked layers. `eyeAt` marks every eye (source coordinates) where guessing them goes wrong:
+ * more than two eyes, eyes that look like spots, or eyes outside a closed body. */
+type Pic = { n: string; title: string; subtitle: string; minCore?: number; maxRegions?: number; eyeAt?: [number, number][] };
 
 const PICS: Pic[] = [
   { n: '01', title: 'Rocket Ride', subtitle: 'The astronaut rides a happy rocket!' },
@@ -27,7 +28,7 @@ const PICS: Pic[] = [
   { n: '05', title: 'Moon Flag', subtitle: 'A flag on the moon!' },
   { n: '06', title: 'Moon Swing', subtitle: 'Sitting on the crescent moon!' },
   { n: '07', title: 'Astronaut Girl', subtitle: 'Hello from space!' },
-  { n: '08', title: 'Star Balloon', subtitle: 'Floating with a star balloon!' },
+  { n: '08', title: 'Star Balloon', subtitle: 'Floating with a star balloon!', eyeAt: [[248, 174], [347, 156], [477, 473], [584, 501]] },
   { n: '09', title: 'Waving Astronaut', subtitle: 'Wave hello to the astronaut!' },
   { n: '10', title: 'Sleepy Astronaut', subtitle: 'Floating off to sleep!' },
   { n: '11', title: 'Planet Hug', subtitle: 'The astronaut hugs a planet!' },
@@ -35,8 +36,8 @@ const PICS: Pic[] = [
   { n: '13', title: 'Blast Off', subtitle: 'Three, two, one, blast off!' },
   { n: '14', title: 'Little Rocket', subtitle: 'A rocket with a happy window!' },
   { n: '15', title: 'Zooming Rocket', subtitle: 'Zoom past the planets!' },
-  { n: '16', title: 'Comet', subtitle: 'A happy comet zips by!' },
-  { n: '17', title: 'Star Friends', subtitle: 'Three twinkly star friends!' },
+  { n: '16', title: 'Comet', subtitle: 'A happy comet zips by!', eyeAt: [[238, 522], [432, 537]] },
+  { n: '17', title: 'Star Friends', subtitle: 'Three twinkly star friends!', eyeAt: [[193, 345], [321, 308], [584, 364]] },
   { n: '18', title: 'Big Star', subtitle: 'A big, smiling star!' },
   { n: '19', title: 'Shooting Star', subtitle: 'Make a wish on a shooting star!' },
   { n: '20', title: 'Sun', subtitle: 'The sun shines bright!' },
@@ -50,10 +51,10 @@ const PICS: Pic[] = [
   { n: '28', title: 'Moon Buddy', subtitle: 'An astronaut and a star on the moon!' },
   { n: '29', title: 'Sitting Astronaut', subtitle: 'Time for a little rest!' },
   { n: '30', title: 'Fluffy Monster', subtitle: 'A fluffy space monster!' },
-  { n: '31', title: 'Silly Alien', subtitle: 'A three-eyed alien says hi!' },
+  { n: '31', title: 'Silly Alien', subtitle: 'A three-eyed alien says hi!', eyeAt: [[295, 397], [452, 344], [572, 391]] },
   { n: '33', title: 'Round Alien', subtitle: 'A chubby little alien!' },
   { n: '34', title: 'Star Alien', subtitle: 'An alien shaped like a star!' },
-  { n: '38', title: 'Three-Eyed Alien', subtitle: 'One, two, three eyes!' },
+  { n: '38', title: 'Three-Eyed Alien', subtitle: 'One, two, three eyes!', eyeAt: [[278, 408], [437, 408], [594, 402]] },
   { n: '43', title: 'Hatching Alien', subtitle: 'Surprise! A baby alien hatches!' },
   { n: '44', title: 'Alien Pilot', subtitle: 'The alien flies a flying saucer!' },
   { n: '46', title: 'Flying Saucer', subtitle: 'The saucer beams up a star!' },
@@ -64,17 +65,17 @@ const PICS: Pic[] = [
   { n: '54', title: 'Fox Astronaut', subtitle: 'A fox holds a little star!' },
   { n: '56', title: 'Penguin Astronaut', subtitle: 'A penguin ready for space!' },
   { n: '57', title: 'Frog Astronaut', subtitle: 'A frog sits on a planet!' },
-  { n: '65', title: 'Planet Friends', subtitle: 'Earth and a planet hold hands!' },
+  { n: '65', title: 'Planet Friends', subtitle: 'Earth and a planet hold hands!', eyeAt: [[194, 365], [309, 349], [539, 333], [650, 351]] },
   { n: '66', title: 'Princess Planet', subtitle: 'A planet wears a crown!' },
   { n: '68', title: 'Planet and Star', subtitle: 'The planet hugs a star!' },
   { n: '70', title: 'Solar System', subtitle: 'The sun and its planets!' },
   { n: '72', title: 'Galaxy', subtitle: 'A swirly, sparkly galaxy!' },
-  { n: '79', title: 'Moon Rainbow', subtitle: 'A rainbow from the moon to a star!' },
+  { n: '79', title: 'Moon Rainbow', subtitle: 'A rainbow from the moon to a star!', eyeAt: [[99, 522], [182, 503], [655, 522], [751, 522]] },
   { n: '81', title: 'Moon Hug', subtitle: 'The moon hugs a little star!' },
   { n: '82', title: 'Telescope', subtitle: 'Look at the stars!' },
   { n: '84', title: 'Satellite', subtitle: 'A satellite beeps hello!' },
   { n: '85', title: 'Space Station', subtitle: 'A home in space!' },
-  { n: '86', title: 'Space Rover', subtitle: 'The rover drives on Mars!', maxRegions: 117 },
+  { n: '86', title: 'Space Rover', subtitle: 'The rover drives on Mars!', maxRegions: 116, eyeAt: [[258, 476], [427, 485]] },
   { n: '95', title: 'Robot', subtitle: 'A happy robot rolls along!' },
   { n: '98', title: 'Moon Camping', subtitle: 'Camping on the moon!' },
   { n: '103', title: 'High Five', subtitle: 'An alien and an astronaut high-five!' },
@@ -89,7 +90,7 @@ async function main() {
   for (const p of PICS.filter((x) => !only || only.some((w) => `space-${x.n}`.includes(w)))) {
     const a = new Art();
     const clip = loadClipart(join(ROOT, `art/svg/space/source/space-${p.n}.svg`), FIT, { dedupe: true });
-    await addClipartRegions(a, clip, { minArea: 0.0015 * 1024 * 768, minCore: p.minCore ?? MIN_CORE, maxRegions: p.maxRegions ?? 80, thinSpots: THIN_SPOTS });
+    await addClipartRegions(a, clip, { minArea: 0.0015 * 1024 * 768, minCore: p.minCore ?? MIN_CORE, maxRegions: p.maxRegions ?? 80, thinSpots: THIN_SPOTS, eyeAt: p.eyeAt });
     pages.push({ id: `space-${p.n}`, title: p.title, subtitle: p.subtitle, age: '4-5', regions: a.regions, details: a.details, lines: a.lines });
   }
   writePages(pages, join(ROOT, 'art/svg/space'), 'space', { theme: 'Space', generator: 'tools/space/generate.ts' });

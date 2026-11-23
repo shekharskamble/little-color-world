@@ -6,14 +6,25 @@ import { SunnyBackdrop, type Scenery } from './SunnyBackdrop';
 
 /**
  * Every screen sits on the Sunny Meadow backdrop; `sky` is the quieter variant for the canvas. `overlay` is drawn
- * edge to edge above everything, ignoring the safe-area padding (celebration stars).
+ * edge to edge above everything, ignoring the safe-area padding (celebration stars). `bottomPadding` replaces the
+ * usual padding below the content (inside the safe area, so nothing reaches the home indicator).
  */
-export function Screen({ children, scenery = 'full', overlay }: { children: ReactNode; scenery?: Scenery; overlay?: ReactNode }) {
+export function Screen({
+  children,
+  scenery = 'full',
+  overlay,
+  bottomPadding,
+}: {
+  children: ReactNode;
+  scenery?: Scenery;
+  overlay?: ReactNode;
+  bottomPadding?: number;
+}) {
   return (
     <View style={styles.root}>
       <SunnyBackdrop variant={scenery} />
       <SafeAreaView style={styles.root} edges={['top', 'bottom', 'left', 'right']}>
-        <View style={styles.inner}>{children}</View>
+        <View style={[styles.inner, bottomPadding !== undefined && { paddingBottom: bottomPadding }]}>{children}</View>
       </SafeAreaView>
       {overlay}
     </View>

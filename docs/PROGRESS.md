@@ -1042,6 +1042,108 @@ reviewed in a coloured region overlay and a blank render.
 Not seen on a device yet: it needs a native rebuild (`npx expo run:ios`, or the TestFlight archive).
 - `MARKETING_VERSION` in the iOS project is still 1.0, while `app.json` says 0.1.0. Set the version in Xcode before archiving (TestFlight steps).
 
+## 2026-11-03: v1 scope decided; parental gate on "Open Settings"
+
+**Decision (owner):** v1 ships Tap to Color only. The other activities follow in updates (D11, docs/ROADMAP.md "v1 scope", with a trimmed release checklist).
+
+**What changed:**
+- New parental gate, built to the existing docs/UX.md spec: a random multiplication (3–9 × 4–9, so every answer has two digits) with a number pad, "For grown-ups" wording and grown-up styling. A wrong answer asks a new question; Cancel closes it. The logic is pure (`src/engine/parentalGate.ts`) and the screen is `src/ui/ParentalGate.tsx`, drawn over its parent so it works inside a sheet.
+- The camera sheet's "Open Settings" button (shown only when Photos access was refused) now goes through the gate before leaving the app. That was the one outbound link without a gate, which Apple's Kids Category guideline does not allow.
+
+**Verified:** typecheck and lint are clean; 623/623 tests pass, with new tests for the question range, exact-answer check and two-digit limit. **Manual check needed**, since the gate only shows after Photos access is refused:
+1. In iPad Settings → Privacy & Security → Photos → Little Color World, choose None.
+2. Colour a page, tap the camera, then tap Open Settings: the gate appears.
+3. A wrong answer asks a new question, Cancel closes it, and the right answer opens Settings.
+
+## 2026-11-03: Even selection rings; eraser stays inside its part
+
+**What changed (owner report from the real iPad):**
+- **Rings looked uneven** on the colour balls and the tools. They were drawn with iOS `outline`, a thicker border and a scale-up, and the ball's border also shrank the ball. Now every round item in the panel (balls, tools, paint buttons, size buttons) sits in a `RingButton` slot 14 pt bigger than the item. The slot's own border is the ring: ink when picked, transparent otherwise, with a white gap for the balls. The ring is part of the layout, so it is always a whole circle, never clipped, and picking never moves or resizes anything. Spacing was reduced to keep the same visible gaps.
+- **The eraser spilled into other parts:** a rub that crossed a line erased brush paint and cleared the bucket colour of every part it passed over. Now a rub stays in the part it started in: its stroke is clipped to that part, like brush paint, and only that part's colour is cleared. A tap still clears one part.
+- Eraser rubs saved before this change are now clipped too, so paint they had erased in a neighbouring part comes back on those pictures. That is rare and harmless.
+
+**Verified:** typecheck and lint are clean; 623/623 tests pass. A simulator screenshot shows even rings on the chosen ball, tool and paint button. **Manual check needed on the iPad:** fill two touching parts, rub the eraser from one across into the other, and confirm only the first part clears.
+
+**Note:** the simulator had been showing a stale app with blank pictures because the dev server was not running. Start it with `npx expo start --port 8082` in a terminal.
+- **Follow-up (owner: "colour selection border doesn't look smooth"):** the ring was two nested iOS rounded borders. Their edges fell between pixels, so the thickness wobbled and a thin dark fringe showed between the white gap and the ball. The picked ring is now drawn with Skia, only for the picked item: an ink circle plus, for the balls, a white circle that overlaps the ball and the ring by half a point, so no fringe can show. It covers the balls, tools, paint buttons and size buttons. Checked at 4× zoom on the simulator (smooth, even ring, clean gap); typecheck and lint are clean; all tests pass.
+- **Follow-up (owner: the thickness buttons looked bigger than the paint buttons, and should show the paint):** the size buttons were `size.touchMin + 8` = 72 pt, while the paint buttons are 56 pt. They are now 56 pt too; the touch target with the ring slot is 70 pt, still above the 64 pt minimum. Each dot (14, 24 and 36 pt) is now drawn with the brush's real paint, so glitter shows as glitter, with a thin darker rim like the colour balls so a white dot still shows. Checked in a simulator screenshot (glitter picked); all tests pass.
+
+## 2026-11-03: Coloring screen: tighter gap and bottom margin
+
+**What changed (owner request):** on coloring pages, the gap between the picture card and the colour panel is 12 pt (was 24), and the padding under them is 8 pt (was 24). The safe area is kept, so nothing reaches the home indicator. `Screen` takes a new optional `bottomPadding`; other screens are unchanged.
+
+**Verified:** checked in a simulator screenshot (bigger picture card, panel alongside); typecheck and lint are clean; all tests pass.
+
+## 2026-11-03: Tool rail fits every iPad without scrolling
+
+**What changed (owner report: on an iPad Pro 11" (3rd gen) the tool rail needed scrolling):** the rail needs up to about 760 pt at full size: four tools, plus the brush's two paints and three sizes. An 11" iPad gives it about 616 pt. Now the rail measures its height (`onLayout`) and shrinks every round button by one factor. The factor is worked out for that fullest case, so buttons keep one size whichever tool is picked. The maths is a pure function in `src/features/coloring/railFit.ts`, with a 65 % floor and full size when there is room. On the 13" nothing changes; on the 11" it is about 77 % (tool slots about 79 pt, small slots about 57 pt). The rail is still a `ScrollView`, only as a safety net for very short screens. The colour board still scrolls, since 69 colours fit on no iPad.
+
+**Verified:** typecheck and lint are clean; 629/629 tests pass, with new fit tests for the iPad Pro 11", iPad Air and iPad 9th gen heights. Simulator check on the iPad Pro 11-inch (M4) with the brush picked (the fullest rail): all four tools, both paints and all three sizes show in a rail of about 640 pt, with about 19 pt to spare after the last size button, so there is nothing to scroll. Drags could not be simulated from the command line, so the no-scroll check is by measurement, not by swiping.
+
+**Housekeeping:** the Mac ran out of disk space (installs and commands failed). With the owner's OK I deleted `~/Library/Developer/Xcode/DerivedData`, about 37 GB, which Xcode rebuilds automatically.
+
+## 2026-11-03: Rail rings clear the dividers; "turn me sideways" when the iPad is upright
+
+**What changed (owner reports from the real iPad):**
+- **The picked ring touched the divider line** in the tool rail (for example the eraser over the paint buttons). Each divider now has 6 pt above and below it, about the same as the 7 pt between a ring and the next button. The fit maths (`railFit.ts`) counts the new space, so the rail still never scrolls; on the iPad Pro 11-inch (M4) simulator the brush rail (the fullest) still fits, with about 10 pt to spare.
+- **The app could be opened upright on the iPad** although it is set to landscape only. The cause is iPadOS 26: Apple deprecated `UIRequiresFullScreen`, and iPadOS 26 can show landscape-only apps upright when the rotation lock is off. No setting prevents it. **Decision (owner):** when the window is upright, a full-screen "turn me sideways" picture covers the app (`src/ui/RotateHint.tsx`, docs/UX.md "Upright iPad"). It goes away when the iPad is turned back, and nothing underneath is lost.
+
+**Verified:** typecheck and lint are clean; 629/629 tests pass. Simulator screenshots: the eraser's and brush's rings clear the dividers, and the brush rail fits. The simulator keeps the app landscape when rotated, so the hint was previewed by forcing it on temporarily (removed again). **Manual check needed on the iPad:** turn rotation lock off, hold the iPad upright, open the app: the turning-iPad picture shows; turn it sideways: the app is back where it was.
+
+**Housekeeping:** a Prettier run reformatted four files to 80 columns (the repo has no Prettier config). `Palette.tsx` was restored from Claude Code's file history plus the three rail changes, confirmed identical in content; the others were reformatted back with width 140 and single quotes, which matches their original formatting exactly.
+
+## 2026-11-03: Themes open quickly the first time (pictures preloaded at launch)
+
+**What changed (owner report: the first open of a theme took a long time):**
+- **Cause:** the first open of any theme fully checked the geometry of all 455 bundled pages in JavaScript, not only that theme's pages: about 1.5 s on a Mac and much longer on an iPad. Then every thumbnail turned its page's SVG paths into Skia paths on its own, and the coloring screen did it again.
+- **Lighter check:** bundled pages now get only the schema check at runtime (27 ms for all of them, instead of 1,493 ms). The full geometry check still runs on every bundled page in `npm test` and at import, so a page that fails it cannot ship. Downloaded packs (Phase 5) must still get the full check.
+- **Shared paths:** each page's Skia paths are built once and shared by its thumbnails and the coloring screen (`skiaPageFor`).
+- **Preload:** right after launch, `src/render/preloadPages.ts` builds every page's paths in the background, in 8 ms slices so taps and animations stay smooth: theme covers first, then each theme's pages in catalog order.
+
+**Verified:** typecheck and lint are clean; 632/632 tests pass, with new tests for the preload order, slicing and stopping. On the iPad Pro 11-inch (M4) simulator, opening Sea Animals (98 pictures) right after launch: before, the catalog was still frozen 3 s after the tap; now the pictures are showing within 0.4 s.
+
+## 2026-11-03: App Store listing, screenshots and preview video (ASO)
+
+**What changed (owner request: maximum visibility in a competitive space):**
+- **Listing text** in docs/ASO.md, every field counted against Apple's limits: name "Little Color World: Coloring", subtitle "Toddler & Kids Painting Games", a 98-character keyword field with no repeats, promotional text, a parent-focused description, What's New, plus a Spanish (Mexico) name, subtitle and keywords (likely also searched in the U.S.). Category, age rating and privacy answers are listed.
+- **10 screenshots** for the iPad 13" display (2752 × 2064, landscape, no transparency) in `store/ios/ipad-13/`: real screens from the iPad Pro 13-inch (M4) simulator, with a headline over each on the Sunny Meadow yellow and an iPad frame. Pictures were coloured by writing artwork rows into the simulator app's database, in the app's own save format, so every screen is the real app.
+- **App preview video** in `store/ios/app-preview/`: 1600 × 1200, 24.3 s, H.264 at a steady 30 fps, with a silent stereo AAC track. One take of real use, ending in the star shower.
+- **Scripts** in `tools/store/` to remake them (colouring plan and previews, caption compositor, video converter without ffmpeg, tap points). How to use them is in docs/ASO.md.
+
+**Verified:** typecheck and lint are clean; 632/632 tests pass. Screenshot sizes checked (2752 × 2064, RGB). The video was checked for size, frame rate (30 fps), length and audio (2 channels, 48 kHz AAC), and still frames were viewed. Every count in the listing (425 pictures, 10 themes, 54 dinosaurs, 69 colours, 8 patterns, 12 rainbows) was checked against the content and code.
+
+**Open:** the clipart licences must also cover marketing use; check the name is free in App Store Connect; the silent audio track encodes far below 256 kbps, so if App Store Connect rejects it, add soft music.
+
+## 2026-11-03: Support page and privacy policy
+
+**What changed:** App Store Connect needs a Support URL and, for a kids app, a Privacy Policy URL. Both pages are in `site/` (`index.html`, `privacy.html`, `style.css`, the app icon) in the Sunny Meadow style, with no scripts or trackers. The support page has the contact email (shekharskamble@gmail.com), a parent FAQ (saving to Photos, turning Photos access back on, autosave, undo, offline, the turn-sideways picture, supported iPads) and the promises. The privacy policy states the app collects no data, with sections on on-device pictures, add-only Photos access, no internet use, children's privacy (COPPA, GDPR), the grown-up gate, Apple and contact. Publisher: Shekhar Kamble.
+
+**Verified:** each statement was checked against the code: the only permission is add-only Photos (`NSPhotoLibraryAddUsageDescription`), there are no network calls in `src/`, no analytics, ads or crash-reporting packages in `package.json`, and the iOS deployment target is 16.4. Both pages were rendered with Quick Look and looked right.
+
+**Next (owner):** publish from a public repo `littlecolorworld` with GitHub Pages (steps in docs/ASO.md "Support and privacy URLs"), then paste the URLs into App Store Connect.
+
+**Published (same day):** the owner pushed `site/` to the public repo `shekharskamble/littlecolorworld` with GitHub Pages. Checked: both URLs, the icon and the stylesheet return 200, and the live files match `site/` exactly.
+
+## 2026-11-03: Eraser: touch a part and it goes back to white
+
+**What changed (owner test with a 5-year-old):** the child could not tell when the eraser's tap cleared a part and when a drag rubbed out paint. The eraser now has one rule: a tap or a rub clears the whole part the finger lands on (its colour and its brush paint) when the finger lifts, and never touches the next part. It works on the pan gesture's raw touches (`ColoringCanvas.tsx`), so a still tap counts as well as a rub. One clear is one undo step; touching a blank part does nothing. The eraser no longer makes rub strokes. Rub strokes in pictures saved earlier still draw and undo as before (the history engine is unchanged).
+
+**Verified:** typecheck and lint are clean; 632/632 tests pass. On the iPad Pro 13-inch (M4) simulator: a tap on one frill stripe cleared just that stripe; a rub from the body across the frill cleared only the body; two undos brought both back.
+
+**Lesson:** I first restarted the dev server with `CI=1`, which turns off reloading, so two rounds of tests ran old code and pointed at the wrong cause. Noted in docs/ARCHITECTURE.md §13. The dev server is now running in watch mode, started from this session on port 8082.
+
+## 2026-11-03: Preview video: original lullaby and a smooth catalog transition
+
+**What changed (owner request):**
+- **Music:** an original, calm music-box lullaby composed in code (`tools/store/music.py`: waltz in C major, 90 bpm, music-box melody, soft chord pad, light reverb, fade in and out; peaks at −6 dB, no clipping). Nothing to licence. The video's audio is now real stereo AAC at about 252 kbps (the silent track encoded at almost nothing, which App Store Connect might have rejected).
+- **The lag after Let's Color:** investigated. JavaScript is not blocked during it (a heartbeat logger ran every 100 ms), covers draw offscreen in 5–15 ms each, and a cold GPU shader cache adds only about 0.1 s. The recording shows the fade from Home to the catalog stuck half-way until the next touch, even with no thumbnails at all; the same fade completes in under a second when the simulator is screenshotted instead. So it is a simulator recording artifact, not app work. In a fresh take, the 2 stuck seconds show the real finished catalog screen (same state), faded in over 0.3 s. `tools/store/preview.swift` gained music and still-frame options.
+
+**Verified:** the final file is 1600 × 1200, 24.1 s, 30 fps, stereo AAC 48 kHz; still frames checked across the whole video. Typecheck clean. All temporary timing code was removed (checked with grep).
+
+**Correction:** my first lag measurements wrongly said there was no freeze: two unreadable frame timestamps broke the sorting in my gap script. The frame-by-frame check above is what counts.
+
+**Next (owner):** check that Let's Color → catalog looks smooth on the real iPad.
+
 ## 2026-11-13: New Flowers theme (40 pages)
 
 **What changed (owner request: "lets add new category flowers", with the 40 SVGs attached):**
@@ -1065,3 +1167,187 @@ Not seen on a device yet: it needs a native rebuild (`npx expo run:ios`, or the 
 - All 35 pages import with 0 errors and 0 warnings; `lcw page validate` passes 530/530 pages. Typecheck and lint are clean, and 707/707 tests pass.
 - I checked the previews of Castle, House, Log Cabin, Theatre, Stadium, Airport, Clock Tower, Factory and Power Plant: windows, doors, roofs, logs and marquee bulbs are separate parts, with no background shape. The power plant's steam is an open line in the drawing, so it is not colourable.
 - Manual check needed on an iPad: open Buildings from the theme picker and colour a page or two.
+
+## 2026-11-13: New pictures over the CDN, with NEW badges (Phase 5 client + publishing CLI)
+
+**What changed (owner request: send new SVGs via a CDN without an app update; they appear first in the theme picker with a NEW badge; owner chose automatic checks, option B):**
+- **Decision D7 revised:** one check per app launch while the app is open, never in the background (CLAUDE.md hard rule, PRODUCT, UX, ARCHITECTURE, ROADMAP updated). docs/CONTENT_DELIVERY.md rewritten to match what is built.
+- **Client** (`src/features/content-updates/`): signed manifest (Ed25519), SHA-256 and exact size for every file, host allowlist, size caps, 15 s timeouts, zod + full `validatePage` on every page, id-collision rules, `minAppVersion`. Packs install atomically (staging folder renamed into place, then one SQLite transaction) and join the registry while the app is open. At launch, installed packs load before the catalog shows; unreadable packs, or packs that clash with bundled content, are dropped.
+- **Registry** merges bundled and downloaded content and notifies screens when a pack arrives; themes listed in the new `content/remote.json` are left out of the bundle.
+- **NEW badges** (migration 2: `installed_content`, `new_page`): new themes go first in the picker with a NEW sticker; new pictures go first in their theme with their own badge until opened, and stay at the front for 14 days.
+- **Publishing CLI:** `npm run lcw -- pack keygen | build | manifest | serve`. `lcw index` skips CDN-only pages.
+- New dependencies: `@noble/curves` 1.9.7 (Ed25519 verify) and `@noble/hashes` 1.8.0 (SHA-256), pure JS (no native module), pinned to the 1.x lines that ship CommonJS for Jest and Metro. Metro logs a harmless "not listed in exports" warning for `@noble/hashes/crypto.js`.
+
+**Not done yet (stubs, stated openly):**
+- **Hosting (ROADMAP D4) needs owner approval**; there is no upload command yet.
+- **Production signing key:** `PUBLIC_KEY_HEX` is empty, so release builds never go online. The owner runs `npm run lcw -- pack keygen` (writing to the Keychain was refused to me, rightly) and pastes the printed key into `src/features/content-updates/config.ts`.
+- Development builds use a throwaway dev key (`DEV_PUBLIC_KEY_HEX`) that can only sign content for `localhost`.
+- The New Pictures screen is still the "Coming soon" placeholder (it is not linked from home).
+
+**Verified:**
+- Typecheck and lint are clean; 735/735 tests pass. New tests: an end-to-end updater test against a fake signed CDN with real page files (new theme, extra pages for an existing theme, bad signature, a page changed after publishing, id clashes, a page failing the geometry check, `minAppVersion`, already installed, upgrade), launch-time loading and retiring of clashing packs, URL allowlist, UTF-8 decoding, the repository's badge rules, and `newFirst`.
+- On the iPad simulator: with Buildings marked CDN-only, the app downloaded, verified and installed the 35-page pack from `lcw pack serve` at launch, and Buildings appeared first in the theme picker with the NEW badge. After Buildings went back into the bundle, the next launch retired the downloaded copy and refused to reinstall it ("Theme buildings already exists").
+- Buildings is bundled again in this change (`content/remote.json` is empty), because there is no live host yet.
+- Manual check still needed on an iPad: open a NEW theme (its badge clears), open a new picture (its badge clears, it stays at the front).
+
+## 2026-11-13: Content hosting on Firebase Hosting
+
+**What changed (owner: "use firebase for hosting … set up everything"):**
+- New Firebase project **`littlecolorworld-content`** ("Little Color World", hosting only, no Analytics) under the owner's account; site `https://littlecolorworld-content.web.app`. The app has no Firebase SDK: it only downloads plain files. CLAUDE.md's "no Firebase" rule now says "no Firebase SDKs", with Hosting allowed; ROADMAP D4 decided.
+- `firebase.json` (public folder `content/cdn`, leaves out `release.json` and the README; manifest cached 5 minutes, packs one year and immutable) and `.firebaserc`. `.firebase/` is gitignored.
+- Published packs now live in **`content/cdn/` (committed)** instead of `dist/`: a Firebase deploy replaces the whole site with that folder, so it must survive a fresh checkout.
+- New `npm run lcw -- pack deploy [--dry-run]`: checks the manifest signature against the app's production key and every file's size and SHA-256, then runs `firebase deploy --only hosting`.
+- `CONTENT_HOST` in `src/features/content-updates/config.ts` is now `littlecolorworld-content.web.app`.
+
+**Verified:**
+- First (empty) deploy released; the live site answers 404 for `/v1/manifest.json`, which the app treats as "nothing new".
+- On a throwaway preview channel (deleted afterwards), a dev-signed Buildings pack served with a valid signature, all 35 pages and pack.json matching their SHA-256 byte for byte, the expected cache headers, and `release.json` / README not published.
+- `pack deploy` refuses with no manifest, an empty production key, or a manifest not signed with the production key.
+- Typecheck and lint are clean; 735/735 tests pass.
+
+**Next (owner):** run `npm run lcw -- pack keygen`, paste the printed key into `PUBLIC_KEY_HEX`; then publish with `pack build` → `pack manifest` → `pack deploy`, and commit `content/cdn/`. Decide before release whether to put a custom domain in front (switching later needs an app update).
+
+## 2026-11-13: New Vegetables theme, delivered over the CDN (30 pages); remote download tested end to end
+
+**What changed (owner request: "add new theme as vegetables and test the remote download"):**
+- New theme `vegetables` ("Vegetables", 🥕, `#D9722B`, order 13, cover `veg-07` Carrot), **CDN-only**: listed in `content/remote.json`, so it is not in the app bundle (still 530 bundled pages).
+- 30 pages `veg-01` … `veg-30` from the owner's "N007 Vegetable" pack, converted by the new `tools/vegetables/generate.ts`. This pack paints white shapes on top of dark ones, and some drawings (Spinach, Onion, Cabbage) are a dark silhouette with the white inside painted over it. Each source is flattened to the ink a viewer sees (dark added, white cut out, in drawing order), then converted as is: every white area a part, lines exactly as drawn. The fuller converter thinned this pack's thin inner lines away and read its thick outlines as solid shapes, so it is not used here.
+- Built pack `content/cdn/v1/packs/vegetables/1` (30 pages, 1.0 MB). It is not live: publishing needs the production key (`pack manifest` + `pack deploy`).
+- No licence file came with the pack: provenance rows say "to be confirmed by the owner".
+
+**Verified:**
+- All 30 pages import with 0 errors and 0 warnings; `lcw page validate` passes 560/560 pages. I checked previews (Onion, Spinach, Cabbage, Corn, Potato, Chili, Green Peas).
+- **Remote download from Firebase, on the iPad simulator:** the pack, signed with the dev key, was deployed to a temporary Firebase preview channel, and the development build was pointed at it for the test. On launch the app downloaded and verified the manifest and all 30 pages, installed them and preloaded them ("Content check: 1 installed", no failures). Vegetables appeared first in the theme picker with the NEW badge. Inside, every picture had a NEW badge. A downloaded page (Carrot) opened in the colouring screen. Back in the picker, the theme's badge had cleared and Vegetables was back in its usual place.
+- Afterwards: the dev config was put back to localhost, the preview channel was deleted, and the dev-signed manifest was removed (the live site still answers 404 for the manifest).
+- Typecheck and lint are clean; 735/735 tests pass.
+
+**Next (owner):** `npm run lcw -- pack keygen` and paste the key into `PUBLIC_KEY_HEX`, then `npm run lcw -- pack manifest` and `npm run lcw -- pack deploy` to make Vegetables live for everyone; commit `content/cdn/`.
+
+## 2026-11-14: Trace and Color, first slice (letter A end to end)
+
+**Why:** App Review rejected the first submission under 4.3(a)/(b) and 4.2.6 (spam: a tap-to-fill app like many others, mostly stock clipart). The owner chose to add Trace and Color to v1, with original, code-generated content. Owner decisions: two Home buttons; uppercase, lowercase, numbers and shapes; spoken letter names later; dotted guide line.
+
+**What changed:**
+- `src/engine/tracing/` (pure TS): `track.ts` measures a stroke and projects a finger onto a limited stretch of it; `trace.ts` advances progress only forward, only along the current stroke, only within reach of the traced part, only when the finger itself moves forward, and only from the start dot. Fast swipes are split into short steps.
+- `src/content/schema/trace.ts` + `validateTrace.ts`: a trace item (set, order, strokes as one-subpath paths, `colorPageId`); checks length, page bounds, and that every stroke lies on a colourable part of its page.
+- `tools/tracing/generate.ts`: hand-authored "ball and stick" strokes, thickened with canvaskit (`makeStroked` + union) into the colouring page, one part per stroke, in the new hidden theme `tracing`. Writes `content/trace.json`. Only **A** so far.
+- `src/content/traces.ts` (bundled items, sets), `src/persistence/tracingRepository.ts` (finished tracings as `artwork` rows of kind `tracing`; no migration needed).
+- Screens: `/trace` (sets), `/trace/set/[set]` (items, check sticker via the new `CatalogCard` `done` prop), `/trace/[itemId]` (`TraceScreen` + `TraceCanvas`). Home has a second button, "Let's Trace". The colouring screen's back button returns to the tracing set for tracing pages.
+- Stub, shown openly: the abc, 123 and Shapes sets say "Coming soon" until their items are generated.
+
+**Verified:**
+- 23 new tests (engine, validation, bundled items against their pages, repository). Typecheck and lint clean; 758/758 tests pass.
+- On the iPad simulator: Home shows both buttons; the sets screen, the ABC grid and the A screen render. A screen started half-traced showed ink on the finished and partly traced strokes and dots on the rest. The arrow was first misread as a "play" sign and is now a shaft with a head.
+- Not yet verified: tracing with a real finger (the simulator cannot be dragged from here), and the "Color it!" step.
+
+**Follow-up (owner: "when we color, show that state on the letter picker"):** the set grid's thumbnails and each set's cover on `/trace` now show the child's saved coloring of the item, like the theme pickers. Checked on the simulator with the owner's own orange "A": both screens show it, with the check sticker on the grid. Typecheck and lint clean; 758/758 tests pass.
+
+**Next:** owner tries tracing A for feel (tolerance 56 units, about half the letter's thickness); then generate A–Z, a–z, 0–9 and shapes, polish the pickers, update docs/ASO.md and the screenshots.
+
+## 2026-11-23: Trace and Color complete (72 items), listing and screenshots updated
+
+**What changed (owner: "roll out this feature now and everything we designed"):**
+- `tools/tracing/generate.ts` now makes all **72 items**: A–Z, a–z (on a dashed middle line at y 300, bowls of radius 135), 0–9, and 10 shapes (circle, square, triangle, rectangle, oval, diamond, heart, star, pentagon, hexagon). Strokes follow school order and direction; each glyph is centred automatically. Lowercase is thinner (88 instead of 104) so e, s and a keep holes you can see and colour. A stroke that closes on itself also gets its inside as a part (O, o, 0, the shapes).
+- Items carry `guides` (worksheet lines): top line and baseline, plus the dashed middle line for lowercase. They are drawn behind the letter through the new `underlay` prop of `PageArtwork`.
+- Set grid shows whole pages (`fit="contain"`, 4:3 cards), so lowercase reads small on its lines; the 123 cover is now "2".
+- `validateTrace` no longer counts the page-sized background as part of the drawing (it let any stroke pass).
+- App Store: docs/ASO.md has a new subtitle ("Toddler ABC Tracing & Painting"), keywords, promotional text, a Trace and Color paragraph, counts updated to 500 pictures in 12 themes, and draft "Notes for App Review". Screenshots: new 02-trace and 07-trace-color, 03-themes re-shot (it said 425), 10-for-parents re-shot (Home now has two buttons); 07-celebrate and 09-dinosaurs moved to `store/ios/retired/`. `tools/store/compose.py` skips shots without a raw capture.
+- art/PROVENANCE.md: 72 rows, all generated in code.
+
+**Verified:**
+- All 72 pages import with 0 errors and 0 warnings; contact sheets of every glyph checked by eye (first pass found e, s, 6 and g wrong; fixed and re-checked).
+- New test: every item is traced to the end by a simulated finger wobbling 20 units either side of the path, lifting between strokes. Plus each item validated against its page. Typecheck and lint clean; 972/972 tests pass.
+- On the iPad simulator: sets screen, abc and Shapes grids, and the g, E and Star tracing screens (lines behind the letter, arrow direction right).
+- Screenshots: the 12 coloured letters for 07 were rows added to the simulator database for the capture and removed afterwards; the B in 02 was a screen started half-traced for the capture, then reverted.
+- Not verified here: tracing with a real finger on an iPad.
+
+**Next (owner):** try tracing on a real iPad (ideally with a child); fill in the Owner lines of "Notes for App Review"; archive and resubmit. The app preview video still shows colouring only (accurate, but it could show tracing too).
+
+## 2026-11-23: Tracing letters colour as one shape
+
+**What changed (owner: "instead of showing overlapping shapes can we have one uniform shape; B and b look ugly"):** the generator now merges all of an item's thickened strokes into one outline (canvaskit union) instead of one overlapping part per stroke. The letter is one region (`letter`, filled even-odd); each hole at least the ages 2–3 minimum part size (0.4% of the page) is its own part (`inside-N`: the two in B, the insides of b, e, 8, O and the shapes); holes from 400 units² up to that stay open (A's small triangle, the curl of g); smaller slivers where strokes meet are filled in. Holes are found by nesting, because Skia's merged outline does not wind them the opposite way. Tracing strokes are unchanged.
+
+**Verified:** all 72 pages re-imported with 0 errors (the only warnings were the expected "region ids removed": colourings saved before this keep their old part names and show blank, as the owner's test A did on the simulator); `lcw page validate` 632/632; contact sheet of all 72 checked by eye. Screenshots 02 and 07 re-shot the same way as before. Typecheck and lint clean; 972/972 tests pass.
+
+**Follow-up (owner: "small g looks weird"):** the g's tail curled tightly back into the bowl, closing a blob with a sliver in it. It is now a long, flat curve (down to y 640, then an elliptical arc 125 × 72 turning 145°) that ends below the bowl with a clear gap. Re-imported with 0 errors and 0 warnings; checked in the preview; tests pass.
+
+## 2026-11-23: Tracing progress is saved and shown in the picker
+
+**What changed (owner: "save trace state on the letter picker"):**
+- `tracingRepository`: one `artwork` row per item (kind `tracing`, id `trace:<item>`) now holds where the child got to, `{v:2, stroke, progress}`, saved 0.6 s after the finger stops and on leaving the screen or the app (the coloring screen's autosaver), and at once when an item is finished. `status` becomes `completed` the first time and stays so when the child traces the item again. Rows from before (`{v:1}`, finished only) still read as finished.
+- `restoreTrace` (engine) clamps a saved state to the item as it is now. The tracing screen restores it on opening, touches wait until it has, and a finished item reopens finished with "Color it!" showing. "Trace again" saves the fresh start.
+- Thumbnails in the set grid and the set covers draw the crayon ink of the child's tracing over their coloring: new `TraceInk` (shared with the tracing screen, which adds the dots) through a new `overlay` prop on `PageArtwork`/`PageThumbnail`.
+
+**Verified:** 5 new tests (restore clamping, repository: progress round trip, completed stays, old rows, separate from coloring). Typecheck and lint clean; 977/977 tests pass. On the simulator: the owner's finished A, G and I show full ink in the ABC grid with checks; a half-traced C (a row added for the test and removed afterwards) showed half ink in the grid and reopened at the same point with the lead dot there.
+
+**Follow-up (owner: "abc looks thicker on the trace picker"):** stroke thickness is 104 for ABC, 123 and shapes and 88 for abc (so a, e and s keep their holes). The sets screen fitted each cover to its own drawing, which blew the short lowercase "a" up about 1.6×, so it looked thicker. Covers now share one frame (`frame` prop on `PageThumbnail`, the band x 112–912, y 70–760), so all four have the same scale. Checked on the simulator; lint clean, 977/977 tests pass.
+
+**Follow-up (owner: "ABC, 123 and shapes don't look centred in the box"):** the shared frame kept each drawing where it sits on the page, and the frame leaves room for lowercase tails, so capitals, numbers and shapes rode high. `frame` on `PageThumbnail` now only sets the scale; each drawing is centred in its card. The frame moved to `TRACE_FRAME` (src/content/traces.ts) and the set grids use it too (they showed the whole page before). Checked on the simulator: sets screen and the ABC, abc and Shapes grids all centred, capitals still bigger than lowercase. Lint clean, 977/977 tests pass.
+
+## 2026-11-23: Vehicles and Buildings cleared by their seller
+
+**What changed:** the owner got written permission from the Vehicles and Buildings seller to use the packs in the app and in App Store screenshots (the pack licence alone only allowed physical products). All 65 rows in `art/PROVENANCE.md` now say covered, with a note to keep a copy of the seller's message with the pack. Licence status now: covered Animals, Monsters, Vehicles, Buildings (145 pages); likely Food (45); unclear Unicorns, Vegetables; not covered Dinosaurs, Sea Animals, Insects, Space, Flowers, Christmas (315 pages), awaiting replies.
+
+**Verified:** text change only; every Vehicles and Buildings row checked to carry the new wording.
+
+**Next (owner):** keep the seller's reply (screenshot or PDF of the Etsy message) next to the pack's licence file; wait for the other sellers before deciding what ships.
+
+## 2026-11-23: Dinosaurs cleared by their seller
+
+**What changed:** the owner got written permission from the Dinosaurs seller to use the pack in the app (the pack licence alone only allowed physical products). All 54 dino rows in `art/PROVENANCE.md` now say covered. The seller also confirmed App Store screenshots and the preview video (screenshots 01 and 03 and the video show dinosaurs), so those stay as they are. Licence status now: covered Animals, Monsters, Vehicles, Buildings, Dinosaurs (199 pages); Christmas has a paid licence offer ($89) under discussion.
+
+**Verified:** text change only; every dino row checked to carry the new wording.
+
+## 2026-11-23: Black eyes for Hatching Friends and Dino Triplets
+
+**What changed (owner: "make the eyes black like the other dinosaurs"):** both pages have three dinosaurs (five or six eyes), but the converter keeps at most one pair of eyes black and turned the rest into colourable rings. `tools/dinosaurs/generate.ts` now takes `eyeAt` per page (as Animals does), listing every eye, so all of them stay solid black with their white highlight. `dino-33` and `dino-85` re-imported as version 2 with `--allow-removed`: the old ring parts (and the renumbered small parts, 4 ids per page) are gone, so a coloring of these two pages saved before this shows those few small parts blank.
+
+**Verified:** previews of both pages checked by eye (every eye black with a highlight, eggs and bodies still colourable); typecheck and lint clean; 977/977 tests pass; 632/632 pages valid.
+
+**Follow-up (owner: "also fix Three Eyes, first eye"):** `monster-42` had the same problem: the converter keeps at most two eyes black, so the first eye's pupil became a colourable spot. `tools/monsters/generate.ts` now lists all three pupils with `eyeAt`; re-imported as version 2 with `--allow-removed` (one part id, `part-10`, gone, so parts were renumbered and an older saved coloring of this page may show a few parts in the wrong colour or blank). Preview checked by eye: three black pupils with highlights, the coloured rings around them still colourable. Checks green (977/977 tests, 632/632 pages valid).
+
+**Follow-up (owner: fix the eyes on Space pages Star Balloon, Comet, Star Friends, Three-Eyed Alien, Planet Friends, Moon Rainbow, Space Rover):** same cause; on these pages the guess picked the wrong pair or found none (more than two eyes, eyes like spots). `tools/space/generate.ts` now lists every eye with `eyeAt` for `space-08`, `16`, `17`, `38`, `65`, `79` and `86`. The Comet's body is not a closed outline in the source, so its eyes are top-level shapes: `eyeAt` in `tools/art/clipart.ts` now accepts top-level (depth 0) solid shapes as well as nested ones (no other page uses it that way, so none changed). The rover lost a part (its left eye), which raised its small-part budget past the validator's 80 regions; `maxRegions` lowered from 117 to 116. All re-imported with `--allow-removed`, so older saved colorings of these pages may show a few parts blank.
+
+**Verified:** debug previews of all seven checked by eye (every eye solid black with its highlight). Typecheck and lint clean; 977/977 tests (the first run caught the rover's 81 regions); 632/632 pages valid.
+
+**Noticed, not fixed:** on the Comet (`space-16`) the body itself is not colourable (its outline is open in the source, so a tap there fills the background).
+
+**Follow-up (owner: "silly alien as well"):** `space-31` (Silly Alien, three eyes) had its third pupil opened as a colourable spot; all three pupils now listed with `eyeAt`, re-imported as version 2 with `--allow-removed`. Preview checked; typecheck and lint clean, 977/977 tests, 632/632 pages valid.
+
+## 2026-11-23: Halloween theme (14 pages), first in the catalog
+
+**What changed (owner: "create a Halloween theme, move it to the first page, add these SVGs"):**
+- 14 pictures from the owner's "Cute Spooky SVG Bundle, Kawaii Halloween" (Etsy, `~/Desktop/Little Color World/Halloween.zip`, Pack 1 files 1, 3–9, 11, 12, 16–18, 20) copied to `art/svg/halloween/source/` and converted by the new `tools/halloween/generate.ts` (same converter as Christmas: no background, big and centred). Pages `halloween-01`..`14`: Happy Pumpkin, Little Bat, Ghost in a Hat, Magic Broom, Bubbling Pot, Sweet Candy, Little Spider, Spider Web, Candle Friend, Friendly Ghost, Little Vampire, Mummy, Spooky House, Little Witch.
+- `content/themes.json`: new `halloween` theme (orange `#F28C28`, 🎃, cover Happy Pumpkin) at order 1, so it is the first card on the first catalog page; every other theme moved down one.
+- `tools/art/clipart.ts`: an eye's highlight now always stays white. Before, a highlight bigger than the part minimum became a colourable part (Sweet Candy and Friendly Ghost draw big ones). Existing pages are unchanged until they are re-imported.
+- Licence: the seller confirmed in writing that the app and App Store screenshots are covered (Etsy message 2026-11-23, screenshot `~/Desktop/Halloween Permission.png`); recorded in `art/PROVENANCE.md`.
+
+**Verified:** all 14 imported with 0 errors and 0 warnings; debug previews of every page checked by eye (eyes black with white highlights, every part colourable). Typecheck and lint clean; 991/991 tests; 646/646 pages valid. Not yet looked at on the simulator.
+
+**Next:** the unpublished Vegetables CDN pack still carries theme order 13, which now equals Buildings; rebuild it (`pack build vegetables`) before it is ever published. App Store text says "500 pictures in 12 themes"; update the counts once it is decided which themes ship.
+
+## 2026-11-23: Smiles are one solid line
+
+**What changed (owner: "remove that smile to color with single line, it looks ugly"):** clipart draws a smile as a thick black stroke, and the converter opened every thick stroke into an outline with a thin colourable sliver inside. `tools/art/clipart.ts` now keeps a stroke solid, as drawn, when it is a face stroke: it would open into a sliver (on average under 16 units wide and more than 7 times longer than wide), it has no holes (so open mouths with teeth still open), it is 0.6 to 3 eye widths across and no more than 0.86 as tall as wide, and it sits beside or below a detected eye. Letters, stripes, bars, grilles, sprinkles, gills, monster curls and spots still open as before; an earlier, looser rule caught all of those and was narrowed after reviewing every hit.
+
+**Pages updated (64):** the 10 Halloween pages with a smile, and 54 others re-imported one by one with `--allow-removed`: animal-06, christmas-27, food-01, food-16, food-18, food-22, insect-firefly, insect-grasshopper-01, insect-ladybug-01, insect-slug, insect-snail-01, insect-spider-01, insect-walking-stick, insect-weevil, insect-worm, monster-29, sea-anglerfish, sea-clownfish-01, sea-crab-01, sea-eel, sea-fish-01, sea-fish-02, sea-fish-03, sea-hammerhead, sea-hermit-crab, sea-lobster, sea-manta-ray, sea-narwhal-02, sea-narwhal-03, sea-octopus-01, sea-octopus-02, sea-otter-02, sea-penguin-01, sea-seagull-03, sea-seal-01, sea-seal-02, sea-seashell-01, sea-shark-01, sea-shark-02, sea-shrimp, sea-starfish-01, sea-starfish-02, sea-starfish-04, sea-turtle-03, sea-whale-01, sea-whale-02, sea-whale-shark, space-11, space-17, space-20, space-21, space-25, space-33, space-38. All other pages were left exactly as they were (a first full re-import also picked up small unrelated changes in 275 pages, so it was rolled back from a backup and only these pages re-imported). A saved coloring of one of these pages loses its smile part.
+
+**Verified:** every stroke the rule keeps solid was reviewed on crop sheets, and previews of all updated pages checked by eye. Typecheck and lint clean; 991/991 tests; 646/646 pages valid.
+
+**Not covered:** smiles on pages where no eye is detected (eyes the converter cannot find, e.g. some dinosaurs, monsters and animals) are unchanged; they can be fixed page by page with `eyeAt`.
+
+**Follow-up (owner: "add it to svgs", 10 more from the same bundle):** Pack 2 files 7, 10, 11, 14, 15, 16, 19, 21, 22, 24 copied as `art/svg/halloween/source/halloween-p2-<nn>.svg` and added as `halloween-15`..`24`: Happy Skull, Moon and Clouds, Black Cat, Scarecrow, Bony Hand, Crossbones, Night Owl, Pumpkin Head, Mummy Walk, Count Vampire. Six needed `eyeAt` so their eyes stay solid black (the skull's sockets, the pumpkin head's triangle eyes and nose, the mummy's and vampire's eyes, the scarecrow's eyes, and the cat's two eyes, which came out different from each other). Same licence (the seller's written permission covers the bundle). Halloween now has 24 pages. Debug previews of all 10 checked by eye.
+
+## 2026-11-23: Vegetables cleared by its seller
+
+**What changed:** the owner got written permission from the Vegetables seller to use the pack in the app; all 30 `veg-` rows in `art/PROVENANCE.md` now say covered. Still to confirm: that the permission covers delivering the pages as downloads from the content server (this theme ships over the CDN only). Owner decision: Vegetables pictures are not used in App Store screenshots or the preview video.
+
+**Verified:** text change only.
+
+**Follow-up (owner: 10 more, "use it in halloween"):** Pack 3 files 3, 5, 6, 7, 8, 10, 11, 12, 14, 15 copied as `halloween-p3-<nn>.svg` and added as `halloween-25`..`34`: Wizard Frog, Skeleton Fox, Pumpkin Puppy, Witchy Owl, Pumpkin Piggy, Witch Frog, Monster Monkey, Mummy Kitty, Pumpkin Bear, Bat-Wing Deer. Pack 3 draws eyes as plain black ovals with no highlight, and noses, mouths and jack-o'-lantern faces as solid shapes, so the converter opened them all into colourable rings. New opt-in `keepSpots` option in `tools/art/clipart.ts` keeps loose solid shapes black, in both the loose-spot step and the thick-black ("ridge") step; black areas joined to lines (ears, tails) still open. Used on pages 25–33 (the deer has highlighted eyes and converts normally). No other theme uses the option, so no other page changed. Halloween now has 34 pages.
+
+**Verified:** debug previews of all 10 checked by eye (eyes, noses and pumpkin faces black; hats, costumes and pumpkins colourable).
+
+**Follow-up (8 more from Pack 4):** files 1, 5, 10, 11, 14, 16, 17, 20 copied as `halloween-p4-<nn>.svg` and added as `halloween-35`..`42`: Howling Wolf, Ghost Kitty, Top Hat Skeleton, Flying Pot, Magic Mirror, Pumpkin Ghost, Skeleton Dance, Flying Witch. Their eyes have highlights and convert normally; only Pumpkin Ghost needed `keepSpots` to keep its jack-o'-lantern face black. Halloween now has 42 pages. Debug previews of all 8 checked by eye.
+
+**Follow-up (3 more from Pack 5):** files 1, 2, 4 copied as `halloween-p5-<nn>.svg` and added as `halloween-43`..`45`: Trick-or-Treat Ghost, Heart-Eyes Pumpkin, Cat in a Pot. The ghost needed `keepSpots` to keep its candy basket's jack-o'-lantern face black. Halloween now has 45 pages. Debug previews checked by eye.

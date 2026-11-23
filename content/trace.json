@@ -1,0 +1,2377 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-a",
+    "version": 1,
+    "set": "uppercase",
+    "order": 1,
+    "title": "A",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 L352 570"
+      },
+      {
+        "d": "M512 130 L672 570"
+      },
+      {
+        "d": "M417 420 L607 420"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-a"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-b",
+    "version": 1,
+    "set": "uppercase",
+    "order": 2,
+    "title": "B",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M389.5 130 L389.5 570"
+      },
+      {
+        "d": "M389.5 130 L514.5 130 C575.3 130 624.5 179.2 624.5 240 C624.5 300.8 575.3 350 514.5 350 L389.5 350"
+      },
+      {
+        "d": "M389.5 350 L524.5 350 C585.3 350 634.5 399.2 634.5 460 C634.5 520.8 585.3 570 524.5 570 L389.5 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-b"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-c",
+    "version": 1,
+    "set": "uppercase",
+    "order": 3,
+    "title": "C",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M697.4 208.6 C640.7 137.7 547.7 111.6 464.7 143.3 C381.8 174.9 326.6 257.5 326.6 350 C326.6 442.5 381.8 525.1 464.7 556.7 C547.7 588.4 640.7 562.3 697.4 491.4"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-c"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-d",
+    "version": 1,
+    "set": "uppercase",
+    "order": 4,
+    "title": "D",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M372 130 L372 570"
+      },
+      {
+        "d": "M372 130 L432 130 C553.5 130 652 228.5 652 350 C652 471.5 553.5 570 432 570 L372 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-d"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-e",
+    "version": 1,
+    "set": "uppercase",
+    "order": 5,
+    "title": "E",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M392 130 L392 570"
+      },
+      {
+        "d": "M392 130 L632 130"
+      },
+      {
+        "d": "M392 350 L592 350"
+      },
+      {
+        "d": "M392 570 L632 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-e"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-f",
+    "version": 1,
+    "set": "uppercase",
+    "order": 6,
+    "title": "F",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M392 130 L392 570"
+      },
+      {
+        "d": "M392 130 L632 130"
+      },
+      {
+        "d": "M392 350 L592 350"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-f"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-g",
+    "version": 1,
+    "set": "uppercase",
+    "order": 7,
+    "title": "G",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M672.9 208.6 C607.4 126.8 495.3 106.1 407 159.4 C318.8 212.8 279.8 324.8 314.7 425.2 C349.5 525.5 448.1 585.2 548.4 566.6 C648.8 548.1 722 456.8 722 350"
+      },
+      {
+        "d": "M602 350 L722 350"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-g"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-h",
+    "version": 1,
+    "set": "uppercase",
+    "order": 8,
+    "title": "H",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M372 130 L372 570"
+      },
+      {
+        "d": "M652 130 L652 570"
+      },
+      {
+        "d": "M372 350 L652 350"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-h"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-i",
+    "version": 1,
+    "set": "uppercase",
+    "order": 9,
+    "title": "I",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 L512 570"
+      },
+      {
+        "d": "M402 130 L622 130"
+      },
+      {
+        "d": "M402 570 L622 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-i"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-j",
+    "version": 1,
+    "set": "uppercase",
+    "order": 10,
+    "title": "J",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M612 130 L612 470 C612 525.2 567.2 570 512 570 C456.8 570 412 525.2 412 470"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-j"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-k",
+    "version": 1,
+    "set": "uppercase",
+    "order": 11,
+    "title": "K",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M382 130 L382 570"
+      },
+      {
+        "d": "M632 130 L382 370"
+      },
+      {
+        "d": "M442 330 L642 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-k"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-l",
+    "version": 1,
+    "set": "uppercase",
+    "order": 12,
+    "title": "L",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M397 130 L397 570"
+      },
+      {
+        "d": "M397 570 L627 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-l"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-m",
+    "version": 1,
+    "set": "uppercase",
+    "order": 13,
+    "title": "M",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M352 130 L352 570"
+      },
+      {
+        "d": "M352 130 L512 450"
+      },
+      {
+        "d": "M512 450 L672 130"
+      },
+      {
+        "d": "M672 130 L672 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-m"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-n",
+    "version": 1,
+    "set": "uppercase",
+    "order": 14,
+    "title": "N",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 130 L377 570"
+      },
+      {
+        "d": "M377 130 L647 570"
+      },
+      {
+        "d": "M647 570 L647 130"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-n"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-o",
+    "version": 1,
+    "set": "uppercase",
+    "order": 15,
+    "title": "O",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 C407.1 130 322 228.5 322 350 C322 471.5 407.1 570 512 570 C616.9 570 702 471.5 702 350 C702 228.5 616.9 130 512 130"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-o"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-p",
+    "version": 1,
+    "set": "uppercase",
+    "order": 16,
+    "title": "P",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M399.5 130 L399.5 570"
+      },
+      {
+        "d": "M399.5 130 L514.5 130 C575.3 130 624.5 179.2 624.5 240 C624.5 300.8 575.3 350 514.5 350 L399.5 350"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-p"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-q",
+    "version": 1,
+    "set": "uppercase",
+    "order": 17,
+    "title": "Q",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 C407.1 130 322 228.5 322 350 C322 471.5 407.1 570 512 570 C616.9 570 702 471.5 702 350 C702 228.5 616.9 130 512 130"
+      },
+      {
+        "d": "M575 455 L700 590"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-q"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-r",
+    "version": 1,
+    "set": "uppercase",
+    "order": 18,
+    "title": "R",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M387 130 L387 570"
+      },
+      {
+        "d": "M387 130 L502 130 C562.8 130 612 179.2 612 240 C612 300.8 562.8 350 502 350 L387 350"
+      },
+      {
+        "d": "M477 350 L637 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-r"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-s",
+    "version": 1,
+    "set": "uppercase",
+    "order": 19,
+    "title": "S",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M624.6 185 C593.1 138.8 526.8 118.4 467.6 136.6 C408.3 154.9 373 206.5 384 259.1 C394.9 311.7 448.9 350 512 350 C575.1 350 629.1 388.3 640 440.9 C651 493.5 615.7 545.1 556.4 563.4 C497.2 581.6 430.9 561.2 399.4 515"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-s"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-t",
+    "version": 1,
+    "set": "uppercase",
+    "order": 20,
+    "title": "T",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 L512 570"
+      },
+      {
+        "d": "M382 130 L642 130"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-t"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-u",
+    "version": 1,
+    "set": "uppercase",
+    "order": 21,
+    "title": "U",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M372 130 L372 430 C372 507.3 434.7 570 512 570 C589.3 570 652 507.3 652 430 L652 130"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-u"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-v",
+    "version": 1,
+    "set": "uppercase",
+    "order": 22,
+    "title": "V",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M352 130 L512 570"
+      },
+      {
+        "d": "M512 570 L672 130"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-v"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-w",
+    "version": 1,
+    "set": "uppercase",
+    "order": 23,
+    "title": "W",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M322 130 L417 570"
+      },
+      {
+        "d": "M417 570 L512 250"
+      },
+      {
+        "d": "M512 250 L607 570"
+      },
+      {
+        "d": "M607 570 L702 130"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-w"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-x",
+    "version": 1,
+    "set": "uppercase",
+    "order": 24,
+    "title": "X",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M362 130 L662 570"
+      },
+      {
+        "d": "M662 130 L362 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-x"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-y",
+    "version": 1,
+    "set": "uppercase",
+    "order": 25,
+    "title": "Y",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M362 130 L512 350"
+      },
+      {
+        "d": "M662 130 L512 350"
+      },
+      {
+        "d": "M512 350 L512 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-y"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-upper-z",
+    "version": 1,
+    "set": "uppercase",
+    "order": 26,
+    "title": "Z",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M372 130 L652 130"
+      },
+      {
+        "d": "M652 130 L372 570"
+      },
+      {
+        "d": "M372 570 L652 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-upper-z"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-a",
+    "version": 1,
+    "set": "lowercase",
+    "order": 1,
+    "title": "a",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M607.5 339.5 C573.4 305.4 523.7 292.1 477 304.5 C430.4 317 394 353.4 381.5 400 C369.1 446.7 382.4 496.4 416.5 530.5 C450.6 564.6 500.3 577.9 547 565.5 C593.6 553 630 516.6 642.5 470 C654.9 423.3 641.6 373.6 607.5 339.5"
+      },
+      {
+        "d": "M647 300 L647 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-a"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-b",
+    "version": 1,
+    "set": "lowercase",
+    "order": 2,
+    "title": "b",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 130 L377 570"
+      },
+      {
+        "d": "M377 435 C377 360.4 437.4 300 512 300 C586.6 300 647 360.4 647 435 C647 509.6 586.6 570 512 570 C437.4 570 377 509.6 377 435"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-b"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-c",
+    "version": 1,
+    "set": "lowercase",
+    "order": 3,
+    "title": "c",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M627.2 339.5 C574.5 286.8 489 286.8 436.3 339.6 C383.6 392.3 383.6 477.7 436.3 530.4 C489 583.2 574.5 583.2 627.2 530.5"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-c"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-d",
+    "version": 1,
+    "set": "lowercase",
+    "order": 4,
+    "title": "d",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M607.5 339.5 C573.4 305.4 523.7 292.1 477 304.5 C430.4 317 394 353.4 381.5 400 C369.1 446.7 382.4 496.4 416.5 530.5 C450.6 564.6 500.3 577.9 547 565.5 C593.6 553 630 516.6 642.5 470 C654.9 423.3 641.6 373.6 607.5 339.5"
+      },
+      {
+        "d": "M647 130 L647 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-d"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-e",
+    "version": 1,
+    "set": "lowercase",
+    "order": 5,
+    "title": "e",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 435 L647 435 C647 370.6 601.4 315.2 538.3 302.7 C475.1 290.1 411.9 324 387.2 383.5 C362.6 443 383.5 511.6 437.1 547.4 C490.6 583.1 562 576.1 607.5 530.5"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-e"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-f",
+    "version": 1,
+    "set": "lowercase",
+    "order": 6,
+    "title": "f",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M624.2 170 C606.1 138.6 569.1 123.3 534.1 132.7 C499.2 142.1 474.8 173.8 474.9 210 L474.9 570"
+      },
+      {
+        "d": "M399.9 300 L569.9 300"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-f"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-g",
+    "version": 1,
+    "set": "lowercase",
+    "order": 7,
+    "title": "g",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M607.5 339.5 C573.4 305.4 523.7 292.1 477 304.5 C430.4 317 394 353.4 381.5 400 C369.1 446.7 382.4 496.4 416.5 530.5 C450.6 564.6 500.3 577.9 547 565.5 C593.6 553 630 516.6 642.5 470 C654.9 423.3 641.6 373.6 607.5 339.5"
+      },
+      {
+        "d": "M647 300 L647 640 C647 671.4 611.6 699.2 559.6 708.7 C507.6 718.1 450.9 707 419.6 681.3"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-g"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-h",
+    "version": 1,
+    "set": "lowercase",
+    "order": 8,
+    "title": "h",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 130 L377 570"
+      },
+      {
+        "d": "M377 435 C377 360.4 437.4 300 512 300 C586.6 300 647 360.4 647 435 L647 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-h"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-i",
+    "version": 1,
+    "set": "lowercase",
+    "order": 9,
+    "title": "i",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 300 L512 570"
+      },
+      {
+        "d": "M512 120 L512 182"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-i"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-j",
+    "version": 1,
+    "set": "lowercase",
+    "order": 10,
+    "title": "j",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M597 300 L597 600 C597 646.9 558.9 685 512 685 C465.1 685 427 646.9 427 600"
+      },
+      {
+        "d": "M597 120 L597 182"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-j"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-k",
+    "version": 1,
+    "set": "lowercase",
+    "order": 11,
+    "title": "k",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M412 130 L412 570"
+      },
+      {
+        "d": "M602 300 L412 445"
+      },
+      {
+        "d": "M452 415 L612 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-k"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-l",
+    "version": 1,
+    "set": "lowercase",
+    "order": 12,
+    "title": "l",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 L512 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-l"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-m",
+    "version": 1,
+    "set": "lowercase",
+    "order": 13,
+    "title": "m",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M352 300 L352 570"
+      },
+      {
+        "d": "M352 380 C352 335.8 387.8 300 432 300 C476.2 300 512 335.8 512 380 L512 570"
+      },
+      {
+        "d": "M512 380 C512 335.8 547.8 300 592 300 C636.2 300 672 335.8 672 380 L672 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-m"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-n",
+    "version": 1,
+    "set": "lowercase",
+    "order": 14,
+    "title": "n",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 300 L377 570"
+      },
+      {
+        "d": "M377 435 C377 360.4 437.4 300 512 300 C586.6 300 647 360.4 647 435 L647 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-n"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-o",
+    "version": 1,
+    "set": "lowercase",
+    "order": 15,
+    "title": "o",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 300 C437.4 300 377 360.4 377 435 C377 509.6 437.4 570 512 570 C586.6 570 647 509.6 647 435 C647 360.4 586.6 300 512 300"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-o"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-p",
+    "version": 1,
+    "set": "lowercase",
+    "order": 16,
+    "title": "p",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 300 L377 700"
+      },
+      {
+        "d": "M377 435 C377 360.4 437.4 300 512 300 C586.6 300 647 360.4 647 435 C647 509.6 586.6 570 512 570 C437.4 570 377 509.6 377 435"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-p"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-q",
+    "version": 1,
+    "set": "lowercase",
+    "order": 17,
+    "title": "q",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M607.5 339.5 C573.4 305.4 523.7 292.1 477 304.5 C430.4 317 394 353.4 381.5 400 C369.1 446.7 382.4 496.4 416.5 530.5 C450.6 564.6 500.3 577.9 547 565.5 C593.6 553 630 516.6 642.5 470 C654.9 423.3 641.6 373.6 607.5 339.5"
+      },
+      {
+        "d": "M647 300 L647 700"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-q"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-r",
+    "version": 1,
+    "set": "lowercase",
+    "order": 18,
+    "title": "r",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M396.8 300 L396.8 570"
+      },
+      {
+        "d": "M396.8 435 C396.7 380.4 429.6 331.1 480.1 310.2 C530.5 289.3 588.6 300.9 627.3 339.5"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-r"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-s",
+    "version": 1,
+    "set": "lowercase",
+    "order": 19,
+    "title": "s",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M604.8 333.8 C578.2 305.4 522.1 292.9 472 304.1 C421.8 315.2 391.9 346.9 401.2 379.2 C410.5 411.5 456.1 435 509.5 435 C565.3 435 613 458.5 622.7 490.8 C632.4 523 601.3 554.7 548.9 565.9 C496.4 577.1 437.9 564.6 409.9 536.3"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-s"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-t",
+    "version": 1,
+    "set": "lowercase",
+    "order": 20,
+    "title": "t",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 170 L512 570"
+      },
+      {
+        "d": "M422 300 L602 300"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-t"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-u",
+    "version": 1,
+    "set": "lowercase",
+    "order": 21,
+    "title": "u",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 300 L377 435 C377 509.6 437.4 570 512 570 C586.6 570 647 509.6 647 435 L647 300"
+      },
+      {
+        "d": "M647 300 L647 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-u"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-v",
+    "version": 1,
+    "set": "lowercase",
+    "order": 22,
+    "title": "v",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 300 L512 570"
+      },
+      {
+        "d": "M512 570 L647 300"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-v"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-w",
+    "version": 1,
+    "set": "lowercase",
+    "order": 23,
+    "title": "w",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M322 300 L417 570"
+      },
+      {
+        "d": "M417 570 L512 380"
+      },
+      {
+        "d": "M512 380 L607 570"
+      },
+      {
+        "d": "M607 570 L702 300"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-w"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-x",
+    "version": 1,
+    "set": "lowercase",
+    "order": 24,
+    "title": "x",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 300 L647 570"
+      },
+      {
+        "d": "M647 300 L377 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-x"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-y",
+    "version": 1,
+    "set": "lowercase",
+    "order": 25,
+    "title": "y",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 300 L515.4 570"
+      },
+      {
+        "d": "M647 300 L452 700"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-y"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-lower-z",
+    "version": 1,
+    "set": "lowercase",
+    "order": 26,
+    "title": "z",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M377 300 L647 300"
+      },
+      {
+        "d": "M647 300 L377 570"
+      },
+      {
+        "d": "M377 570 L647 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 300,
+        "dashed": true
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-lower-z"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-number-0",
+    "version": 1,
+    "set": "numbers",
+    "order": 1,
+    "title": "0",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 C429.2 130 362 228.5 362 350 C362 471.5 429.2 570 512 570 C594.8 570 662 471.5 662 350 C662 228.5 594.8 130 512 130"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-number-0"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-number-1",
+    "version": 1,
+    "set": "numbers",
+    "order": 2,
+    "title": "1",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 L512 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-number-1"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-number-2",
+    "version": 1,
+    "set": "numbers",
+    "order": 3,
+    "title": "2",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M392 202.4 C408.3 163.4 448.1 135.8 494.9 131.1 C541.8 126.3 587.7 145.1 613.7 179.8 C639.7 214.4 641.2 259 617.8 295 L384.5 570 L639.5 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-number-2"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-number-3",
+    "version": 1,
+    "set": "numbers",
+    "order": 4,
+    "title": "3",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M409 185 C435.7 138.8 491.7 118.4 541.9 136.6 C592 154.9 621.9 206.5 612.6 259.1 C603.4 311.6 557.7 350 504.3 350 C560.1 350 607.9 388.3 617.6 440.9 C627.2 493.5 596.1 545.1 543.6 563.4 C491.2 581.6 432.6 561.2 404.7 515"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-number-3"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-number-4",
+    "version": 1,
+    "set": "numbers",
+    "order": 5,
+    "title": "4",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M402 130 L402 430 L622 430"
+      },
+      {
+        "d": "M562 130 L562 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-number-4"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-number-5",
+    "version": 1,
+    "set": "numbers",
+    "order": 6,
+    "title": "5",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M407 130 L397 340 C449.9 306.3 522.8 312.4 567.6 354.3 C612.3 396.2 615.1 461 574 505.8 C532.9 550.5 460.7 561.4 405.1 531.3"
+      },
+      {
+        "d": "M407 130 L627 130"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-number-5"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-number-6",
+    "version": 1,
+    "set": "numbers",
+    "order": 7,
+    "title": "6",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M600 165 Q392 200 392 460 C392 399.2 445.7 350 512 350 C578.3 350 632 399.2 632 460 C632 520.8 578.3 570 512 570 C445.7 570 392 520.8 392 460"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-number-6"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-number-7",
+    "version": 1,
+    "set": "numbers",
+    "order": 8,
+    "title": "7",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M382 130 L642 130 L472 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-number-7"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-number-8",
+    "version": 1,
+    "set": "numbers",
+    "order": 9,
+    "title": "8",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 C456.8 130 412 179.2 412 240 C412 300.8 456.8 350 512 350 C567.2 350 612 300.8 612 240 C612 179.2 567.2 130 512 130"
+      },
+      {
+        "d": "M512 350 C575.5 350 627 399.2 627 460 C627 520.8 575.5 570 512 570 C448.5 570 397 520.8 397 460 C397 399.2 448.5 350 512 350"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-number-8"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-number-9",
+    "version": 1,
+    "set": "numbers",
+    "order": 10,
+    "title": "9",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M627 245 C627 181.5 575.5 130 512 130 C448.5 130 397 181.5 397 245 C397 308.5 448.5 360 512 360 C575.5 360 627 308.5 627 245"
+      },
+      {
+        "d": "M627 245 L627 570"
+      }
+    ],
+    "guides": [
+      {
+        "y": 130,
+        "dashed": false
+      },
+      {
+        "y": 570,
+        "dashed": false
+      }
+    ],
+    "colorPageId": "trace-number-9"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-shape-circle",
+    "version": 1,
+    "set": "shapes",
+    "order": 1,
+    "title": "Circle",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 C390.5 130 292 228.5 292 350 C292 471.5 390.5 570 512 570 C633.5 570 732 471.5 732 350 C732 228.5 633.5 130 512 130"
+      }
+    ],
+    "guides": [],
+    "colorPageId": "trace-shape-circle"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-shape-square",
+    "version": 1,
+    "set": "shapes",
+    "order": 2,
+    "title": "Square",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M302 140 L722 140 L722 560 L302 560 Z"
+      }
+    ],
+    "guides": [],
+    "colorPageId": "trace-shape-square"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-shape-triangle",
+    "version": 1,
+    "set": "shapes",
+    "order": 3,
+    "title": "Triangle",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 L752 560 L272 560 Z"
+      }
+    ],
+    "guides": [],
+    "colorPageId": "trace-shape-triangle"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-shape-rectangle",
+    "version": 1,
+    "set": "shapes",
+    "order": 4,
+    "title": "Rectangle",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M242 190 L782 190 L782 510 L242 510 Z"
+      }
+    ],
+    "guides": [],
+    "colorPageId": "trace-shape-rectangle"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-shape-oval",
+    "version": 1,
+    "set": "shapes",
+    "order": 5,
+    "title": "Oval",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 160 C346.3 160 212 245.1 212 350 C212 454.9 346.3 540 512 540 C677.7 540 812 454.9 812 350 C812 245.1 677.7 160 512 160"
+      }
+    ],
+    "guides": [],
+    "colorPageId": "trace-shape-oval"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-shape-diamond",
+    "version": 1,
+    "set": "shapes",
+    "order": 6,
+    "title": "Diamond",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 120 L712 350 L512 580 L312 350 Z"
+      }
+    ],
+    "guides": [],
+    "colorPageId": "trace-shape-diamond"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-shape-heart",
+    "version": 1,
+    "set": "shapes",
+    "order": 7,
+    "title": "Heart",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 250 C512 150 332 130 322 270 C312 400 462 470 512 560 C562 470 712 400 702 270 C692 130 512 150 512 250 Z"
+      }
+    ],
+    "guides": [],
+    "colorPageId": "trace-shape-heart"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-shape-star",
+    "version": 1,
+    "set": "shapes",
+    "order": 8,
+    "title": "Star",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 L575.5 282.6 L740.3 295.8 L614.7 403.4 L653.1 564.2 L512 478 L370.9 564.2 L409.3 403.4 L283.7 295.8 L448.5 282.6 Z"
+      }
+    ],
+    "guides": [],
+    "colorPageId": "trace-shape-star"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-shape-pentagon",
+    "version": 1,
+    "set": "shapes",
+    "order": 9,
+    "title": "Pentagon",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M512 130 L740.3 295.8 L653.1 564.2 L370.9 564.2 L283.7 295.8 Z"
+      }
+    ],
+    "guides": [],
+    "colorPageId": "trace-shape-pentagon"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "trace-shape-hexagon",
+    "version": 1,
+    "set": "shapes",
+    "order": 10,
+    "title": "Hexagon",
+    "viewBox": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "strokes": [
+      {
+        "d": "M742 350 L627 549.2 L397 549.2 L282 350 L397 150.8 L627 150.8 Z"
+      }
+    ],
+    "guides": [],
+    "colorPageId": "trace-shape-hexagon"
+  }
+]

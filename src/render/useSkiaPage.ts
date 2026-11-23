@@ -33,33 +33,50 @@ function makePath(d: string, evenOdd = false): SkPath {
   return evenOdd ? Skia.PathBuilder.MakeFromPath(path).setFillType(FillType.EvenOdd).build() : path;
 }
 
+/**
+ * Skia paths for each page, built once and shared by every thumbnail and the coloring screen. Region and outline
+ * geometry never changes. Keyed by the page object, which the registry caches, so the cache lives as long as the page.
+ */
+const cache = new WeakMap<ColoringPage, SkiaPage>();
+
 /** Builds Skia paths for a page once; region and outline geometry never changes. */
 export function useSkiaPage(page: ColoringPage): SkiaPage {
-  return useMemo(() => {
-    const regions = page.regions.map((r): SkiaRegion => {
-      const path = makePath(r.d, r.fillRule === 'evenodd');
-      return {
-        id: r.id,
-        path,
-        fillType: r.fillRule === 'evenodd' ? 'evenOdd' : 'winding',
-        defaultFill: r.defaultFill ?? DEFAULT_REGION_FILL,
-        bounds: path.computeTightBounds(),
-      };
-    });
-    const outline = page.outline.map((spec) => ({ path: makePath(spec.d), spec }));
-    const visible = new Map<string, SkPath | null>();
-    const visibleArea = (regionId: string): SkPath | null => {
-      const cached = visible.get(regionId);
-      if (cached !== undefined) return cached;
-      const i = regions.findIndex((r) => r.id === regionId);
-      let area: SkPath | null = i < 0 ? null : regions[i]!.path;
-      for (const above of regions.slice(i + 1)) {
-        if (!area) break;
-        area = Skia.Path.MakeFromOp(area, above.path, PathOp.Difference);
-      }
-      visible.set(regionId, area);
-      return area;
+  return useMemo(() => skiaPageFor(page), [page]);
+}
+
+/** The page's Skia paths, from the cache or built now. `preloadPages` calls this at launch so themes open fast. */
+export function skiaPageFor(page: ColoringPage): SkiaPage {
+  const cached = cache.get(page);
+  if (cached) return cached;
+  const built = buildSkiaPage(page);
+  cache.set(page, built);
+  return built;
+}
+
+function buildSkiaPage(page: ColoringPage): SkiaPage {
+  const regions = page.regions.map((r): SkiaRegion => {
+    const path = makePath(r.d, r.fillRule === 'evenodd');
+    return {
+      id: r.id,
+      path,
+      fillType: r.fillRule === 'evenodd' ? 'evenOdd' : 'winding',
+      defaultFill: r.defaultFill ?? DEFAULT_REGION_FILL,
+      bounds: path.computeTightBounds(),
     };
-    return { regions, outline, visibleArea };
-  }, [page]);
+  });
+  const outline = page.outline.map((spec) => ({ path: makePath(spec.d), spec }));
+  const visible = new Map<string, SkPath | null>();
+  const visibleArea = (regionId: string): SkPath | null => {
+    const cached = visible.get(regionId);
+    if (cached !== undefined) return cached;
+    const i = regions.findIndex((r) => r.id === regionId);
+    let area: SkPath | null = i < 0 ? null : regions[i]!.path;
+    for (const above of regions.slice(i + 1)) {
+      if (!area) break;
+      area = Skia.Path.MakeFromOp(area, above.path, PathOp.Difference);
+    }
+    visible.set(regionId, area);
+    return area;
+  };
+  return { regions, outline, visibleArea };
 }

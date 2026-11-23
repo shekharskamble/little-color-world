@@ -1,4 +1,6 @@
-import { Image, Pressable, ScrollView, StyleSheet, View, type ImageSourcePropType } from 'react-native';
+import { Canvas, Circle } from '@shopify/react-native-skia';
+import { useState } from 'react';
+import { Image, Pressable, ScrollView, StyleSheet, View, type ImageSourcePropType, type LayoutChangeEvent } from 'react-native';
 
 import { fillBaseColor, type FillStyle } from '@/content/schema/fill';
 import { mixHex, patternFill } from '@/engine/fills/fills';
@@ -7,6 +9,7 @@ import { Icon } from '@/ui/Icon';
 import type { IconName } from '@/ui/icons';
 import { colors, size } from '@/ui/tokens';
 
+import { RAIL_BASE, RAIL_FIXED, railScale } from './railFit';
 import {
   PATTERNS,
   RAINBOWS,
@@ -26,7 +29,7 @@ export type { Tool } from './swatches';
 type Props = { tool: Tool; onChange: (tool: Tool) => void };
 
 /** Paint-kind buttons (plain, glitter, patterns, rainbows) sit in the rail under the tools. */
-const TAB = 56;
+const TAB = RAIL_BASE.small;
 /**
  * Colour board (owner's reference picture, 2026-11-03): a tan board with a golden-brown border holding a column of shiny
  * paint balls. Colours sampled from the reference.
@@ -41,13 +44,14 @@ const BOARD_SHADE = '#B08A58';
 /** Tool rail: big round buttons on a light-blue rail, right next to the strip. */
 const GAP = 6;
 const RAIL_W = 104;
-const TOOL_D = 84;
+const TOOL_D = RAIL_BASE.tool;
 const TOOL_ICON = 74;
 /** Dot sizes that show each pen thickness, in the chosen colour. */
-const SIZE_DOT: Record<BrushSize, number> = { small: 12, medium: 20, large: 30 };
+const SIZE_DOT: Record<BrushSize, number> = { small: 14, medium: 24, large: 36 };
 const SIZES: readonly BrushSize[] = ['small', 'medium', 'large'];
+// The same size as the paint buttons; with its ring slot (RING_GROW) the touch target is 70 pt, above size.touchMin.
+const SIZE_D = TAB;
 const RAIL = '#BFE6F7';
-const LIGHT_EDGE = '#D8D2C4';
 
 const TOOL_ICONS: Record<ToolId, IconName> = { bucket: 'bucketColor', brush: 'brushColor', pencil: 'crayonColor', eraser: 'eraserColor' };
 /** The owner's sticker pictures for the tools (assets/images). The drawn icons are the fallback. */
@@ -74,6 +78,14 @@ export function Palette({ tool, onChange }: Props) {
   const pickTool = (id: ToolId) => onChange({ ...tool, tool: id, ...(id !== 'eraser' && { paint: id }) });
   // What the picked tool paints with, for the size dots.
   const paintColor = fillBaseColor(bucketFill(finish, tool));
+  // The rail measures its height and shrinks its buttons to fit without scrolling (src/features/coloring/railFit.ts).
+  const [railH, setRailH] = useState(0);
+  const k = railScale(railH);
+  const toolD = Math.floor(TOOL_D * k);
+  const tab = Math.floor(TAB * k);
+  const sizeD = Math.floor(SIZE_D * k);
+  const round = (d: number) => ({ width: d, height: d, borderRadius: d / 2 });
+  const onRailLayout = (e: LayoutChangeEvent) => setRailH(e.nativeEvent.layout.height);
 
   return (
     <View style={styles.panel}>
@@ -101,24 +113,20 @@ export function Palette({ tool, onChange }: Props) {
           </ScrollView>
         </View>
 
-        <ScrollView style={styles.rail} contentContainerStyle={styles.railContent} showsVerticalScrollIndicator={false}>
+        {/* Still a ScrollView, but only as a safety net: the buttons are sized so it never needs to scroll. */}
+        <ScrollView style={styles.rail} contentContainerStyle={styles.railContent} showsVerticalScrollIndicator={false} onLayout={onRailLayout}>
           {TOOLS.map((id) => {
             const selected = tool.tool === id;
             return (
-              <Pressable
-                key={id}
-                accessibilityRole="button"
-                accessibilityLabel={TOOL_LABEL[id]}
-                accessibilityState={{ selected }}
-                onPress={() => pickTool(id)}
-                style={[styles.toolButton, selected && styles.toolSelected]}
-              >
-                {TOOL_PICTURES[id] ? (
-                  <Image source={TOOL_PICTURES[id]} style={styles.toolPicture} accessible={false} />
-                ) : (
-                  <Icon name={TOOL_ICONS[id]} size={TOOL_ICON} accent={selected ? paintColor : TOOL_OWN_PAINT[id]} strokeWidth={3} />
-                )}
-              </Pressable>
+              <RingButton key={id} label={TOOL_LABEL[id]} selected={selected} size={toolD} onPress={() => pickTool(id)}>
+                <View style={[styles.toolButton, round(toolD)]}>
+                  {TOOL_PICTURES[id] ? (
+                    <Image source={TOOL_PICTURES[id]} style={{ width: TOOL_PICTURE * k, height: TOOL_PICTURE * k }} accessible={false} />
+                  ) : (
+                    <Icon name={TOOL_ICONS[id]} size={TOOL_ICON * k} accent={selected ? paintColor : TOOL_OWN_PAINT[id]} strokeWidth={3} />
+                  )}
+                </View>
+              </RingButton>
             );
           })}
 
@@ -127,16 +135,11 @@ export function Palette({ tool, onChange }: Props) {
             finishes.map((f) => {
               const selected = f === finish;
               return (
-                <Pressable
-                  key={f}
-                  accessibilityRole="tab"
-                  accessibilityLabel={FINISH_LABEL[f]}
-                  accessibilityState={{ selected }}
-                  onPress={() => pickPaint({ finish: f })}
-                  style={[styles.tab, selected && styles.tabSelected]}
-                >
-                  <FillDot fill={bucketFill(f, tool)} size={TAB - 12} />
-                </Pressable>
+                <RingButton key={f} role="tab" label={FINISH_LABEL[f]} selected={selected} size={tab} onPress={() => pickPaint({ finish: f })}>
+                  <View style={[styles.tab, round(tab)]}>
+                    <FillDot fill={bucketFill(f, tool)} size={tab - 12} />
+                  </View>
+                </RingButton>
               );
             })}
 
@@ -145,18 +148,16 @@ export function Palette({ tool, onChange }: Props) {
           {tool.tool === 'brush' &&
             SIZES.map((sz) => {
               const selected = tool.size === sz;
-              const dot = SIZE_DOT[sz];
+              const dot = Math.round(SIZE_DOT[sz] * k);
               return (
-                <Pressable
-                  key={sz}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${sz} ${tool.tool}`}
-                  accessibilityState={{ selected }}
-                  onPress={() => onChange({ ...tool, size: sz })}
-                  style={[styles.sizeButton, selected && styles.sizeSelected]}
-                >
-                  <View style={{ width: dot, height: dot, borderRadius: dot / 2, backgroundColor: paintColor, borderWidth: 2, borderColor: paintColor === '#FFFFFF' ? LIGHT_EDGE : paintColor }} />
-                </Pressable>
+                <RingButton key={sz} label={`${sz} ${tool.tool}`} selected={selected} size={sizeD} onPress={() => onChange({ ...tool, size: sz })}>
+                  <View style={[styles.sizeButton, round(sizeD)]}>
+                    {/* The dot is the brush's actual paint (plain or glitter), at that thickness. */}
+                    <View style={[styles.sizeDot, { width: dot, height: dot, borderRadius: dot / 2, borderColor: mixHex(paintColor, '#000000', 0.22) }]}>
+                      <FillDot fill={bucketFill(finish, tool)} size={dot} />
+                    </View>
+                  </View>
+                </RingButton>
               );
             })}
         </ScrollView>
@@ -167,17 +168,67 @@ export function Palette({ tool, onChange }: Props) {
 
 /**
  * One shiny paint ball on the board: the paint (a plain colour, glitter, a pattern or a rainbow), a darker rim and a
- * white shine at the top left. The chosen ball grows a little and gets a white rim and an ink ring.
+ * white shine at the top left. The chosen ball gets a white gap and an ink ring around it.
  */
 function Ball({ label, fill, selected, onPress }: { label: string; fill: FillStyle; selected: boolean; onPress: () => void }) {
   const base = fillBaseColor(fill);
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected }} onPress={onPress} style={[styles.ballSlot, selected && styles.ballSelected]}>
+    <RingButton label={label} selected={selected} size={BALL} gapColor="#FFFFFF" onPress={onPress}>
       <View style={styles.ball}>
         {fill.type === 'solid' ? <View style={[StyleSheet.absoluteFill, { backgroundColor: base }]} /> : <FillDot fill={fill} size={BALL} />}
         <View style={[styles.ballRim, { borderColor: mixHex(base, '#000000', 0.22) }]} />
         <View style={styles.ballShine} />
       </View>
+    </RingButton>
+  );
+}
+
+/** Border width of the rail's round buttons. */
+const BUTTON_EDGE = 3;
+const RING_GAP = 3;
+const RING_W = 4;
+/** How much bigger than its item a ring slot is. */
+const RING_GROW = (RING_GAP + RING_W) * 2;
+
+/**
+ * A round item (diameter `size`) inside a slightly bigger slot that holds the "picked" ring: an ink circle, with an
+ * optional `gapColor` circle between ring and item. The ring is drawn with Skia (anti-aliased, exact sizes), because
+ * nested iOS rounded borders looked uneven on a real iPad (owner reports 2026-11-03), and it sits inside the slot, so
+ * it is never clipped and picking never moves anything. The whole slot is the touch target.
+ */
+function RingButton({
+  label,
+  role = 'button',
+  selected,
+  size: d,
+  gapColor,
+  onPress,
+  children,
+}: {
+  label: string;
+  role?: 'button' | 'tab';
+  selected: boolean;
+  size: number;
+  gapColor?: string;
+  onPress: () => void;
+  children: React.ReactNode;
+}) {
+  const outer = d + RING_GROW;
+  return (
+    <Pressable
+      accessibilityRole={role}
+      accessibilityLabel={label}
+      accessibilityState={{ selected }}
+      onPress={onPress}
+      style={[styles.ringSlot, { width: outer, height: outer }]}
+    >
+      {children}
+      {selected && (
+        <Canvas style={StyleSheet.absoluteFill} pointerEvents="none">
+          {gapColor && <Circle cx={outer / 2} cy={outer / 2} r={d / 2 + RING_GAP / 2} style="stroke" strokeWidth={RING_GAP + 1} color={gapColor} />}
+          <Circle cx={outer / 2} cy={outer / 2} r={outer / 2 - RING_W / 2} style="stroke" strokeWidth={RING_W} color={colors.ink} />
+        </Canvas>
+      )}
     </Pressable>
   );
 }
@@ -190,20 +241,19 @@ const styles = StyleSheet.create({
     borderColor: colors.sand,
     padding: 12,
   },
+  // Size and roundness are set from the rail's fit scale.
   tab: {
-    width: TAB,
-    height: TAB,
-    borderRadius: TAB / 2,
-    borderWidth: 3,
+    borderWidth: BUTTON_EDGE,
     borderColor: '#9FCFE6',
     alignItems: 'center',
     justifyContent: 'center',
-    overflow: 'hidden',
     backgroundColor: '#FFFFFF',
   },
-  tabSelected: { borderWidth: 4, borderColor: colors.ink, transform: [{ scale: 1.08 }] },
+  ringSlot: { alignItems: 'center', justifyContent: 'center' },
+  // A thin darker rim, like the paint balls, so even a white dot shows on the white button.
+  sizeDot: { overflow: 'hidden', borderWidth: 1.5 },
   body: { flex: 1, flexDirection: 'row', gap: GAP },
-  railDivider: { width: 56, height: 3, borderRadius: 2, backgroundColor: '#9FCFE6' },
+  railDivider: { width: 56, height: RAIL_FIXED.divider, marginVertical: RAIL_FIXED.dividerMargin, borderRadius: 2, backgroundColor: '#9FCFE6' },
   // The board: tan with a golden-brown border, a darker edge on the right so it reads as a raised wooden board.
   board: {
     width: STRIP_W,
@@ -217,11 +267,10 @@ const styles = StyleSheet.create({
   },
   boardScroll: { flex: 1 },
   // Room between balls so each reads as its own colour and the chosen one can grow without touching its neighbours.
-  stripContent: { paddingVertical: BOARD_PAD + 4, alignItems: 'center', gap: 16 },
-  ballSlot: { width: BALL, height: BALL, borderRadius: BALL / 2 },
+  // Each ball's ring slot already adds RING_GROW, so a small gap leaves about 16 pt between balls.
+  stripContent: { paddingVertical: BOARD_PAD, alignItems: 'center', gap: 2 },
   // Selection is shown by size and a ring, never by colour alone (docs/UX.md).
-  ballSelected: { borderWidth: 4, borderColor: '#FFFFFF', outlineWidth: 3, outlineColor: colors.ink, outlineStyle: 'solid', transform: [{ scale: 1.1 }], zIndex: 1 },
-  ball: { flex: 1, borderRadius: BALL / 2, overflow: 'hidden' },
+  ball: { width: BALL, height: BALL, borderRadius: BALL / 2, overflow: 'hidden' },
   ballRim: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, borderRadius: BALL / 2, borderWidth: 2 },
   ballShine: {
     position: 'absolute',
@@ -234,29 +283,21 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '-30deg' }],
   },
   rail: { width: RAIL_W, flexGrow: 0, backgroundColor: RAIL, borderRadius: 28 },
-  railContent: { paddingVertical: 12, alignItems: 'center', gap: 12 },
+  railContent: { paddingVertical: RAIL_FIXED.padding / 2, alignItems: 'center', gap: 0 },
+  // Size and roundness are set from the rail's fit scale.
   toolButton: {
-    width: TOOL_D,
-    height: TOOL_D,
-    borderRadius: TOOL_D / 2,
     backgroundColor: '#FFFFFF',
-    borderWidth: 3,
+    borderWidth: BUTTON_EDGE,
     borderColor: '#9FCFE6',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  toolPicture: { width: TOOL_PICTURE, height: TOOL_PICTURE },
-  // The picked ring is drawn outside the circle (border + outline), so it never shrinks the space for the picture.
-  toolSelected: { borderColor: colors.ink, outlineWidth: 3, outlineColor: colors.ink, outlineStyle: 'solid' },
+  // Size and roundness are set from the rail's fit scale.
   sizeButton: {
-    width: size.touchMin + 8,
-    height: size.touchMin + 8,
-    borderRadius: (size.touchMin + 8) / 2,
     backgroundColor: '#FFFFFF',
-    borderWidth: 3,
+    borderWidth: BUTTON_EDGE,
     borderColor: '#9FCFE6',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  sizeSelected: { borderWidth: 5, borderColor: colors.ink },
 });

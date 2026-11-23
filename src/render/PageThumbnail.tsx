@@ -1,5 +1,5 @@
 import { Canvas } from '@shopify/react-native-skia';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { View, type LayoutChangeEvent, type StyleProp, type ViewStyle } from 'react-native';
 
 import type { ColoringPage } from '@/content/schema/page';
@@ -16,6 +16,8 @@ export function PageThumbnail({
   strokes = [],
   fit = 'contain',
   zoom = 1,
+  frame,
+  overlay,
   style,
 }: {
   page: ColoringPage;
@@ -29,6 +31,13 @@ export function PageThumbnail({
   fit?: 'contain' | 'cover' | 'content';
   /** Enlarges the picture about the box centre after fitting (crops the page's edges). */
   zoom?: number;
+  /**
+   * Sizes the picture as if fitting this part of the page (page units), then centres the drawing itself in the box:
+   * thumbnails given the same frame share one scale, and each still sits in the middle.
+   */
+  frame?: { x: number; y: number; width: number; height: number };
+  /** Drawn in page units over the picture (a tracing's crayon ink). */
+  overlay?: ReactNode;
   style?: StyleProp<ViewStyle>;
 }) {
   const skia = useSkiaPage(page);
@@ -36,7 +45,7 @@ export function PageThumbnail({
   const onLayout = (e: LayoutChangeEvent) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height });
   const [, , pw, ph] = page.viewBox;
   const content = useMemo(() => {
-    if (fit !== 'content') return null;
+    if (fit !== 'content' && !frame) return null;
     const paths = [...skia.regions.filter((r) => r.id !== 'background').map((r) => r.path), ...skia.outline.map((o) => o.path)];
     let b: { x0: number; y0: number; x1: number; y1: number } | null = null;
     for (const p of paths) {
@@ -47,16 +56,27 @@ export function PageThumbnail({
         : { x0: r.x, y0: r.y, x1: r.x + r.width, y1: r.y + r.height };
     }
     return b && { x: b.x0, y: b.y0, width: b.x1 - b.x0, height: b.y1 - b.y0 };
-  }, [fit, skia]);
+  }, [fit, frame, skia]);
   const base = (w: number, h: number): ViewTransform =>
-    fit === 'cover' ? fitCover(pw, ph, w, h) : content ? fitContainRect(content, w, h, 6) : fitContain(pw, ph, w, h);
+    frame
+      ? centred(fitContainRect(frame, w, h, 6).scale, content ?? frame, w, h)
+      : fit === 'cover'
+        ? fitCover(pw, ph, w, h)
+        : content
+          ? fitContainRect(content, w, h, 6)
+          : fitContain(pw, ph, w, h);
   return (
     <View style={style} onLayout={onLayout} pointerEvents="none">
       {box.w > 0 && (
         <Canvas style={{ width: box.w, height: box.h }}>
-          <PageArtwork page={page} skia={skia} fills={fills} strokes={strokes} transform={zoomAbout(base(box.w, box.h), zoom, box.w / 2, box.h / 2)} />
+          <PageArtwork page={page} skia={skia} fills={fills} strokes={strokes} transform={zoomAbout(base(box.w, box.h), zoom, box.w / 2, box.h / 2)} overlay={overlay} />
         </Canvas>
       )}
     </View>
   );
+}
+
+/** A transform at `scale` that puts the centre of `rect` (page units) in the middle of a w × h box. */
+function centred(scale: number, rect: { x: number; y: number; width: number; height: number }, w: number, h: number): ViewTransform {
+  return { scale, tx: w / 2 - (rect.x + rect.width / 2) * scale, ty: h / 2 - (rect.y + rect.height / 2) * scale };
 }

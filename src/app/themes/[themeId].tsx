@@ -5,7 +5,9 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { getTheme, listPages } from '@/content/registry';
 import type { Artwork } from '@/engine/coloring/history';
+import { newFirst, useContentRevision, useNewBadges } from '@/features/content-updates/newBadges';
 import { findInProgressColoring } from '@/persistence/artworkRepository';
+import { markPageSeen, markThemeSeen } from '@/persistence/contentRepository';
 import { PageThumbnail } from '@/render/PageThumbnail';
 import { CatalogCard } from '@/ui/CatalogCard';
 import { IconButton } from '@/ui/IconButton';
@@ -16,10 +18,21 @@ import { colors, roundedFont } from '@/ui/tokens';
 export default function PageSelection() {
   const { themeId } = useLocalSearchParams<{ themeId: string }>();
   const db = useSQLiteContext();
+  const revision = useContentRevision();
+  const badges = useNewBadges();
   const theme = getTheme(themeId);
-  const pages = useMemo(() => listPages(themeId), [themeId]);
+  // Pictures that downloaded recently come first; the NEW badge stays until each one is opened.
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- `revision` re-reads the registry after a download
+  const pages = useMemo(() => newFirst(listPages(themeId), (p) => p.id, badges.recent), [themeId, badges, revision]);
   const accent = theme?.color ?? colors.accent;
   const [progress, setProgress] = useState<Record<string, Artwork>>({});
+
+  // Opening the theme clears its NEW badge in the picker.
+  useFocusEffect(
+    useCallback(() => {
+      markThemeSeen(db, themeId).catch((e: unknown) => console.warn('Could not clear NEW badge', e));
+    }, [db, themeId]),
+  );
 
   // Thumbnails show the child's unfinished work so they recognise "their" picture.
   useFocusEffect(
@@ -62,7 +75,11 @@ export default function PageSelection() {
               hideLabel
               bleed
               accent={accent}
-              onPress={() => router.push({ pathname: '/color/[pageId]', params: { pageId: p.id } })}
+              isNew={badges.pages.has(p.id)}
+              onPress={() => {
+                markPageSeen(db, p.id).catch((e: unknown) => console.warn('Could not clear NEW badge', e));
+                router.push({ pathname: '/color/[pageId]', params: { pageId: p.id } });
+              }}
               style={styles.card}
             >
               <PageThumbnail page={p} fills={progress[p.id]?.fills} strokes={progress[p.id]?.strokes} fit="cover" style={styles.thumb} />

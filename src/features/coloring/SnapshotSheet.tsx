@@ -11,6 +11,7 @@ import { PageArtwork } from '@/render/PageArtwork';
 import { useSkiaPage } from '@/render/useSkiaPage';
 import { Icon } from '@/ui/Icon';
 import { IconButton } from '@/ui/IconButton';
+import { ParentalGate } from '@/ui/ParentalGate';
 import { colors, radius, shadow } from '@/ui/tokens';
 
 import { CelebrationLayer, type Celebration } from './Celebration';
@@ -37,6 +38,7 @@ export function SnapshotSheet({ page, fills, strokes, onClose }: Props) {
   const [image, setImage] = useState<SkImage | null>(null);
   const [status, setStatus] = useState<Status>('ready');
   const [stars, setStars] = useState<Celebration[]>([]);
+  const [gating, setGating] = useState(false);
   const [, , pw, ph] = page.viewBox;
   const previewH = (PREVIEW_W * ph) / pw;
 
@@ -111,7 +113,8 @@ export function SnapshotSheet({ page, fills, strokes, onClose }: Props) {
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel="Open Settings"
-                  onPress={() => void Linking.openSettings().catch(() => {})}
+                  // Leaving the app needs a grown-up (App Store Kids Category): the gate asks first.
+                  onPress={() => setGating(true)}
                   style={styles.settings}
                 >
                   <Text style={styles.settingsText}>Open Settings</Text>
@@ -134,6 +137,16 @@ export function SnapshotSheet({ page, fills, strokes, onClose }: Props) {
             )}
           </View>
         </View>
+        {gating && (
+          <ParentalGate
+            purpose="open Settings"
+            onCancel={() => setGating(false)}
+            onPass={() => {
+              setGating(false);
+              void Linking.openSettings().catch(() => {});
+            }}
+          />
+        )}
       </View>
     </Modal>
   );

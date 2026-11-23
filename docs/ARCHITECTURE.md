@@ -34,7 +34,7 @@ src/engine/               PURE TypeScript, no React / RN / Skia imports
   geometry/               SVG path parsing, flattening, bounds, point-in-polygon, distance
   coloring/               ColoringDocument state, commands, history reducer
   fills/                  FillStyle union + presets (data only)
-  tracing/                Path-following scoring (Phase 4)
+  tracing/                Path following: track.ts (arc length, windowed projection), trace.ts (forward-only progress)
   drawing/                Stroke model, simplification, stroke-erase intersection (Phase 4)
   procedural/             Seeded scene composition (Phase 6)
 src/render/               Skia adapters: FillStyle → Paint/Shader, page → Skia Paths, cached Pictures
@@ -202,6 +202,7 @@ CREATE TABLE preferences (key TEXT PRIMARY KEY, value TEXT NOT NULL);
 - **Downloaded** packs: `documentDirectory/content/packs/<packId>/<version>/`, recorded in the `installed_content` table. See CONTENT_DELIVERY.md.
 - `ContentRegistry` merges both, prefers the highest installed version for *new* artwork, and resolves `(pageId, version)` exactly for existing artwork.
 - Pages are loaded lazily by id. The registry index holds only metadata and preview paths.
+- **Checks and preloading (2026-11-03):** a bundled page gets only the zod schema check at runtime (27 ms for all pages in Node). The full geometry check (`validatePage`, about 1.5 s for all pages in Node and far slower on an iPad) runs at import (`lcw page validate`) and on every bundled page in `npm test`. Downloaded pages must still get the full check before they join the registry. Each page's Skia paths are built once and shared (`skiaPageFor` in `src/render/useSkiaPage.ts`), and `preloadPages` builds them all after launch in 8 ms slices: theme covers first, then each theme's pages in catalog order.
 
 ## 10. App state
 
@@ -216,7 +217,9 @@ src/app/index.tsx               Home
 src/app/themes/index.tsx        Theme Selection
 src/app/themes/[themeId].tsx    Page Selection (thumbnails show saved progress)
 src/app/color/[pageId].tsx      Coloring Canvas
-src/app/trace/index.tsx         Trace and Color            (placeholder, Phase 4)
+src/app/trace/index.tsx         Trace and Color: pick a set (ABC, abc, 123, Shapes)
+src/app/trace/set/[set].tsx     A set's items, check sticker on traced ones
+src/app/trace/[itemId].tsx      Tracing screen; "Color it!" opens /color/<item's page>
 src/app/draw/index.tsx          Free Drawing               (placeholder, Phase 4)
 src/app/creations/index.tsx     My Creations               (placeholder, Phase 4)
 src/app/stickers/index.tsx      Sticker Collection         (placeholder, Phase 4)
@@ -226,7 +229,7 @@ src/app/new-pictures.tsx        New Pictures, NOT gated per D7 (placeholder, Pha
 Navigation depth is at most 3 taps from Home to a canvas.
 
 ## 12. Security and privacy boundaries
-- The only network code lives in `src/features/content-updates` and is called only from a parent-gated screen.
+- The only network code lives in `src/features/content-updates`. It runs one check per launch, started from `src/app/_layout.tsx` once the database is ready (decision D7, revised 2026-11-13; docs/CONTENT_DELIVERY.md).
 - Host allowlist and HTTPS are enforced in code. There is no `NSAllowsArbitraryLoads`.
 - The one permission is **Photos add-only** (`NSPhotoLibraryAddUsageDescription`, `expo-media-library` plugin with `photosPermission: false`). It is used only when the child taps ✓ in the camera preview, which saves the picture (owner decision D10: no parent gate). The app cannot read the photo library. iOS shows the prompt only once; after a refusal the preview offers `Linking.openSettings()` (the app's own Settings page). There is no camera, microphone or location access: the "camera" button snapshots the child's own artwork.
 - A release-build network audit (Proxyman/Charles plus `nettop`) is a Phase 7 gate.
@@ -234,10 +237,13 @@ Navigation depth is at most 3 taps from Home to a canvas.
 ## 13. Verified API notes (SDK 58, checked against installed types 2026-10-17)
 - **TypeScript 6.0** no longer auto-includes `@types/*`, so `tsconfig.json` lists `"types": ["jest", "node"]`.
 - **Gesture Handler 3.3:** hook API: `useTapGesture({ maxDistance, runOnJS: true, onActivate: (e) => e.x/e.y/e.numberOfPointers })` plus `<GestureDetector gesture={…}>`. Callbacks are worklets unless `runOnJS: true`.
-- **Skia 2.14:** `SkPath` is immutable (no `setFillType`). Pass `fillType="evenOdd"` on `<Path>`. `Skia.Path.MakeFromSVGString` returns `null` on bad input.
+- **Skia 2.14:** `SkPath` is immutable (no `setFillType`, `moveTo` or `lineTo`); build paths with `Skia.PathBuilder.Make()` and finish with `.detach()`. Pass `fillType="evenOdd"` on `<Path>`. `Skia.Path.MakeFromSVGString` returns `null` on bad input.
 - **Reanimated 4.7 / Worklets 0.13:** use `sv.set()`/`sv.get()` (React Compiler lint), and `scheduleOnRN` from `react-native-worklets` to call JS from a worklet. `babel-preset-expo` configures the plugin automatically, so there is no babel.config.js.
 - **expo-sqlite 58:** `<SQLiteProvider onInit useSuspense>` + `useSQLiteContext()`. `onInit` must return `Promise<void>`.
 - **ESLint (eslint-config-expo 58)** includes React Compiler rules: no ref reads or writes during render.
 - **Snapshot and Photos:** `drawAsImage(<PageArtwork …/>, { width, height })` (Skia) renders off screen and resolves to `SkImage | null`, and `image.encodeToBytes()` gives a PNG. `expo-file-system` 58: `new File(Paths.cache, name)`, `file.create()`, `await file.write(bytes)`. `expo-media-library` 58's main export is the "next" API: `requestPermissionsAsync(true)` for write-only access, then `Asset.create(fileUri)`. The legacy `saveToLibraryAsync` from the main export throws at runtime.
 - **canvaskit-wasm in Jest:** import the default build and load `canvaskit-wasm/bin/canvaskit.wasm`. Mixing it with `bin/full/` wasm crashes. `RuntimeEffect.Make` is in the default build.
+- **iPadOS 26 orientation:** `UIRequiresFullScreen` is deprecated (Apple TN3192), and iPadOS 26 can show a landscape-only app upright when the rotation lock is off, even with the Info.plist orientation keys and `ScreenOrientation.lockAsync`. The root layout covers the app with `RotateHint` whenever the window is taller than wide. The simulator (iPadOS 26.2) keeps the app landscape, so it does not reproduce this.
+- **Metro:** never start it with `CI=1`; CI mode turns off file watching, so the app keeps running the old code after edits.
+- **Gesture Handler 3 pan:** a pan with `minDistance: 0` still may not report a touch that never moves. The eraser uses the pan's raw touch callbacks (`onTouchesDown`/`onTouchesUp`), which see still taps and rubs alike.
 - `react-dom` is pinned to the SDK's React version, because expo-router's optional peer otherwise resolves to a mismatched release.

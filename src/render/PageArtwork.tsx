@@ -1,5 +1,5 @@
 import { BlurMask, Group, Path, Rect, Shader, rect } from '@shopify/react-native-skia';
-import { memo } from 'react';
+import { Fragment, memo, type ReactNode } from 'react';
 
 import { fillBaseColor, type FillStyle } from '@/content/schema/fill';
 import type { ColoringPage } from '@/content/schema/page';
@@ -11,7 +11,17 @@ import { strokePath } from './strokePath';
 import { TEXTURE_KIND } from './textureShader';
 import type { SkiaPage } from './useSkiaPage';
 
-type Props = { page: ColoringPage; skia: SkiaPage; fills: FillMap; strokes?: readonly Stroke[]; transform: ViewTransform };
+type Props = {
+  page: ColoringPage;
+  skia: SkiaPage;
+  fills: FillMap;
+  strokes?: readonly Stroke[];
+  transform: ViewTransform;
+  /** Drawn in page units just above the page's background (its `background` region), under everything else. */
+  underlay?: ReactNode;
+  /** Drawn in page units above everything, outline included (a tracing's crayon ink). */
+  overlay?: ReactNode;
+};
 
 /**
  * Draws a coloring page: background, region fills in draw order, brush strokes
@@ -21,13 +31,17 @@ type Props = { page: ColoringPage; skia: SkiaPage; fills: FillMap; strokes?: rea
  * Everything is clipped to the page, so art that runs past the edge (a ground
  * shape and its outline) never shows outside it. Must be rendered inside a Skia <Canvas>.
  */
-export function PageArtwork({ page, skia, fills, strokes = [], transform }: Props) {
+export function PageArtwork({ page, skia, fills, strokes = [], transform, underlay, overlay }: Props) {
   const [, , w, h] = page.viewBox;
   return (
     <Group transform={[{ translateX: transform.tx }, { translateY: transform.ty }, { scale: transform.scale }]} clip={rect(0, 0, w, h)}>
       <Rect x={0} y={0} width={w} height={h} color={page.background} />
+      {!skia.regions.some((r) => r.id === 'background') && underlay}
       {skia.regions.map((r) => (
-        <RegionFill key={r.id} region={r} fill={fills[r.id] ?? r.defaultFill} />
+        <Fragment key={r.id}>
+          <RegionFill region={r} fill={fills[r.id] ?? r.defaultFill} />
+          {r.id === 'background' && underlay}
+        </Fragment>
       ))}
       {/* Brush paint has its own layer, so eraser strokes clear only paint and the fills show through again. */}
       {strokes.length > 0 && (
@@ -38,6 +52,7 @@ export function PageArtwork({ page, skia, fills, strokes = [], transform }: Prop
         </Group>
       )}
       <Outline page={page} skia={skia} />
+      {overlay}
     </Group>
   );
 }
@@ -53,14 +68,16 @@ const RegionFill = memo(function RegionFill({ region, fill }: { region: SkiaPage
 
 // Strokes are immutable, so a finished stroke never re-renders while a new one is drawn.
 const BrushStroke = memo(function BrushStroke({ stroke, skia }: { stroke: Stroke; skia: SkiaPage }) {
-  if (stroke.erase) {
-    // Not clipped: rubbing over a line into the next part erases paint there too, like a real eraser.
-    return (
-      <Path path={strokePath(stroke)} style="stroke" strokeWidth={stroke.width} strokeCap="round" strokeJoin="round" color="#000000" blendMode="clear" />
-    );
-  }
   const clip = skia.visibleArea(stroke.regionId);
   if (!clip) return null;
+  if (stroke.erase) {
+    // Clipped like paint: a rub only erases inside the part it started in, never across a line (owner, 2026-11-03).
+    return (
+      <Group clip={clip}>
+        <Path path={strokePath(stroke)} style="stroke" strokeWidth={stroke.width} strokeCap="round" strokeJoin="round" color="#000000" blendMode="clear" />
+      </Group>
+    );
+  }
   return (
     <Group clip={clip}>
       <Path path={strokePath(stroke)} style="stroke" strokeWidth={stroke.width} strokeCap="round" strokeJoin="round" color={stroke.color}>

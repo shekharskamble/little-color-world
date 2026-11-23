@@ -230,6 +230,24 @@ function windConsistently(d: string): string {
 }
 
 const svgOf = (p: { toSVGString(): string }) => p.toSVGString().replace(/-?[\d.]+(e-?\d+)?/g, (v) => String(n(Number(v))));
+/** Inside thinner than this (page units, on average) and this many times longer than wide is a sliver, not a part. */
+const SLIVER_WIDTH = 16;
+const SLIVER_LENGTH = 7;
+/** Whether a shape is a long thin sliver: its mean width (area over half its perimeter) against its length. */
+function isSliver(p: { toSVGString(): string }): boolean {
+  let a = 0;
+  let per = 0;
+  for (const sp of flattenPath(svgOf(p) || 'M0 0 Z')) {
+    a += Math.abs(area([sp]));
+    sp.points.forEach((q, i) => {
+      const w = sp.points[(i + 1) % sp.points.length]!;
+      per += Math.hypot(w.x - q.x, w.y - q.y);
+    });
+  }
+  if (!per) return false;
+  const width = (2 * a) / per;
+  return width < SLIVER_WIDTH && per / 2 > SLIVER_LENGTH * width;
+}
 const canvasKit = () => (kit ??= CanvasKitInit({ locateFile: (file) => require.resolve(`canvaskit-wasm/bin/${file}`) }));
 
 /**
@@ -324,6 +342,12 @@ export type RegionOptions = {
   thinSpots?: number;
   /** Outline thickness for opened solid spots (e.g. closed eyes), when they should be thinner than the lines. */
   spotLine?: number;
+  /**
+   * Keep every loose solid spot black, as drawn, instead of opening it: for packs that draw eyes as plain black ovals
+   * with no highlight, and noses, mouths and jack-o'-lantern faces as solid shapes. Solid areas joined to lines
+   * (ears, tails) still open.
+   */
+  keepSpots?: boolean;
 };
 
 /**
@@ -378,10 +402,11 @@ export async function addClipartRegions(a: Art, clip: Clipart, o: RegionOptions 
     first && second && second.area >= 0.3 * first.area &&
     Math.hypot(centre(first).x - centre(second).x, centre(first).y - centre(second).y) <= 4 * (first.bounds.maxX - first.bounds.minX);
   const eyeAt = (o.eyeAt ?? []).map(([x, y]) => apply(clip.toPage, { x, y }));
-  // The innermost solid shape at each given point (a highlight inside it is a hole, so not counted).
+  // The innermost solid shape at each given point (a highlight inside it is a hole, so not counted). Usually inside a
+  // body (depth 2+), but where the artist left the body open the eye is a top-level shape (depth 0).
   const marked = eyeAt.map((at) =>
     clip.pieces
-      .filter((p) => p.depth >= 2 && p.depth % 2 === 0 && inPiece(p, at))
+      .filter((p) => p.depth % 2 === 0 && inPiece(p, at))
       .sort((p, q) => q.depth - p.depth)[0],
   );
   if (marked.some((e) => !e)) throw new Error(`eyeAt: no solid shape at ${JSON.stringify(o.eyeAt)}`);
@@ -413,8 +438,22 @@ export async function addClipartRegions(a: Art, clip: Clipart, o: RegionOptions 
     openedPolys.push(flattenPath(svgOf(inside) || 'M0 0 Z'));
     zonePolys.push(flattenPath(svgOf(dilate(inside, target + 8)) || 'M0 0 Z'));
   };
+  /**
+   * Whether a piece is a face stroke (a smile, a brow, a closed eye): one wide, low curve with no holes (an open mouth
+   * with teeth has them), one to three eyes across, beside or below one of the eyes.
+   */
+  const onFace = (p: Piece) =>
+    !holesOf(p).length &&
+    eyes.some((e) => {
+      const w = Math.max(e.bounds.maxX - e.bounds.minX, e.bounds.maxY - e.bounds.minY);
+      const ec = centre(e);
+      const pc = centre(p);
+      const pw = p.bounds.maxX - p.bounds.minX;
+      const ph = p.bounds.maxY - p.bounds.minY;
+      return pw >= 0.6 * w && pw <= 3 * w && ph <= 0.86 * pw && Math.abs(pc.x - ec.x) <= 3.5 * w && pc.y >= ec.y - 2 * w && pc.y <= ec.y + 3 * w;
+    });
   // Loose solid spots (not touching any line): outlined, centred on their edge, or around them if too small for that.
-  for (const p of clip.pieces.filter((q) => q.depth >= 2 && q.depth % 2 === 0 && !eyes.includes(q) && q.area >= ISLAND_MIN && (notEyes.includes(q) || !holesOf(q).length))) {
+  for (const p of clip.pieces.filter((q) => !o.keepSpots && q.depth >= 2 && q.depth % 2 === 0 && !eyes.includes(q) && q.area >= ISLAND_MIN && (notEyes.includes(q) || !holesOf(q).length))) {
     const spot = by >= 0.25 ? erode(path(p.d), by) : path(p.d);
     if (spot.isEmpty()) continue;
     // A thin shape (an eyebrow, a curl) is a line, not a spot: it stays as drawn.
@@ -422,9 +461,13 @@ export async function addClipartRegions(a: Art, clip: Clipart, o: RegionOptions 
     const spotLine = o.spotLine ?? target;
     const centred = erode(spot, spotLine / 2);
     // Centred on the edge only if a good part of the spot is left inside; otherwise the outline goes around it.
-    if (!centred.isEmpty() && areaOf(centred) >= Math.max(SMALL_MIN, 0.35 * areaOf(spot))) openUp(centred, spotLine);
+    const wide = !centred.isEmpty() && areaOf(centred) >= Math.max(SMALL_MIN, 0.35 * areaOf(spot));
+    const inside = wide ? centred : o.thinSpots ? erode(spot, o.thinSpots) : spot;
+    // A thick stroke on a face (a smile, a brow, a closed eye) would open into a thin ring too fiddly to colour
+    // (owner: "looks ugly"): it stays one solid line, as drawn. Only near an eye, so stripes and letters still open.
+    if (!inside.isEmpty() && onFace(p) && isSliver(inside)) continue;
+    if (wide) openUp(centred, spotLine);
     else if (o.thinSpots) {
-      const inside = erode(spot, o.thinSpots);
       black = op(black, spot, 'Union');
       if (inside.isEmpty()) continue;
       black = op(black, inside, 'Difference');
@@ -439,6 +482,7 @@ export async function addClipartRegions(a: Art, clip: Clipart, o: RegionOptions 
     const sp = flattenPath(d)[0];
     if (!sp || area([sp]) < (o.minCore ?? 40)) continue; // a speck where lines meet
     if (eyes.some((e) => inPiece(e, sp.points[0]!))) continue;
+    if (o.keepSpots && clip.pieces.some((q) => q.depth >= 2 && q.depth % 2 === 0 && inPiece(q, sp.points[0]!) && !holesOf(q).length)) continue;
     // Grown back towards its edge inside `roomy`; the opening (erode, then dilate) trims any thin spur that crept along
     // a line it touches.
     const grown = ck.Path.MakeFromOp(dilate(path(d), OPEN_AT), roomy, ck.PathOp.Intersect);
@@ -469,6 +513,11 @@ export async function addClipartRegions(a: Art, clip: Clipart, o: RegionOptions 
   for (const c of areas) {
     const shape = path(c.d);
     const at = interiorPoint(c.poly);
+    // An eye's highlight stays white however big it is (some packs draw large ones).
+    if (eyes.some((e) => inPiece(e, at))) {
+      small = op(small, shape, 'Union');
+      continue;
+    }
     // A little over the minimum, as the validator measures the tucked outline a touch differently.
     if (c.area >= minArea * 1.1) {
       regions.push({ shape: tuck(shape), poly: c.poly, area: c.area });
@@ -482,8 +531,8 @@ export async function addClipartRegions(a: Art, clip: Clipart, o: RegionOptions 
       if (c.area >= SMALL_MIN) spots.push(tuck(shape));
       continue;
     }
-    // Eye highlights stay white; any other small closed area (a spike, a far leg, a toe) is a small part of its own.
-    if (c.area >= SMALL_MIN && !eyes.some((e) => inPiece(e, at))) spots.push(tuck(shape));
+    // Any other small closed area (a spike, a far leg, a toe) is a small part of its own.
+    if (c.area >= SMALL_MIN) spots.push(tuck(shape));
     else small = op(small, shape, 'Union');
   }
   regions.forEach((r, i) => a.fillOnly(`part-${i + 1}`, `<path d="${svgOf(r.shape)}"`));

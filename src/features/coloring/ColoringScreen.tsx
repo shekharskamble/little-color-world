@@ -12,6 +12,7 @@ import Animated, {
 
 import type { FillStyle } from "@/content/schema/fill";
 import type { ColoringPage } from "@/content/schema/page";
+import { getTrace } from "@/content/traces";
 import { isComplete, requiredRegionIds } from "@/engine/coloring/completion";
 import {
   canRedo,
@@ -37,8 +38,6 @@ import { useColoringSession } from "./useColoringSession";
 /** The card's 3D lip, the same as the palette panel's so their bottoms line up. */
 const CARD_LIP = size.lip;
 const POP_MS = 1000;
-/** Rubbing-eraser thickness in page units: wider than the big brush so it is easy to rub paint away. */
-const ERASER_WIDTH = 56;
 /** Top-bar buttons: big, and each its own bright colour so a child can tell them apart without reading. */
 const TOP_BUTTON = size.touchPrimary;
 const SHOWER_MS = 2600;
@@ -123,29 +122,20 @@ export function ColoringScreen({ page }: { page: ColoringPage }) {
       haptic.light();
     }
   };
-  const onStroke = (stroke: Stroke, at: { x: number; y: number }, rubbed: readonly string[]) => {
-    if (stroke.erase) {
-      // One undo step: rubs out brush paint under the finger and clears the bucket colour of every part it crossed.
-      // The reducer ignores a rub over nothing coloured.
-      dispatch({ type: "stroke", stroke, clearFills: rubbed });
-      haptic.light();
-      return;
-    }
+  const onStroke = (stroke: Stroke, at: { x: number; y: number }) => {
     dispatch({ type: "stroke", stroke });
     pop(at, strokeStarFill(stroke));
     haptic.light();
   };
-  // The eraser drags like a brush (rubbing out paint and the colour of parts it crosses); a tap clears one part.
+  // The brush and pencil paint with a drag. The eraser is not a brush: any touch clears one part (onRegionTap).
   const brush =
-    tool.tool === "eraser"
-      ? { color: "#000000", width: ERASER_WIDTH, erase: true }
-      : tool.tool === "brush" || tool.tool === "pencil"
-        ? {
-            color: tool.color.fill.color,
-            width: tool.tool === "pencil" ? PENCIL_WIDTH : BRUSH_WIDTH[tool.size],
-            pen: strokePen(tool, tool.tool),
-          }
-        : null;
+    tool.tool === "brush" || tool.tool === "pencil"
+      ? {
+          color: tool.color.fill.color,
+          width: tool.tool === "pencil" ? PENCIL_WIDTH : BRUSH_WIDTH[tool.size],
+          pen: strokePen(tool, tool.tool),
+        }
+      : null;
 
   // Camera: a quick white flash over the picture, a firm tap, then the photo preview.
   const flash = useSharedValue(0);
@@ -165,6 +155,8 @@ export function ColoringScreen({ page }: { page: ColoringPage }) {
   return (
     <Screen
       scenery="sky"
+      // A slimmer bottom margin than other screens, so the picture gets the room.
+      bottomPadding={8}
       overlay={<CelebrationLayer items={shower} onDone={doneShower} />}
     >
       <View style={styles.topBar}>
@@ -173,8 +165,12 @@ export function ColoringScreen({ page }: { page: ColoringPage }) {
           tone="blue"
           accessibilityLabel="Back"
           diameter={TOP_BUTTON}
-          // Back always goes up one level (this picture's theme), however many pictures were opened.
-          onPress={() => router.dismissTo({ pathname: "/themes/[themeId]", params: { themeId: page.themeId } })}
+          // Back always goes up one level (this picture's theme, or its tracing set), however many pictures were opened.
+          onPress={() => {
+            const traced = getTrace(page.id);
+            if (traced) router.dismissTo({ pathname: "/trace/set/[set]", params: { set: traced.set } });
+            else router.dismissTo({ pathname: "/themes/[themeId]", params: { themeId: page.themeId } });
+          }}
         />
         {/* The picture's name, for a grown-up to read aloud (docs/UX.md: text is never the only cue). */}
         <View style={styles.title}>
@@ -227,6 +223,7 @@ export function ColoringScreen({ page }: { page: ColoringPage }) {
             strokes={state.strokes}
             enabled={ready}
             brush={brush}
+            eraser={tool.tool === "eraser"}
             onRegionTap={onRegionTap}
             onStroke={onStroke}
           />
@@ -272,7 +269,7 @@ const styles = StyleSheet.create({
   cameraButton: { width: TOP_BUTTON, height: TOP_BUTTON + size.lip },
   // A full-colour picture reads best a little bigger than the line icons.
   cameraPicture: { width: TOP_BUTTON * 0.66, height: TOP_BUTTON * 0.66 },
-  body: { flex: 1, flexDirection: "row", gap: 24 },
+  body: { flex: 1, flexDirection: "row", gap: 12 },
   canvasCard: {
     flex: 1,
     backgroundColor: colors.bgCard,

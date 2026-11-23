@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { Icon } from './Icon';
-import { colors, roundedFont, shadow } from './tokens';
+import { colors, roundedFont, shadow, tones } from './tokens';
 
 type Props = {
   label: string;
@@ -14,6 +14,10 @@ type Props = {
   onPress: () => void;
   /** The picture; without it the card shows an empty image slot (artwork pending). */
   children?: ReactNode;
+  /** Shows a NEW badge on the top corner (pictures that just downloaded, docs/CONTENT_DELIVERY.md). */
+  isNew?: boolean;
+  /** Shows a green check sticker on the top corner (a finished tracing). */
+  done?: boolean;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -24,9 +28,14 @@ const PILL_HEIGHT = 46;
  * border and a name pill sitting on the bottom edge. The picture carries the
  * meaning for children; the pill is a friendly caption for grown-ups.
  */
-export function CatalogCard({ label, hideLabel = false, bleed = false, accent, onPress, children, style }: Props) {
+export function CatalogCard({ label, hideLabel = false, bleed = false, accent, onPress, children, isNew = false, done = false, style }: Props) {
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={[!hideLabel && styles.outer, style]}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={isNew ? `${label}, new` : done ? `${label}, done` : label}
+      onPress={onPress}
+      style={[!hideLabel && styles.outer, style]}
+    >
       {({ pressed }) => (
         <View
           style={[styles.card, hideLabel && styles.cardNoPill, bleed && styles.cardBleed, { borderColor: accent, transform: [{ scale: pressed ? 0.96 : 1 }] }]}
@@ -43,6 +52,16 @@ export function CatalogCard({ label, hideLabel = false, bleed = false, accent, o
               <Text style={styles.pillText} numberOfLines={1}>
                 {label}
               </Text>
+            </View>
+          )}
+          {isNew && (
+            <View style={styles.newBadge}>
+              <Text style={styles.newText}>NEW</Text>
+            </View>
+          )}
+          {done && !isNew && (
+            <View style={styles.doneBadge}>
+              <Icon name="check" size={30} color={colors.bgCard} strokeWidth={6} />
             </View>
           )}
         </View>
@@ -94,4 +113,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pillText: { fontFamily: roundedFont, fontSize: 22, fontWeight: '800', color: colors.bgCard, letterSpacing: 0.3 },
+  // Sits on the top-right corner, tilted like a sticker, so it reads as "something special" without words.
+  newBadge: {
+    position: 'absolute',
+    top: -14,
+    right: -14,
+    paddingHorizontal: 14,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 4,
+    borderColor: colors.bgCard,
+    backgroundColor: tones.pink.face,
+    alignItems: 'center',
+    justifyContent: 'center',
+    transform: [{ rotate: '8deg' }],
+    ...shadow,
+  },
+  doneBadge: {
+    position: 'absolute',
+    top: -14,
+    right: -14,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    borderWidth: 4,
+    borderColor: colors.bgCard,
+    backgroundColor: tones.green.face,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...shadow,
+  },
+  newText: { fontFamily: roundedFont, fontSize: 18, fontWeight: '900', color: colors.bgCard, letterSpacing: 1 },
 });

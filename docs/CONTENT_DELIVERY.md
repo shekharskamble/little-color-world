@@ -1,76 +1,73 @@
 # Content Delivery (Remote Updates)
 
-Status: **design only, Phase 5.** Requires your approval for hosting (possible recurring cost).
+Status: **client, publishing CLI and hosting set up (2026-11-13).** Hosting is Firebase Hosting (ROADMAP D4). Not live yet: the production signing key must be created (below). Until it is, release builds never go online and `pack deploy` refuses to publish.
+
+New pictures reach existing installs without an App Store update. They download by themselves when the app opens and appear **first in the theme picker with a NEW badge** (decision D7, revised 2026-11-13).
 
 ## Principles
-- Remote content is **data and artwork only**: JSON validated by zod, plus PNG previews. It is never JavaScript or shader code.
-- There are no background checks. A check happens only when someone opens **New Pictures** (not parent-gated, decision D7) and taps the check button. Downloads require a second explicit tap.
-- A failed download never affects installed content or saved artwork.
+- Remote content is **data only**: page JSON (the converted coloring pages) validated by zod and the full geometry check. Never JavaScript, shaders, or raw SVG. The SVG → page conversion stays on the Mac (docs/ARTWORK_PIPELINE.md).
+- **One check per app launch while the app is open.** Never in the background, no identifiers sent, plain GETs of public files.
+- A failed or tampered download never affects installed content or saved artwork. Failures are per pack; the next launch tries again.
+
+## Owner workflow
+1. Make pages as usual (a `tools/<theme>/generate.ts --import`). They land in `content/pages/`.
+2. Mark them CDN-only in **`content/remote.json`**: a theme id under `themes` (whole theme, including its `themes.json` entry) or page ids under `pages` (extra pictures for a theme the app already has). `npm run lcw -- index` then leaves them out of the app bundle.
+3. Build a pack. Each version is immutable:
+   ```
+   npm run lcw -- pack build garden --version 1 --theme garden          # new theme (listed in remote.json)
+   npm run lcw -- pack build more-flowers --version 1 --pages flower-41,flower-42
+   ```
+   Optional `--min-app 1.2.0` for pages that need a newer app (e.g. a new fill type).
+4. `npm run lcw -- pack manifest`: lists the newest version of every built pack and signs `manifest.json` with the Keychain key.
+5. `npm run lcw -- pack deploy` (`--dry-run` to check only): verifies the signature against the app's production key and every file's size and SHA-256, then runs `firebase deploy --only hosting`. A Firebase deploy switches the whole site at once, so the manifest and its packs always go live together.
+6. Commit `content/cdn/`. **It is the published site**: a deploy replaces everything on Firebase with this folder, so a pack missing from it would disappear for new installs.
+
+Test on the simulator first: `npm run lcw -- pack serve` serves `content/cdn` at `http://localhost:8787/v1/`, which **development builds** read instead of the real host. Sign with the dev key: `LCW_SIGNING_KEY=<dev key hex> npm run lcw -- pack manifest`, and rebuild the manifest with the Keychain key before deploying. To try the real host without going live: `firebase hosting:channel:deploy <name> --expires 1h` (a throwaway preview URL).
+
+One-time setup: `npm run lcw -- pack keygen` stores the private key in the login Keychain (`little-color-world-content-signing`) and prints the public key to paste into `PUBLIC_KEY_HEX` in `src/features/content-updates/config.ts`. Keep a backup of the Keychain item: losing it means a new key can only reach users through an app update.
 
 ## Hosting
-Static files on Cloudflare R2 behind a custom domain, for example `content.littlecolorworld.app`. R2 has no egress fees, and its free tier (10 GB storage, 10M reads per month) should cover v1 traffic. **This still needs your approval, plus a domain (about $10–15/year).**
+**Firebase Hosting**, project `littlecolorworld-content`, site `https://littlecolorworld-content.web.app` (owner decision 2026-11-13). It serves plain files only: the app contains no Firebase SDK. Config: `firebase.json` (public folder `content/cdn`, cache headers) and `.firebaserc`.
+
+- Cache: `manifest.json` and its signature 5 minutes; everything under `packs/` one year, immutable (verified 2026-11-13 on a preview channel, along with byte-for-byte checksums of all files).
+- Free (Spark) plan: about 10 GB stored and **about 360 MB of downloads per day**. A new install downloads every published pack, so this covers only a few dozen new families a day once there are several packs. When the quota runs out the site stops answering until the next day; apps just try again next launch. Move to Blaze (pay as you go, about $0.15/GB) with a budget alert as installs grow, and fold older packs into the app bundle at each app update (installed copies retire themselves).
+- The host is built into every app. Moving to a custom domain later needs an app update, so decide before release.
 
 ```
-/v1/manifest.json                         small, short cache TTL
-/v1/manifest.json.sig                     Ed25519 signature (recommended, see below)
-/v1/packs/<packId>/<version>/pack.json    immutable, long cache TTL
+/v1/manifest.json                                    short cache TTL
+/v1/manifest.json.sig                                hex Ed25519 signature over manifest.json's bytes
+/v1/packs/<packId>/<version>/pack.json               immutable, long cache TTL
 /v1/packs/<packId>/<version>/pages/<pageId>.json
-/v1/packs/<packId>/<version>/previews/<pageId>.png
 ```
-Files under a version path are **never modified**. Any change means a new version.
+(`release.json` beside `pack.json` holds build settings for the manifest step; firebase.json leaves it out of the site.)
 
-## Manifest (v1)
-```json
-{
-  "schemaVersion": 1,
-  "generatedAt": "2026-11-01T00:00:00Z",
-  "packs": [{
-    "id": "ocean-friends", "version": 3, "minAppVersion": "1.1.0",
-    "title": "Ocean Friends", "pageCount": 12, "totalBytes": 1843200,
-    "path": "packs/ocean-friends/3/pack.json",
-    "sha256": "…", "bytes": 4123
-  }]
-}
-```
-`pack.json` lists every file with `sha256` and `bytes`.
+## Formats (`src/content/schema/pack.ts`)
+- **Manifest**: `{ schemaVersion: 1, generatedAt, packs: [{ id, version, minAppVersion, path, sha256, bytes }] }`.
+- **pack.json**: `{ schemaVersion: 1, id, version, theme?, pages: [{ id, path, sha256, bytes }] }`. `theme` (a full themes.json entry) is present only when the pack brings a new theme. Page paths are relative to pack.json.
 
-## Client rules
-Because a child can trigger downloads, these limits are the main safeguard and must hold in code, not in policy.
-
+## Client (`src/features/content-updates/`)
 | Rule | Value |
 |---|---|
-| Scheme | `https:` only |
-| Host allowlist | exact match, hard-coded in app config |
-| Manifest max size | 256 KB |
-| Per-file max | 2 MB; per-pack max 50 MB |
+| Scheme / host | `https://littlecolorworld-content.web.app/v1/` only (development builds: `http://localhost:8787/v1/`); redirects off the host are refused |
+| Paths | lowercase segments only, no `..` (zod) and resolved URLs must stay under the content root |
+| Sizes | manifest 256 KB, pack.json 256 KB, page 2 MB, pack 50 MB |
 | Timeout | 15 s per request |
-| Integrity | SHA-256 of bytes must match `pack.json`, and `pack.json` must match the manifest |
-| Authenticity (recommended) | Ed25519 signature over the manifest; public key embedded in the app |
-| Validation | zod parse of every JSON; geometry validation of every page |
-| Compatibility | skip packs whose `minAppVersion` is greater than the app version |
+| Authenticity | Ed25519 signature over the manifest bytes, public key embedded (`@noble/curves`) |
+| Integrity | SHA-256 + exact size of pack.json (from the manifest) and of every page (from pack.json) (`@noble/hashes`) |
+| Validation | zod for every JSON, then `validatePage` (full geometry check) for every page; the file's page id must match |
+| Ids | a pack never reuses a theme or page id the app already has (bundled or another pack); every page's theme must exist |
+| Compatibility | packs whose `minAppVersion` is above the app version are skipped |
 
-⚖️ **Signatures.** Checksums inside a manifest fetched over HTTPS only detect corruption. If the bucket or domain is ever compromised, an attacker can rewrite both. An Ed25519 signature, made with an offline key the publishing CLI holds, closes that gap for one small pure-JS dependency (`@noble/ed25519`). The content is data-only either way, so the worst case without a signature is inappropriate images. For a kids' app that is exactly the risk worth closing. **Recommended.**
+## Install (`packStore.ts`, `updater.ts`)
+```
+1. download + verify everything in memory
+2. write to documentDirectory/content/packs/<packId>/.staging-<version>/, then rename to <version>/
+3. SQLite transaction: installed_content row, plus new_page rows for pictures this device did not have
+4. remove the previous version's folder (upgrade), tell the registry, preload the new pages
+```
+- At launch, packs are read back from disk into the registry before the catalog shows. A pack that is unreadable, or that now clashes with bundled content (an app update shipped the same pictures), is dropped; leftover staging and orphan folders are deleted.
+- Only the newest version of a pack is kept. An upgrade that drops a picture removes it; saved artwork of that picture stays in the database but its page no longer opens. Avoid dropping pictures from a published pack.
 
-## Atomic install
-```
-1. download all files → documentDirectory/content/.staging/<uuid>/
-2. verify size + sha256 + zod + geometry for every file
-3. move staging dir → content/packs/<packId>/<version>/   (single directory rename)
-4. SQLite transaction: INSERT installed_content(pack_id, version, path, installed_at)
-5. delete staging
-```
-- At startup, delete any `content/.staging/*` left over from a crash.
-- The registry only trusts rows in `installed_content` whose directory exists. A crash between steps 3 and 4 leaves an orphan directory, which gets garbage-collected.
-- Older pack versions are kept while any saved artwork references them. The rest are pruned.
-
-## Offline behavior
-Installed packs are read from local files only. The registry never touches the network. With the device offline, New Pictures shows a friendly "no internet" state and does nothing else.
-
-## Publishing CLI (Phase 5)
-```
-npx lcw pack build   content/ocean-friends --version 3     # validate + checksum + pack.json
-npx lcw pack sign    dist/ocean-friends/3                  # offline key from macOS Keychain
-npx lcw publish      dist/ocean-friends/3 --dry-run        # diff vs live manifest
-npx lcw publish      dist/ocean-friends/3                  # upload files, then manifest LAST
-```
-The manifest is uploaded last, so clients never see a pack whose files are not yet uploaded.
+## NEW badges (`new_page` table, `newBadges.ts`)
+- A theme with pictures that arrived and that has not been opened since goes **first in the theme picker** with a NEW badge (newest arrival first). Opening the theme clears its badge.
+- Inside the theme, each new picture has its own NEW badge until it is opened. Pictures that arrived in the last 14 days stay at the front, so a picture does not jump away the moment a child opens it.

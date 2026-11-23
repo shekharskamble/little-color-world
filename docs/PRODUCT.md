@@ -11,7 +11,7 @@ A calm, premium, offline-first coloring and creative activity app for children a
 | Parents | Trust: no ads, no data collection, no surprise network use, no purchases. Settings behind a parental gate. |
 
 ## Platforms
-- **v1:** iPadOS, landscape only, full screen (no Split View).
+- **v1:** iPadOS, landscape only, full screen (no Split View). iPadOS 26 no longer guarantees either (Apple deprecated `UIRequiresFullScreen`), so if the app is shown upright it covers itself with a "turn me sideways" picture (docs/UX.md).
 - **Later:** iPhone (landscape), Android tablets.
 
 ## Business model
@@ -32,10 +32,12 @@ A calm, premium, offline-first coloring and creative activity app for children a
 - Cloud sync, accounts, multi-device profiles (v1).
 - Executable remote code (no OTA JavaScript updates).
 
+**Release plan (owner, 2026-11-03, revised 2026-11-14):** v1 ships activities 1 and 2, Tap to Color and Trace and Color (A–Z, a–z, 0–9 and 10 shapes; spoken letter names later). Trace and Color was moved into v1 after App Review rejected a colouring-only first submission under guideline 4.3. Activities 3–5 arrive in later free updates (docs/ROADMAP.md "v1 scope").
+
 ## Success criteria for v1 release
 - At least 60 curated pages across 6 or more themes, all validated by the pipeline.
 - Every installed activity works in airplane mode.
-- Zero network requests unless someone explicitly opens New Pictures and checks for updates.
+- The only network request is one check for new pictures each time the app opens (decision D7, revised 2026-11-13): plain downloads of public, signed files from our own content host. Nothing about the child or the device is sent, nothing runs in the background, and the app works fully offline.
 - Apple Kids Category approved with the “Data Not Collected” privacy label.
 - Tap-to-fill responds in under 100 ms (one or two frames) on the lowest supported iPad.
 

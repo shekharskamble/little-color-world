@@ -1,0 +1,315 @@
+{
+ "dino-03": {
+  "fills": {
+   "part-1": "#6CCB3F",
+   "part-2": "#6CCB3F",
+   "part-9": "#FF6FB1",
+   "part-6": "#FF8A1F",
+   "part-3": "#FFC93C",
+   "part-4": "#4CC9F0",
+   "part-7": "#8A5CE6",
+   "part-8": "#FF7A6B",
+   "part-10": "#E040FB",
+   "part-13": "#FFB3D1",
+   "part-11": "#FFF08A",
+   "part-12": "#FFF08A",
+   "part-14": "#FFF08A",
+   "part-5": "#FDE2CC",
+   "small-2": "#FF6FB1",
+   "small-1": "#F2C29B",
+   "small-3": "#F2C29B",
+   "small-4": "#F2C29B",
+   "small-5": "#F2C29B",
+   "small-6": "#F2C29B",
+   "small-9": "#F2C29B",
+   "small-16": "#F2C29B"
+  }
+ },
+ "unicorn-14": {
+  "fills": {
+   "part-1": "#FFFFFF",
+   "part-4": "#FFFFFF",
+   "part-2": {
+    "glitter": "#C8A2FF"
+   },
+   "part-13": {
+    "glitter": "#E6D2FF"
+   },
+   "part-3": {
+    "rainbow": [
+     "#FF6FB1",
+     "#C8A2FF",
+     "#4CC9F0"
+    ]
+   },
+   "part-12": "#FFC93C",
+   "part-15": "#4CC9F0",
+   "part-9": "#FF94D1",
+   "part-14": "#C8A2FF",
+   "part-8": {
+    "rainbow": [
+     "#E8453C",
+     "#FF8A1F",
+     "#FFC93C",
+     "#3DBE6B",
+     "#3A7BEB",
+     "#8A5CE6"
+    ],
+    "angle": 0
+   },
+   "part-5": "#FF6FB1",
+   "part-7": "#8A5CE6",
+   "part-10": {
+    "glitter": "#E8B923"
+   },
+   "part-11": {
+    "glitter": "#E8B923"
+   },
+   "part-6": "#FFFFFF",
+   "part-16": {
+    "glitter": "#E8B923"
+   },
+   "small-1": {
+    "glitter": "#E8B923"
+   },
+   "small-12": {
+    "glitter": "#E8B923"
+   },
+   "small-10": {
+    "glitter": "#E8B923"
+   },
+   "small-13": {
+    "glitter": "#E8B923"
+   },
+   "small-2": {
+    "glitter": "#E8B923"
+   },
+   "small-14": {
+    "glitter": "#E8B923"
+   },
+   "small-6": {
+    "glitter": "#E8B923"
+   },
+   "small-5": {
+    "glitter": "#E8B923"
+   },
+   "small-4": {
+    "glitter": "#E8B923"
+   },
+   "small-15": "#FF94D1",
+   "small-11": "#FF94D1",
+   "small-8": "#C8A2FF",
+   "small-16": "#C8A2FF",
+   "small-9": "#C8A2FF",
+   "small-17": "#8A5CE6",
+   "small-7": "#FF94D1"
+  }
+ },
+ "monster-08": {
+  "fills": {
+   "part-1": "#4CC9F0",
+   "part-2": {
+    "pattern": "hearts",
+    "color": "#FF6FB1"
+   },
+   "part-17": "#FFE14D",
+   "part-6": "#FF8A1F",
+   "part-8": "#FFE14D",
+   "part-18": "#FFE14D",
+   "part-5": "#FF8A1F",
+   "part-9": "#FFE14D",
+   "part-12": "#B5E550",
+   "part-13": "#B5E550",
+   "part-14": "#B5E550",
+   "part-15": "#B5E550",
+   "part-16": "#B5E550",
+   "part-19": "#B5E550",
+   "part-7": "#E8453C",
+   "part-3": {
+    "pattern": "dots",
+    "color": "#8A5CE6"
+   },
+   "part-4": {
+    "pattern": "dots",
+    "color": "#8A5CE6"
+   },
+   "part-10": "#FF94D1",
+   "part-11": "#FF94D1"
+  }
+ },
+ "insect-butterfly-01": {
+  "fills": {
+   "part-1": "#FFC93C",
+   "part-3": {
+    "rainbow": [
+     "#8A5CE6",
+     "#FF6FB1",
+     "#FFC93C"
+    ]
+   },
+   "part-2": {
+    "rainbow": [
+     "#8A5CE6",
+     "#FF6FB1",
+     "#FFC93C"
+    ]
+   },
+   "part-5": {
+    "glitter": "#4CC9F0"
+   },
+   "part-4": {
+    "glitter": "#4CC9F0"
+   },
+   "part-18": "#FFF08A",
+   "part-8": "#FFFFFF",
+   "part-9": "#FFF08A",
+   "part-19": "#FFF08A",
+   "part-7": "#FFFFFF",
+   "part-6": "#FFF08A",
+   "part-20": "#FF94D1",
+   "part-16": "#FFF08A",
+   "part-13": "#FF94D1",
+   "part-21": "#FF94D1",
+   "part-17": "#FFF08A",
+   "part-12": "#FF94D1",
+   "part-14": "#8A5CE6",
+   "part-10": "#FFC93C",
+   "part-11": "#8A5CE6",
+   "part-15": "#FFC93C",
+   "part-22": "#8A5CE6",
+   "part-23": "#FF3D8B",
+   "part-24": "#FF3D8B"
+  }
+ },
+ "sea-orca": {
+  "fills": {
+   "background": {
+    "rainbow": [
+     "#D3ECFF",
+     "#A8DCF5"
+    ]
+   },
+   "part-1": "#3A7BEB",
+   "part-2": "#3A7BEB",
+   "part-14": "#3A7BEB",
+   "part-3": "#FFFFFF",
+   "part-5": "#FFA23F",
+   "part-10": "#FF6FB1",
+   "part-11": "#FFFFFF",
+   "part-6": "#3DBE6B",
+   "part-8": "#FF9E8A",
+   "part-12": "#6CCB3F",
+   "part-17": "#5ED6C0",
+   "part-4": "#3DBE6B",
+   "part-7": "#B5E550",
+   "part-9": "#5ED6C0",
+   "part-15": "#6CCB3F",
+   "part-16": "#FF9E8A",
+   "part-13": "#EAD7B0"
+  }
+ },
+ "animal-01": {
+  "fills": {
+   "part-1": "#FFB3D1",
+   "part-2": "#FFB3D1",
+   "part-15": "#FFB3D1",
+   "part-5": "#FF6FB1",
+   "part-7": "#FF94D1",
+   "part-18": "#FF6FB1",
+   "part-16": "#F28CA8",
+   "part-17": "#F28CA8",
+   "part-6": "#FFF6D8",
+   "part-4": "#8FEAF2",
+   "part-3": "#FFE14D",
+   "part-8": "#E8453C",
+   "part-19": "#3DBE6B",
+   "part-14": "#C8A2FF",
+   "part-11": "#FFF08A",
+   "part-13": "#C8A2FF",
+   "part-9": "#FF94D1",
+   "part-10": "#FFF08A",
+   "part-12": "#FF94D1",
+   "small-2": "#F28CA8",
+   "small-3": "#FFB3D1",
+   "small-6": "#FFB3D1"
+  }
+ },
+ "animal-09": {
+  "fills": {
+   "part-1": "#A8DCF5",
+   "part-3": "#FFB3D1",
+   "part-2": "#FF6FB1",
+   "part-4": "#FFC93C",
+   "part-5": "#FFD9E4",
+   "part-6": "#C68642"
+  }
+ },
+ "space-70": {
+  "fills": {
+   "background": "#E6D2FF",
+   "part-1": "#FFA23F",
+   "part-2": "#FFE14D",
+   "part-4": "#4CC9F0",
+   "part-17": "#6CCB3F",
+   "part-12": "#6CCB3F",
+   "part-18": "#6CCB3F",
+   "part-15": "#FF94D1",
+   "part-9": "#C8A2FF",
+   "part-6": "#FFB3D1",
+   "part-13": "#FF94D1",
+   "part-7": "#FFA23F",
+   "part-3": "#EAD7B0",
+   "part-16": "#FF8A1F",
+   "part-14": "#FFC93C",
+   "part-10": "#FF7A6B",
+   "part-5": "#FFC93C",
+   "part-11": "#FF8A1F",
+   "part-19": "#FF7A6B",
+   "small-5": "#FFE14D",
+   "small-7": "#FF6FB1",
+   "small-6": "#4CC9F0",
+   "small-3": "#3DBE6B"
+  }
+ },
+ "christmas-11": {
+  "fills": {
+   "part-1": "#6CCB3F",
+   "part-2": "#3DBE6B",
+   "part-3": {
+    "glitter": "#E8B923"
+   },
+   "part-7": "#E8453C",
+   "part-8": "#3A7BEB",
+   "small-3": "#FFC93C",
+   "small-4": "#FF6FB1",
+   "small-2": "#FFC93C",
+   "small-1": "#E8453C",
+   "part-6": "#8B5A2B",
+   "part-4": "#E8453C",
+   "part-5": "#FFFFFF"
+  }
+ },
+ "vehicle-school-bus-01": {
+  "fills": {
+   "background": "#D3ECFF",
+   "part-1": "#FFC93C",
+   "part-2": "#FF8A1F",
+   "part-10": "#A8DCF5",
+   "part-7": "#A8DCF5",
+   "part-9": "#A8DCF5",
+   "part-6": "#A8DCF5",
+   "part-8": "#A8DCF5",
+   "part-5": "#E8453C",
+   "part-3": "#3E434A",
+   "part-4": "#3E434A",
+   "small-1": "#CDD2D9",
+   "small-2": "#CDD2D9",
+   "small-3": "#FFF08A",
+   "hill": "#6CCB3F",
+   "road": "#9AA0A6",
+   "sun": "#FFE14D",
+   "cloud": "#FFFFFF",
+   "cloud-small": "#FFFFFF"
+  }
+ }
+}

@@ -23,6 +23,27 @@ export const MIGRATIONS: readonly Migration[] = [
         CREATE TABLE preferences (key TEXT PRIMARY KEY NOT NULL, value TEXT NOT NULL);
       `),
   },
+  {
+    // Downloaded content packs (docs/CONTENT_DELIVERY.md) and the NEW badges for what they added.
+    version: 2,
+    up: (db) =>
+      db.execAsync(`
+        CREATE TABLE installed_content (
+          pack_id TEXT PRIMARY KEY NOT NULL,
+          version INTEGER NOT NULL,
+          path TEXT NOT NULL,
+          installed_at INTEGER NOT NULL
+        );
+        CREATE TABLE new_page (
+          page_id TEXT PRIMARY KEY NOT NULL,
+          theme_id TEXT NOT NULL,
+          added_at INTEGER NOT NULL,
+          theme_seen_at INTEGER,
+          page_seen_at INTEGER
+        );
+        CREATE INDEX new_page_theme ON new_page (theme_id);
+      `),
+  },
 ];
 
 export const LATEST_SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1]!.version;

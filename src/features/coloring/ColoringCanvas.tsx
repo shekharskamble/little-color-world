@@ -15,39 +15,30 @@ const TAP_SLOP_PT = 10;
 /** A brush point is recorded once the finger has moved this far (page units): smooth lines, small saves. */
 const MIN_STEP = 3;
 
-/**
- * The brush in use: colour, thickness in page units and pen. An `erase` brush rubs out paint as it drags, and a plain
- * tap with it clears the tapped part instead (onRegionTap), as the eraser always has.
- */
-export type Brush = { color: string; width: number; erase?: boolean; pen?: PenId };
+/** The brush in use: colour, thickness in page units and pen. */
+export type Brush = { color: string; width: number; pen?: PenId };
 
 type Props = {
   page: ColoringPage;
   fills: FillMap;
   strokes: readonly Stroke[];
   enabled: boolean;
-  /** When set, dragging paints with it; otherwise a tap fills (or erases) a region. */
+  /** When set, dragging paints with it; otherwise a tap fills a region. */
   brush: Brush | null;
+  /**
+   * The eraser: any touch, a tap or a rub, clears the part it lands on (onRegionTap). One rule for toddlers: a 5-year-old
+   * could not tell when a tap cleared a part and a drag rubbed out paint (owner test, 2026-11-03).
+   */
+  eraser: boolean;
   /** `at` is the tap in the canvas's own points, for effects drawn over it. */
   onRegionTap: (regionId: string, at: { x: number; y: number }) => void;
-  /**
-   * `at` is where the finger lifted, in the canvas's own points. For an eraser stroke, `rubbed` lists every part the
-   * finger passed over, whose bucket fills are cleared with it.
-   */
-  onStroke: (stroke: Stroke, at: { x: number; y: number }, rubbed: readonly string[]) => void;
+  /** `at` is where the finger lifted, in the canvas's own points. */
+  onStroke: (stroke: Stroke, at: { x: number; y: number }) => void;
 };
 
 const round = (v: number) => Math.round(v * 10) / 10;
-/** A finger that stays within this many screen points of where it landed is a tap, not a rub. */
-const TAP_RADIUS_PT = 12;
-const isTap = (points: readonly number[], scale: number) => {
-  for (let i = 2; i < points.length; i += 2) {
-    if (Math.hypot(points[i]! - points[0]!, points[i + 1]! - points[1]!) * scale > TAP_RADIUS_PT) return false;
-  }
-  return true;
-};
 
-export function ColoringCanvas({ page, fills, strokes, enabled, brush, onRegionTap, onStroke }: Props) {
+export function ColoringCanvas({ page, fills, strokes, enabled, brush, eraser, onRegionTap, onStroke }: Props) {
   const skia = useSkiaPage(page);
   const regions = useMemo(() => prepareRegions(page), [page]);
   const maxStroke = useMemo(() => Math.max(0, ...page.outline.map((o) => o.strokeWidth)), [page]);
@@ -60,9 +51,8 @@ export function ColoringCanvas({ page, fills, strokes, enabled, brush, onRegionT
   /** The stroke being drawn right now, shown live and saved when the finger lifts. */
   const [live, setLive] = useState<Stroke | null>(null);
   const drawing = useRef<Stroke | null>(null);
-  /** Parts the eraser has passed over in the current rub; their fills disappear live while rubbing. */
-  const rubbing = useRef<Set<string>>(new Set());
-  const [rubbed, setRubbed] = useState<ReadonlySet<string>>(new Set());
+  /** The part an eraser touch landed on, cleared when the finger lifts. */
+  const erasing = useRef<string | null>(null);
   /** Last finger position in canvas points, for the effect shown when a stroke ends. */
   const fingerAt = useRef({ x: 0, y: 0 });
 
@@ -103,9 +93,8 @@ export function ColoringCanvas({ page, fills, strokes, enabled, brush, onRegionT
       fingerAt.current = { x: e.x, y: e.y };
       // A marker stroke has no `pen`, so it saves exactly as strokes did before pens existed.
       const pen = b.pen && b.pen !== 'marker' ? { pen: b.pen } : null;
-      drawing.current = { regionId, color: b.color, width: b.width, points: [round(p.x), round(p.y)], ...(b.erase && { erase: true as const }), ...pen };
+      drawing.current = { regionId, color: b.color, width: b.width, points: [round(p.x), round(p.y)], ...pen };
       setLive(drawing.current);
-      rubbing.current = new Set();
     },
     onUpdate: (e) => {
       const d = drawing.current;
@@ -116,49 +105,52 @@ export function ColoringCanvas({ page, fills, strokes, enabled, brush, onRegionT
       if (Math.hypot(p.x - d.points[n - 2]!, p.y - d.points[n - 1]!) < MIN_STEP) return;
       drawing.current = { ...d, points: [...d.points, round(p.x), round(p.y)] };
       setLive(drawing.current);
-      if (d.erase) {
-        // Once the finger leaves the tap radius it is a rub, starting with the part it began in. Bucket colour
-        // fills a whole part, so rubbing anywhere on a part clears all of it.
-        const before = rubbing.current.size;
-        if (rubbing.current.size === 0 && !isTap(drawing.current.points, latest.current.transform.scale)) rubbing.current.add(d.regionId);
-        const id = rubbing.current.size > 0 ? regionAt(e.x, e.y) : null;
-        if (id) rubbing.current.add(id);
-        if (rubbing.current.size !== before) setRubbed(new Set(rubbing.current));
-      }
     },
     onFinalize: (e) => {
       const d = drawing.current;
-      const parts = [...rubbing.current];
       drawing.current = null;
-      rubbing.current = new Set();
       setLive(null);
-      setRubbed(new Set());
       if (!d || e.canceled) return;
-      // An eraser that barely moved is a tap: clear the whole part.
-      if (d.erase && isTap(d.points, latest.current.transform.scale)) latest.current.onRegionTap(d.regionId, fingerAt.current);
-      else latest.current.onStroke(d, fingerAt.current, parts);
+      latest.current.onStroke(d, fingerAt.current);
+    },
+  });
+
+  // The eraser clears the part the finger lands on, whether it taps or rubs, and only that part (owner report
+  // 2026-11-03: a rub must never spill into the next part). It acts when the finger lifts, like a bucket tap. It reads
+  // raw touches, so a still tap and a rub are handled the same way.
+  const wipe = usePanGesture({
+    minDistance: 0,
+    runOnJS: true,
+    onTouchesDown: (e) => {
+      const t = e.allTouches[0];
+      // A second finger (or a palm) cancels the touch, as it does for the brush.
+      erasing.current = latest.current.enabled && e.numberOfTouches === 1 && t ? regionAt(t.x, t.y) : null;
+      if (t) fingerAt.current = { x: t.x, y: t.y };
+    },
+    onTouchesUp: () => {
+      const id = erasing.current;
+      erasing.current = null;
+      if (id) latest.current.onRegionTap(id, fingerAt.current);
+    },
+    onTouchesCancel: () => {
+      erasing.current = null;
     },
   });
 
   const onLayout = (e: LayoutChangeEvent) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height });
   const shown = useMemo(() => (live ? [...strokes, live] : strokes), [strokes, live]);
-  const shownFills = useMemo(() => {
-    if (rubbed.size === 0) return fills;
-    const out: Record<string, FillMap[string]> = {};
-    for (const [id, f] of Object.entries(fills)) if (!rubbed.has(id)) out[id] = f;
-    return out;
-  }, [fills, rubbed]);
 
   const canvas = (
     <View style={styles.fill} onLayout={onLayout} accessibilityLabel={`${page.title} coloring page`}>
       {box.w > 0 && (
         <Canvas style={{ width: box.w, height: box.h }}>
-          <PageArtwork page={page} skia={skia} fills={shownFills} strokes={shown} transform={transform} />
+          <PageArtwork page={page} skia={skia} fills={fills} strokes={shown} transform={transform} />
         </Canvas>
       )}
     </View>
   );
-  // Brush and eraser work with a drag (an eraser tap clears a part); the bucket fills with a tap.
+  // The brush and pencil paint with a drag, the eraser clears with any touch, and the bucket fills with a tap.
+  if (eraser) return <GestureDetector gesture={wipe}>{canvas}</GestureDetector>;
   return brush ? <GestureDetector gesture={pan}>{canvas}</GestureDetector> : <GestureDetector gesture={tap}>{canvas}</GestureDetector>;
 }
 

@@ -8,7 +8,7 @@ import { ToyButton } from '@/ui/ToyButton';
 import { colors, roundedFont, tones } from '@/ui/tokens';
 
 /**
- * Home is a single obvious action for now. The other activities (trace, free
+ * Home is two big, obvious actions: color and trace. The other activities (free
  * drawing, creations, stickers), New Pictures and the Parents entry keep their
  * routes but are not linked until they are built (docs/ROADMAP.md).
  */
@@ -17,18 +17,32 @@ export default function Home() {
     <Screen>
       <View style={styles.center}>
         <RainbowTitle title="Little Color World" big />
-        <ToyButton
-          accessibilityLabel="Let's color"
-          tone="green"
-          borderRadius={999}
-          lip={12}
-          onPress={() => router.push('/themes')}
-          style={styles.cta}
-          contentStyle={styles.ctaFace}
-        >
-          <Icon name="palette" size={64} color={tones.green.icon} strokeWidth={4.5} />
-          <Text style={styles.ctaText}>Let&apos;s Color</Text>
-        </ToyButton>
+        <View style={styles.actions}>
+          <ToyButton
+            accessibilityLabel="Let's color"
+            tone="green"
+            borderRadius={999}
+            lip={12}
+            onPress={() => router.push('/themes')}
+            style={styles.cta}
+            contentStyle={styles.ctaFace}
+          >
+            <Icon name="palette" size={64} color={tones.green.icon} strokeWidth={4.5} />
+            <Text style={styles.ctaText}>Let&apos;s Color</Text>
+          </ToyButton>
+          <ToyButton
+            accessibilityLabel="Let's trace"
+            tone="blue"
+            borderRadius={999}
+            lip={12}
+            onPress={() => router.push('/trace')}
+            style={styles.cta}
+            contentStyle={styles.ctaFace}
+          >
+            <Icon name="trace" size={64} color={tones.blue.icon} strokeWidth={4.5} />
+            <Text style={styles.ctaText}>Let&apos;s Trace</Text>
+          </ToyButton>
+        </View>
       </View>
     </Screen>
   );
@@ -36,7 +50,8 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 48, paddingBottom: 64 },
-  cta: { height: 128, minWidth: 420 },
+  actions: { flexDirection: 'row', gap: 40 },
+  cta: { height: 128, minWidth: 380 },
   ctaFace: { flexDirection: 'row', gap: 20, paddingHorizontal: 56 },
   ctaText: { fontFamily: roundedFont, fontSize: 44, fontWeight: '900', color: colors.bgCard, letterSpacing: 0.5 },
 });

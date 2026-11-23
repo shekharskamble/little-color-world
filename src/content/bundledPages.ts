@@ -223,6 +223,51 @@ import page_food_43 from '../../content/pages/food-43.json';
 import page_food_44 from '../../content/pages/food-44.json';
 import page_food_47 from '../../content/pages/food-47.json';
 import page_food_48 from '../../content/pages/food-48.json';
+import page_halloween_01 from '../../content/pages/halloween-01.json';
+import page_halloween_02 from '../../content/pages/halloween-02.json';
+import page_halloween_03 from '../../content/pages/halloween-03.json';
+import page_halloween_04 from '../../content/pages/halloween-04.json';
+import page_halloween_05 from '../../content/pages/halloween-05.json';
+import page_halloween_06 from '../../content/pages/halloween-06.json';
+import page_halloween_07 from '../../content/pages/halloween-07.json';
+import page_halloween_08 from '../../content/pages/halloween-08.json';
+import page_halloween_09 from '../../content/pages/halloween-09.json';
+import page_halloween_10 from '../../content/pages/halloween-10.json';
+import page_halloween_11 from '../../content/pages/halloween-11.json';
+import page_halloween_12 from '../../content/pages/halloween-12.json';
+import page_halloween_13 from '../../content/pages/halloween-13.json';
+import page_halloween_14 from '../../content/pages/halloween-14.json';
+import page_halloween_15 from '../../content/pages/halloween-15.json';
+import page_halloween_16 from '../../content/pages/halloween-16.json';
+import page_halloween_17 from '../../content/pages/halloween-17.json';
+import page_halloween_18 from '../../content/pages/halloween-18.json';
+import page_halloween_19 from '../../content/pages/halloween-19.json';
+import page_halloween_20 from '../../content/pages/halloween-20.json';
+import page_halloween_21 from '../../content/pages/halloween-21.json';
+import page_halloween_22 from '../../content/pages/halloween-22.json';
+import page_halloween_23 from '../../content/pages/halloween-23.json';
+import page_halloween_24 from '../../content/pages/halloween-24.json';
+import page_halloween_25 from '../../content/pages/halloween-25.json';
+import page_halloween_26 from '../../content/pages/halloween-26.json';
+import page_halloween_27 from '../../content/pages/halloween-27.json';
+import page_halloween_28 from '../../content/pages/halloween-28.json';
+import page_halloween_29 from '../../content/pages/halloween-29.json';
+import page_halloween_30 from '../../content/pages/halloween-30.json';
+import page_halloween_31 from '../../content/pages/halloween-31.json';
+import page_halloween_32 from '../../content/pages/halloween-32.json';
+import page_halloween_33 from '../../content/pages/halloween-33.json';
+import page_halloween_34 from '../../content/pages/halloween-34.json';
+import page_halloween_35 from '../../content/pages/halloween-35.json';
+import page_halloween_36 from '../../content/pages/halloween-36.json';
+import page_halloween_37 from '../../content/pages/halloween-37.json';
+import page_halloween_38 from '../../content/pages/halloween-38.json';
+import page_halloween_39 from '../../content/pages/halloween-39.json';
+import page_halloween_40 from '../../content/pages/halloween-40.json';
+import page_halloween_41 from '../../content/pages/halloween-41.json';
+import page_halloween_42 from '../../content/pages/halloween-42.json';
+import page_halloween_43 from '../../content/pages/halloween-43.json';
+import page_halloween_44 from '../../content/pages/halloween-44.json';
+import page_halloween_45 from '../../content/pages/halloween-45.json';
 import page_insect_ant_01 from '../../content/pages/insect-ant-01.json';
 import page_insect_ant_02 from '../../content/pages/insect-ant-02.json';
 import page_insect_aphid from '../../content/pages/insect-aphid.json';
@@ -485,6 +530,78 @@ import page_space_85 from '../../content/pages/space-85.json';
 import page_space_86 from '../../content/pages/space-86.json';
 import page_space_95 from '../../content/pages/space-95.json';
 import page_space_98 from '../../content/pages/space-98.json';
+import page_trace_lower_a from '../../content/pages/trace-lower-a.json';
+import page_trace_lower_b from '../../content/pages/trace-lower-b.json';
+import page_trace_lower_c from '../../content/pages/trace-lower-c.json';
+import page_trace_lower_d from '../../content/pages/trace-lower-d.json';
+import page_trace_lower_e from '../../content/pages/trace-lower-e.json';
+import page_trace_lower_f from '../../content/pages/trace-lower-f.json';
+import page_trace_lower_g from '../../content/pages/trace-lower-g.json';
+import page_trace_lower_h from '../../content/pages/trace-lower-h.json';
+import page_trace_lower_i from '../../content/pages/trace-lower-i.json';
+import page_trace_lower_j from '../../content/pages/trace-lower-j.json';
+import page_trace_lower_k from '../../content/pages/trace-lower-k.json';
+import page_trace_lower_l from '../../content/pages/trace-lower-l.json';
+import page_trace_lower_m from '../../content/pages/trace-lower-m.json';
+import page_trace_lower_n from '../../content/pages/trace-lower-n.json';
+import page_trace_lower_o from '../../content/pages/trace-lower-o.json';
+import page_trace_lower_p from '../../content/pages/trace-lower-p.json';
+import page_trace_lower_q from '../../content/pages/trace-lower-q.json';
+import page_trace_lower_r from '../../content/pages/trace-lower-r.json';
+import page_trace_lower_s from '../../content/pages/trace-lower-s.json';
+import page_trace_lower_t from '../../content/pages/trace-lower-t.json';
+import page_trace_lower_u from '../../content/pages/trace-lower-u.json';
+import page_trace_lower_v from '../../content/pages/trace-lower-v.json';
+import page_trace_lower_w from '../../content/pages/trace-lower-w.json';
+import page_trace_lower_x from '../../content/pages/trace-lower-x.json';
+import page_trace_lower_y from '../../content/pages/trace-lower-y.json';
+import page_trace_lower_z from '../../content/pages/trace-lower-z.json';
+import page_trace_number_0 from '../../content/pages/trace-number-0.json';
+import page_trace_number_1 from '../../content/pages/trace-number-1.json';
+import page_trace_number_2 from '../../content/pages/trace-number-2.json';
+import page_trace_number_3 from '../../content/pages/trace-number-3.json';
+import page_trace_number_4 from '../../content/pages/trace-number-4.json';
+import page_trace_number_5 from '../../content/pages/trace-number-5.json';
+import page_trace_number_6 from '../../content/pages/trace-number-6.json';
+import page_trace_number_7 from '../../content/pages/trace-number-7.json';
+import page_trace_number_8 from '../../content/pages/trace-number-8.json';
+import page_trace_number_9 from '../../content/pages/trace-number-9.json';
+import page_trace_shape_circle from '../../content/pages/trace-shape-circle.json';
+import page_trace_shape_diamond from '../../content/pages/trace-shape-diamond.json';
+import page_trace_shape_heart from '../../content/pages/trace-shape-heart.json';
+import page_trace_shape_hexagon from '../../content/pages/trace-shape-hexagon.json';
+import page_trace_shape_oval from '../../content/pages/trace-shape-oval.json';
+import page_trace_shape_pentagon from '../../content/pages/trace-shape-pentagon.json';
+import page_trace_shape_rectangle from '../../content/pages/trace-shape-rectangle.json';
+import page_trace_shape_square from '../../content/pages/trace-shape-square.json';
+import page_trace_shape_star from '../../content/pages/trace-shape-star.json';
+import page_trace_shape_triangle from '../../content/pages/trace-shape-triangle.json';
+import page_trace_upper_a from '../../content/pages/trace-upper-a.json';
+import page_trace_upper_b from '../../content/pages/trace-upper-b.json';
+import page_trace_upper_c from '../../content/pages/trace-upper-c.json';
+import page_trace_upper_d from '../../content/pages/trace-upper-d.json';
+import page_trace_upper_e from '../../content/pages/trace-upper-e.json';
+import page_trace_upper_f from '../../content/pages/trace-upper-f.json';
+import page_trace_upper_g from '../../content/pages/trace-upper-g.json';
+import page_trace_upper_h from '../../content/pages/trace-upper-h.json';
+import page_trace_upper_i from '../../content/pages/trace-upper-i.json';
+import page_trace_upper_j from '../../content/pages/trace-upper-j.json';
+import page_trace_upper_k from '../../content/pages/trace-upper-k.json';
+import page_trace_upper_l from '../../content/pages/trace-upper-l.json';
+import page_trace_upper_m from '../../content/pages/trace-upper-m.json';
+import page_trace_upper_n from '../../content/pages/trace-upper-n.json';
+import page_trace_upper_o from '../../content/pages/trace-upper-o.json';
+import page_trace_upper_p from '../../content/pages/trace-upper-p.json';
+import page_trace_upper_q from '../../content/pages/trace-upper-q.json';
+import page_trace_upper_r from '../../content/pages/trace-upper-r.json';
+import page_trace_upper_s from '../../content/pages/trace-upper-s.json';
+import page_trace_upper_t from '../../content/pages/trace-upper-t.json';
+import page_trace_upper_u from '../../content/pages/trace-upper-u.json';
+import page_trace_upper_v from '../../content/pages/trace-upper-v.json';
+import page_trace_upper_w from '../../content/pages/trace-upper-w.json';
+import page_trace_upper_x from '../../content/pages/trace-upper-x.json';
+import page_trace_upper_y from '../../content/pages/trace-upper-y.json';
+import page_trace_upper_z from '../../content/pages/trace-upper-z.json';
 import page_unicorn_01 from '../../content/pages/unicorn-01.json';
 import page_unicorn_02 from '../../content/pages/unicorn-02.json';
 import page_unicorn_03 from '../../content/pages/unicorn-03.json';
@@ -755,6 +872,51 @@ export const BUNDLED_PAGES: Readonly<Record<string, unknown>> = {
   'food-44': page_food_44,
   'food-47': page_food_47,
   'food-48': page_food_48,
+  'halloween-01': page_halloween_01,
+  'halloween-02': page_halloween_02,
+  'halloween-03': page_halloween_03,
+  'halloween-04': page_halloween_04,
+  'halloween-05': page_halloween_05,
+  'halloween-06': page_halloween_06,
+  'halloween-07': page_halloween_07,
+  'halloween-08': page_halloween_08,
+  'halloween-09': page_halloween_09,
+  'halloween-10': page_halloween_10,
+  'halloween-11': page_halloween_11,
+  'halloween-12': page_halloween_12,
+  'halloween-13': page_halloween_13,
+  'halloween-14': page_halloween_14,
+  'halloween-15': page_halloween_15,
+  'halloween-16': page_halloween_16,
+  'halloween-17': page_halloween_17,
+  'halloween-18': page_halloween_18,
+  'halloween-19': page_halloween_19,
+  'halloween-20': page_halloween_20,
+  'halloween-21': page_halloween_21,
+  'halloween-22': page_halloween_22,
+  'halloween-23': page_halloween_23,
+  'halloween-24': page_halloween_24,
+  'halloween-25': page_halloween_25,
+  'halloween-26': page_halloween_26,
+  'halloween-27': page_halloween_27,
+  'halloween-28': page_halloween_28,
+  'halloween-29': page_halloween_29,
+  'halloween-30': page_halloween_30,
+  'halloween-31': page_halloween_31,
+  'halloween-32': page_halloween_32,
+  'halloween-33': page_halloween_33,
+  'halloween-34': page_halloween_34,
+  'halloween-35': page_halloween_35,
+  'halloween-36': page_halloween_36,
+  'halloween-37': page_halloween_37,
+  'halloween-38': page_halloween_38,
+  'halloween-39': page_halloween_39,
+  'halloween-40': page_halloween_40,
+  'halloween-41': page_halloween_41,
+  'halloween-42': page_halloween_42,
+  'halloween-43': page_halloween_43,
+  'halloween-44': page_halloween_44,
+  'halloween-45': page_halloween_45,
   'insect-ant-01': page_insect_ant_01,
   'insect-ant-02': page_insect_ant_02,
   'insect-aphid': page_insect_aphid,
@@ -1017,6 +1179,78 @@ export const BUNDLED_PAGES: Readonly<Record<string, unknown>> = {
   'space-86': page_space_86,
   'space-95': page_space_95,
   'space-98': page_space_98,
+  'trace-lower-a': page_trace_lower_a,
+  'trace-lower-b': page_trace_lower_b,
+  'trace-lower-c': page_trace_lower_c,
+  'trace-lower-d': page_trace_lower_d,
+  'trace-lower-e': page_trace_lower_e,
+  'trace-lower-f': page_trace_lower_f,
+  'trace-lower-g': page_trace_lower_g,
+  'trace-lower-h': page_trace_lower_h,
+  'trace-lower-i': page_trace_lower_i,
+  'trace-lower-j': page_trace_lower_j,
+  'trace-lower-k': page_trace_lower_k,
+  'trace-lower-l': page_trace_lower_l,
+  'trace-lower-m': page_trace_lower_m,
+  'trace-lower-n': page_trace_lower_n,
+  'trace-lower-o': page_trace_lower_o,
+  'trace-lower-p': page_trace_lower_p,
+  'trace-lower-q': page_trace_lower_q,
+  'trace-lower-r': page_trace_lower_r,
+  'trace-lower-s': page_trace_lower_s,
+  'trace-lower-t': page_trace_lower_t,
+  'trace-lower-u': page_trace_lower_u,
+  'trace-lower-v': page_trace_lower_v,
+  'trace-lower-w': page_trace_lower_w,
+  'trace-lower-x': page_trace_lower_x,
+  'trace-lower-y': page_trace_lower_y,
+  'trace-lower-z': page_trace_lower_z,
+  'trace-number-0': page_trace_number_0,
+  'trace-number-1': page_trace_number_1,
+  'trace-number-2': page_trace_number_2,
+  'trace-number-3': page_trace_number_3,
+  'trace-number-4': page_trace_number_4,
+  'trace-number-5': page_trace_number_5,
+  'trace-number-6': page_trace_number_6,
+  'trace-number-7': page_trace_number_7,
+  'trace-number-8': page_trace_number_8,
+  'trace-number-9': page_trace_number_9,
+  'trace-shape-circle': page_trace_shape_circle,
+  'trace-shape-diamond': page_trace_shape_diamond,
+  'trace-shape-heart': page_trace_shape_heart,
+  'trace-shape-hexagon': page_trace_shape_hexagon,
+  'trace-shape-oval': page_trace_shape_oval,
+  'trace-shape-pentagon': page_trace_shape_pentagon,
+  'trace-shape-rectangle': page_trace_shape_rectangle,
+  'trace-shape-square': page_trace_shape_square,
+  'trace-shape-star': page_trace_shape_star,
+  'trace-shape-triangle': page_trace_shape_triangle,
+  'trace-upper-a': page_trace_upper_a,
+  'trace-upper-b': page_trace_upper_b,
+  'trace-upper-c': page_trace_upper_c,
+  'trace-upper-d': page_trace_upper_d,
+  'trace-upper-e': page_trace_upper_e,
+  'trace-upper-f': page_trace_upper_f,
+  'trace-upper-g': page_trace_upper_g,
+  'trace-upper-h': page_trace_upper_h,
+  'trace-upper-i': page_trace_upper_i,
+  'trace-upper-j': page_trace_upper_j,
+  'trace-upper-k': page_trace_upper_k,
+  'trace-upper-l': page_trace_upper_l,
+  'trace-upper-m': page_trace_upper_m,
+  'trace-upper-n': page_trace_upper_n,
+  'trace-upper-o': page_trace_upper_o,
+  'trace-upper-p': page_trace_upper_p,
+  'trace-upper-q': page_trace_upper_q,
+  'trace-upper-r': page_trace_upper_r,
+  'trace-upper-s': page_trace_upper_s,
+  'trace-upper-t': page_trace_upper_t,
+  'trace-upper-u': page_trace_upper_u,
+  'trace-upper-v': page_trace_upper_v,
+  'trace-upper-w': page_trace_upper_w,
+  'trace-upper-x': page_trace_upper_x,
+  'trace-upper-y': page_trace_upper_y,
+  'trace-upper-z': page_trace_upper_z,
   'unicorn-01': page_unicorn_01,
   'unicorn-02': page_unicorn_02,
   'unicorn-03': page_unicorn_03,

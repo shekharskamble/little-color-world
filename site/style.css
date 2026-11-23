@@ -1,0 +1,56 @@
+/* Support and privacy pages for Little Color World, in the app's Sunny Meadow look. */
+:root {
+  color-scheme: light;
+  --sky-top: #ffe28c;
+  --sky-bottom: #fff6dc;
+  --card: #ffffff;
+  --edge: #e5cf9c;
+  --ink: #2a2733;
+  --soft: #6e6152;
+  --green: #3dbe6b;
+  --link: #2b4bc9;
+}
+* { box-sizing: border-box; }
+html { background: var(--sky-bottom); }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(var(--sky-top), var(--sky-bottom) 480px) no-repeat, var(--sky-bottom);
+  color: var(--ink);
+  font: 18px/1.6 ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+main { max-width: 760px; margin: 0 auto; padding: 40px 16px 64px; }
+header { text-align: center; margin-bottom: 28px; }
+header img { width: 112px; height: 112px; border-radius: 26px; box-shadow: 0 8px 24px rgba(120, 80, 0, 0.18); }
+h1 { margin: 16px 0 4px; font-size: clamp(32px, 7vw, 48px); font-weight: 900; line-height: 1.15; letter-spacing: -0.5px; }
+h1 span:nth-child(7n + 1) { color: #e8453c; }
+h1 span:nth-child(7n + 2) { color: #ff8a1f; }
+h1 span:nth-child(7n + 3) { color: #e8b923; }
+h1 span:nth-child(7n + 4) { color: #3dbe6b; }
+h1 span:nth-child(7n + 5) { color: #3a7beb; }
+h1 span:nth-child(7n + 6) { color: #8a5ce6; }
+h1 span:nth-child(7n + 7) { color: #ff6fb1; }
+.tagline { margin: 0; color: var(--soft); font-weight: 700; }
+.card { background: var(--card); border: 3px solid var(--edge); border-radius: 28px; padding: 24px 28px; margin: 20px 0; }
+h2 { margin: 0 0 8px; font-size: 24px; font-weight: 900; }
+h3 { margin: 20px 0 4px; font-size: 19px; font-weight: 800; }
+p, ul { margin: 0 0 12px; }
+ul { padding-left: 22px; }
+a { color: var(--link); font-weight: 700; }
+.button {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: var(--green);
+  box-shadow: 0 4px 0 #27924f;
+  color: #ffffff;
+  font-weight: 800;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.promises { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0; margin: 18px 0 0; list-style: none; }
+.promises li { background: var(--card); border: 3px solid var(--edge); border-radius: 999px; padding: 4px 16px; font-weight: 800; }
+.promises li::before { content: '✓ '; color: var(--green); }
+footer { text-align: center; color: var(--soft); font-size: 15px; }
+footer a { color: var(--soft); }
