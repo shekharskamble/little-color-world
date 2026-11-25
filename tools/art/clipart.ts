@@ -179,8 +179,17 @@ function pathArea(d: string): number {
   return Math.abs(s) / 2;
 }
 
+/** Holes whose centre lies within any of `within` (page polygons) are coloured together as one region, `name`. */
+export type Merge = { name: string; within: readonly (readonly (readonly [number, number])[])[] };
+
 /** Adds the clipart's holes as parts (numbered from `firstPart`) and its black lines as one locked detail on top. */
-export function addClipart(a: Art, { pieces }: Clipart, firstPart = 1, opts: { smallParts?: boolean } = {}) {
+export function addClipart(a: Art, { pieces }: Clipart, firstPart = 1, opts: { smallParts?: boolean; merge?: readonly Merge[] } = {}) {
+  const mergedInto = (hole: Piece) => {
+    const pts = hole.poly.points;
+    const c = { x: pts.reduce((t, p) => t + p.x, 0) / pts.length, y: pts.reduce((t, p) => t + p.y, 0) / pts.length };
+    const polys = (m: Merge) => m.within.map((poly) => ({ points: poly.map(([x, y]) => ({ x, y })), closed: true }));
+    return opts.merge?.find((m) => containsPoint(polys(m), c, 'nonzero'))?.name;
+  };
   // Holes, outermost first so a hole inside an island inside a hole sits on top.
   const holes = pieces.filter((p) => p.depth % 2 === 1).sort((p, q) => p.depth - q.depth || q.area - p.area);
   /** A shine in an eye: a small hole in a small solid shape (an eye), which stays white. */
@@ -192,7 +201,9 @@ export function addClipart(a: Art, { pieces }: Clipart, firstPart = 1, opts: { s
   let part = firstPart - 1;
   let small = 0;
   for (const hole of holes) {
-    if (hole.area >= MIN_PART_AREA) a.fillOnly(`part-${++part}`, `<path d="${grow(hole.poly, TUCK)}"`);
+    const merged = hole.area >= SMALL_MIN ? mergedInto(hole) : undefined;
+    if (merged) a.fillOnly(merged, `<path d="${grow(hole.poly, TUCK)}"`);
+    else if (hole.area >= MIN_PART_AREA) a.fillOnly(`part-${++part}`, `<path d="${grow(hole.poly, TUCK)}"`);
     // With `smallParts`, small areas (a spine, a stripe, a pebble) can still be coloured; only eye shines stay white.
     else if (opts.smallParts && hole.area >= SMALL_MIN && pathArea(grow(hole.poly, TUCK)) >= SMALL_MIN && !highlight(hole)) a.fillOnly(`small-${++small}`, `<path d="${grow(hole.poly, TUCK)}"`);
     else a.d('small-hole', `<path d="${grow(hole.poly, TUCK)}"`, '#ffffff', ';stroke:none');

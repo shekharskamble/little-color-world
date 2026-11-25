@@ -1471,3 +1471,44 @@ Not seen on a device yet: it needs a native rebuild (`npx expo run:ios`, or the 
 **Changed:** a coloured cover background that is a pattern (the Christmas tree's red dots) stopped at the page rectangle, so the white card showed around it. A solid colour already covered the card because the page is larger than the drawing. `PageThumbnail` now paints that same background fill across the whole cover, outside the page clip, so the pattern continues to the border.
 
 **Verified:** typecheck and lint clean; 972/972 tests, including `viewRectInPage`. Not yet checked on the simulator.
+
+## 2026-11-25: Space eyes put back as drawn
+
+**Changed:** trimming the Space lines had hollowed the pupils on Jupiter, Neptune, the Space Shuttle and the Moon Rover (a solid eye with a shine became a lumpy ring). `tools/space/thin_all.sh` now keeps those eyes exactly as drawn (`--keep`), the same way the sea-animal eyes were restored. The other 21 pictures' eyes were already solid and were left as they are. The four pages were re-imported as version 2 with `--allow-removed`, so a coloring of one of them saved before this may show a few parts blank.
+
+**Verified:** each restored eye compared side by side with the original drawing; the four pages imported with 0 errors and 0 warnings. Typecheck and lint clean; 972/972 tests.
+
+## 2026-11-25: Every Space eye kept exactly as drawn
+
+**Changed:** the owner asked for all Space eyes to match the original drawings exactly, not only the four fixed earlier. `tools/space/thin_all.sh` now keeps every eye as drawn (`--keep`, pupil and shines) on all 21 pictures with a face: the nine planets, the four astronauts, Rocket, Moon, Satellite, Sun, Space Shuttle, Moon Rover, Smiley Satellite (its single eye) and Comet. Big Rocket, Lift Off and the two UFOs have no face and are unchanged. Pages whose lines changed were re-imported as version 2 with `--allow-removed`, so a coloring of one of them saved before this may show a few parts blank.
+
+**Verified:** all 41 eyes compared side by side with the original renders (pixel difference under 1.8% for most, 3–9% on Rocket, Sun and Comet from a sub-pixel shift, shapes identical by eye); 21 pages imported with 0 errors and 0 warnings; previews checked. Typecheck and lint clean; 972/972 tests. Not yet checked on the simulator.
+
+## 2026-11-25: 45 more Space pictures (Space now 70)
+
+**Changed:** the owner asked to add the rest of the space pack ("lets add these svgs for coloring, dont redraw and keep eyes same"). 45 new `orbit-*` pages from sources 26–74 (`tools/space/generate.ts`, made exactly like the first 25): comets, asteroids, five aliens, the teddy and alien UFOs, Star Ship, ringed and heart planets, Solar System, Moon Flag, Meteor Shower, Solar Eclipse, Black Hole, Galaxy, Star Rocket, Telescope, more planets (Mercury, Mars, Earth, Jupiter, Saturn, Venus, Uranus, Pluto, Neptune, Moon, Sun), Space Rover and Happy Rocket. Titles follow the drawings, since some file names do not (`37_galaxy` is a planet with a rocket).
+- Eyes and other solid shapes kept exactly as drawn (`--keep` in `tools/space/thin_all.sh`): every pupil with its shines, the visor on Moon Flag, the dark UFO openings, the rocket window's pupil, the eclipse disc and its solid rays, the meteors' small eyes. Black Hole is not trimmed at all (`--width 60`): its thick swirl arms are the drawing.
+- Left out: 31 and 43 were not in the owner's set; 58 is the same file as 56 and 61 draws the same as 59.
+- Space Docking had 120 regions (the solar-panel grids), over the 80 allowed for age 4-5. The owner chose to colour each panel as one region with its grid lines still drawn: new `merge` option on `addClipart` (`tools/art/clipart.ts`), used by `DOCKING_PANELS` in the generator. It now has 71 regions; the hose crossing the left panel stays separate.
+- `art/PROVENANCE.md`: 45 rows.
+
+**Verified:** every page compared with its original for ink the trim removed in lumps (not slivers along thick lines); each such spot checked side by side by eye and fixed where it was an eye or solid shape (Planet Hug's right eye touching the hand, Star Ship's eye shines, the Alien UFO opening, Meteor Shower eyes, the rocket window in Planet and Rocket). All 45 imported with 0 errors; Earth Map and Space Docking keep one warning each (a small hole drawn in opposite directions). Previews of all 45 checked, and Space Docking's region map (each panel one region, hose separate). Typecheck and lint clean; 1017/1017 tests; 671/671 pages valid. Not yet checked on the simulator.
+
+## 2026-11-25: Black Hole removed from Space (Space now 69)
+
+**Changed:** the owner asked to remove the black hole picture. `orbit-black-hole` is gone from the generator, `content/pages`, `art/svg/space`, the previews and `art/PROVENANCE.md`; the page index is regenerated. Its source (`art/svg/space/pack/46.svg`) and its trim settings in `tools/space/thin_all.sh` stay, so it can come back by adding it to `PICS` again. It was added today and never shipped, so no saved colorings are affected.
+
+**Verified:** no references left; typecheck and lint clean; 1016/1016 tests (one fewer page test); 670/670 pages valid.
+
+## 2026-11-25: Vegetables theme removed (app and content pack)
+
+**Changed:** the owner asked to remove the vegetables, from the app and from Firebase, because they did not look good. Vegetables was a CDN-only theme (pack `vegetables` v1, 30 pages). Removed: the theme from `content/themes.json`, `content/remote.json` (no remote themes now), the 30 `content/pages/veg-*.json`, the pack `content/cdn/v1/packs/vegetables/`, `art/svg/vegetables/` (pages and copied sources), the previews and `tools/vegetables/`. `art/PROVENANCE.md` rows are marked removed. Everything is still in git history; the owner's originals stay on the Desktop.
+- **Firebase:** nothing to take down. The site (`littlecolorworld-content.web.app`) has never been deployed: `/v1/manifest.json`, the vegetables `pack.json` and a page all return 404 (checked 2026-11-25). Since a deploy publishes `content/cdn` as a whole, the pack can no longer go out. No device has it, so no saved colorings are affected.
+
+**Verified:** no references left outside the history docs; typecheck and lint clean; 1016/1016 tests; 640/640 pages valid (the 30 vegetable pages were never in the bundle).
+
+## 2026-11-25: Steam Train grille cleaned up
+
+**Changed:** the owner said the bottom of the Steam Train looked crowded. The original drawing's cowcatcher has six plain solid bars; the converter had opened each into an outlined slot with its own tiny colour area (11 small parts in a thin strip). `tools/vehicles/generate.ts` now passes `keepSpots` for this page, so the bars stay solid black as drawn and the cowcatcher is one area to colour. A per-vehicle `rename` keeps the buffer beam as `part-2` and the cowcatcher as `part-3` (their size order swapped). `vehicle-steam-train-01` is now version 2, 20 regions; the removed ids `small-2`…`small-11` were the slots, so a saved coloring loses only those.
+
+**Verified:** preview and debug preview checked against the source; typecheck and lint clean; 1016/1016 tests; 640/640 pages valid. Manual check needed on the iPad: open Vehicles, then Steam Train.

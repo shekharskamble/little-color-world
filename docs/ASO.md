@@ -103,7 +103,7 @@ To publish: on github.com create a public, empty repo named `littlecolorworld`; 
 ## Screenshots: iPad 13" (2752 × 2064, landscape)
 In `store/ios/ipad-13/`, in upload order. App Store Connect scales them for smaller iPads. They are real screens from the app on the iPad Pro 13-inch (M4) simulator (no mock-ups), with a headline above each, on the app's Sunny Meadow yellow. The first two or three matter most: they show in search results.
 
-Only use pictures whose licence covers marketing (art/PROVENANCE.md). **Never show Vegetables** in screenshots or the preview video (owner decision, 2026-11-23), including the theme catalog.
+Only use pictures whose licence covers marketing (art/PROVENANCE.md). **Never show Vegetables** in screenshots or the preview video (owner decision, 2026-11-23), including the theme catalog. (The Vegetables theme was removed on 2026-11-25; the rule stands if it ever comes back.)
 
 | # | File | Headline | Line under it | Shows |
 |---|---|---|---|---|

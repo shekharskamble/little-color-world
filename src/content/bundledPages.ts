@@ -424,31 +424,75 @@ import page_ocean_sunfish from '../../content/pages/ocean-sunfish.json';
 import page_ocean_tetra from '../../content/pages/ocean-tetra.json';
 import page_ocean_turtle from '../../content/pages/ocean-turtle.json';
 import page_ocean_water_plant from '../../content/pages/ocean-water-plant.json';
+import page_orbit_alien_buddy from '../../content/pages/orbit-alien-buddy.json';
+import page_orbit_alien_ufo from '../../content/pages/orbit-alien-ufo.json';
+import page_orbit_asteroid from '../../content/pages/orbit-asteroid.json';
 import page_orbit_astronaut_boy from '../../content/pages/orbit-astronaut-boy.json';
 import page_orbit_astronaut_girl from '../../content/pages/orbit-astronaut-girl.json';
 import page_orbit_big_rocket from '../../content/pages/orbit-big-rocket.json';
+import page_orbit_bumpy_mercury from '../../content/pages/orbit-bumpy-mercury.json';
 import page_orbit_comet from '../../content/pages/orbit-comet.json';
+import page_orbit_dusty_mars from '../../content/pages/orbit-dusty-mars.json';
+import page_orbit_earth_map from '../../content/pages/orbit-earth-map.json';
 import page_orbit_earth from '../../content/pages/orbit-earth.json';
+import page_orbit_fiery_sun from '../../content/pages/orbit-fiery-sun.json';
+import page_orbit_full_moon from '../../content/pages/orbit-full-moon.json';
+import page_orbit_galaxy from '../../content/pages/orbit-galaxy.json';
+import page_orbit_happy_asteroid from '../../content/pages/orbit-happy-asteroid.json';
+import page_orbit_happy_comet from '../../content/pages/orbit-happy-comet.json';
+import page_orbit_happy_rocket from '../../content/pages/orbit-happy-rocket.json';
+import page_orbit_heart_planet from '../../content/pages/orbit-heart-planet.json';
 import page_orbit_jupiter from '../../content/pages/orbit-jupiter.json';
 import page_orbit_lift_off from '../../content/pages/orbit-lift-off.json';
+import page_orbit_little_alien from '../../content/pages/orbit-little-alien.json';
 import page_orbit_little_astronaut from '../../content/pages/orbit-little-astronaut.json';
+import page_orbit_lovely_planet from '../../content/pages/orbit-lovely-planet.json';
 import page_orbit_mars from '../../content/pages/orbit-mars.json';
 import page_orbit_mercury from '../../content/pages/orbit-mercury.json';
+import page_orbit_meteor_shower from '../../content/pages/orbit-meteor-shower.json';
+import page_orbit_moon_flag from '../../content/pages/orbit-moon-flag.json';
 import page_orbit_moon_rover from '../../content/pages/orbit-moon-rover.json';
 import page_orbit_moon from '../../content/pages/orbit-moon.json';
 import page_orbit_neptune from '../../content/pages/orbit-neptune.json';
+import page_orbit_one_eyed_alien from '../../content/pages/orbit-one-eyed-alien.json';
+import page_orbit_planet_and_rocket from '../../content/pages/orbit-planet-and-rocket.json';
+import page_orbit_planet_earth from '../../content/pages/orbit-planet-earth.json';
+import page_orbit_planet_hug from '../../content/pages/orbit-planet-hug.json';
+import page_orbit_pluto_heart from '../../content/pages/orbit-pluto-heart.json';
 import page_orbit_pluto from '../../content/pages/orbit-pluto.json';
+import page_orbit_ringed_saturn from '../../content/pages/orbit-ringed-saturn.json';
+import page_orbit_ringed_uranus from '../../content/pages/orbit-ringed-uranus.json';
+import page_orbit_rocket_ride from '../../content/pages/orbit-rocket-ride.json';
+import page_orbit_rocket_ring_planet from '../../content/pages/orbit-rocket-ring-planet.json';
 import page_orbit_rocket from '../../content/pages/orbit-rocket.json';
+import page_orbit_rocky_comet from '../../content/pages/orbit-rocky-comet.json';
+import page_orbit_rocky_mercury from '../../content/pages/orbit-rocky-mercury.json';
 import page_orbit_satellite from '../../content/pages/orbit-satellite.json';
 import page_orbit_saturn from '../../content/pages/orbit-saturn.json';
+import page_orbit_shooting_star from '../../content/pages/orbit-shooting-star.json';
 import page_orbit_smiley_satellite from '../../content/pages/orbit-smiley-satellite.json';
+import page_orbit_solar_eclipse from '../../content/pages/orbit-solar-eclipse.json';
+import page_orbit_solar_system from '../../content/pages/orbit-solar-system.json';
+import page_orbit_space_docking from '../../content/pages/orbit-space-docking.json';
+import page_orbit_space_rover from '../../content/pages/orbit-space-rover.json';
 import page_orbit_space_shuttle from '../../content/pages/orbit-space-shuttle.json';
 import page_orbit_space_walk from '../../content/pages/orbit-space-walk.json';
+import page_orbit_star_rocket from '../../content/pages/orbit-star-rocket.json';
+import page_orbit_star_ship from '../../content/pages/orbit-star-ship.json';
+import page_orbit_stormy_jupiter from '../../content/pages/orbit-stormy-jupiter.json';
+import page_orbit_striped_jupiter from '../../content/pages/orbit-striped-jupiter.json';
 import page_orbit_sun from '../../content/pages/orbit-sun.json';
+import page_orbit_swirly_venus from '../../content/pages/orbit-swirly-venus.json';
+import page_orbit_teddy_ufo from '../../content/pages/orbit-teddy-ufo.json';
+import page_orbit_telescope from '../../content/pages/orbit-telescope.json';
+import page_orbit_three_eyed_alien from '../../content/pages/orbit-three-eyed-alien.json';
 import page_orbit_ufo_lights from '../../content/pages/orbit-ufo-lights.json';
 import page_orbit_ufo from '../../content/pages/orbit-ufo.json';
 import page_orbit_uranus from '../../content/pages/orbit-uranus.json';
 import page_orbit_venus from '../../content/pages/orbit-venus.json';
+import page_orbit_wavy_venus from '../../content/pages/orbit-wavy-venus.json';
+import page_orbit_windy_neptune from '../../content/pages/orbit-windy-neptune.json';
+import page_orbit_zooming_comet from '../../content/pages/orbit-zooming-comet.json';
 import page_shapes_01_circle from '../../content/pages/shapes-01-circle.json';
 import page_shapes_02_square from '../../content/pages/shapes-02-square.json';
 import page_shapes_03_triangle from '../../content/pages/shapes-03-triangle.json';
@@ -1022,31 +1066,75 @@ export const BUNDLED_PAGES: Readonly<Record<string, unknown>> = {
   'ocean-tetra': page_ocean_tetra,
   'ocean-turtle': page_ocean_turtle,
   'ocean-water-plant': page_ocean_water_plant,
+  'orbit-alien-buddy': page_orbit_alien_buddy,
+  'orbit-alien-ufo': page_orbit_alien_ufo,
+  'orbit-asteroid': page_orbit_asteroid,
   'orbit-astronaut-boy': page_orbit_astronaut_boy,
   'orbit-astronaut-girl': page_orbit_astronaut_girl,
   'orbit-big-rocket': page_orbit_big_rocket,
+  'orbit-bumpy-mercury': page_orbit_bumpy_mercury,
   'orbit-comet': page_orbit_comet,
+  'orbit-dusty-mars': page_orbit_dusty_mars,
+  'orbit-earth-map': page_orbit_earth_map,
   'orbit-earth': page_orbit_earth,
+  'orbit-fiery-sun': page_orbit_fiery_sun,
+  'orbit-full-moon': page_orbit_full_moon,
+  'orbit-galaxy': page_orbit_galaxy,
+  'orbit-happy-asteroid': page_orbit_happy_asteroid,
+  'orbit-happy-comet': page_orbit_happy_comet,
+  'orbit-happy-rocket': page_orbit_happy_rocket,
+  'orbit-heart-planet': page_orbit_heart_planet,
   'orbit-jupiter': page_orbit_jupiter,
   'orbit-lift-off': page_orbit_lift_off,
+  'orbit-little-alien': page_orbit_little_alien,
   'orbit-little-astronaut': page_orbit_little_astronaut,
+  'orbit-lovely-planet': page_orbit_lovely_planet,
   'orbit-mars': page_orbit_mars,
   'orbit-mercury': page_orbit_mercury,
+  'orbit-meteor-shower': page_orbit_meteor_shower,
+  'orbit-moon-flag': page_orbit_moon_flag,
   'orbit-moon-rover': page_orbit_moon_rover,
   'orbit-moon': page_orbit_moon,
   'orbit-neptune': page_orbit_neptune,
+  'orbit-one-eyed-alien': page_orbit_one_eyed_alien,
+  'orbit-planet-and-rocket': page_orbit_planet_and_rocket,
+  'orbit-planet-earth': page_orbit_planet_earth,
+  'orbit-planet-hug': page_orbit_planet_hug,
+  'orbit-pluto-heart': page_orbit_pluto_heart,
   'orbit-pluto': page_orbit_pluto,
+  'orbit-ringed-saturn': page_orbit_ringed_saturn,
+  'orbit-ringed-uranus': page_orbit_ringed_uranus,
+  'orbit-rocket-ride': page_orbit_rocket_ride,
+  'orbit-rocket-ring-planet': page_orbit_rocket_ring_planet,
   'orbit-rocket': page_orbit_rocket,
+  'orbit-rocky-comet': page_orbit_rocky_comet,
+  'orbit-rocky-mercury': page_orbit_rocky_mercury,
   'orbit-satellite': page_orbit_satellite,
   'orbit-saturn': page_orbit_saturn,
+  'orbit-shooting-star': page_orbit_shooting_star,
   'orbit-smiley-satellite': page_orbit_smiley_satellite,
+  'orbit-solar-eclipse': page_orbit_solar_eclipse,
+  'orbit-solar-system': page_orbit_solar_system,
+  'orbit-space-docking': page_orbit_space_docking,
+  'orbit-space-rover': page_orbit_space_rover,
   'orbit-space-shuttle': page_orbit_space_shuttle,
   'orbit-space-walk': page_orbit_space_walk,
+  'orbit-star-rocket': page_orbit_star_rocket,
+  'orbit-star-ship': page_orbit_star_ship,
+  'orbit-stormy-jupiter': page_orbit_stormy_jupiter,
+  'orbit-striped-jupiter': page_orbit_striped_jupiter,
   'orbit-sun': page_orbit_sun,
+  'orbit-swirly-venus': page_orbit_swirly_venus,
+  'orbit-teddy-ufo': page_orbit_teddy_ufo,
+  'orbit-telescope': page_orbit_telescope,
+  'orbit-three-eyed-alien': page_orbit_three_eyed_alien,
   'orbit-ufo-lights': page_orbit_ufo_lights,
   'orbit-ufo': page_orbit_ufo,
   'orbit-uranus': page_orbit_uranus,
   'orbit-venus': page_orbit_venus,
+  'orbit-wavy-venus': page_orbit_wavy_venus,
+  'orbit-windy-neptune': page_orbit_windy_neptune,
+  'orbit-zooming-comet': page_orbit_zooming_comet,
   'shapes-01-circle': page_shapes_01_circle,
   'shapes-02-square': page_shapes_02_square,
   'shapes-03-triangle': page_shapes_03_triangle,

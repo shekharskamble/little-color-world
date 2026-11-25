@@ -7,7 +7,7 @@
 // closed shape a region. Re-running overwrites the generated SVGs; the sources are never changed.
 import { join } from 'node:path';
 
-import { addClipartRegions, Art, loadClipart, seeded } from '../art/clipart';
+import { addClipartRegions, Art, loadClipart, seeded, type RegionOptions } from '../art/clipart';
 import { ROOT, writePages, type GeneratedPage } from '../art/layered';
 import { circle, cloud, n, rect } from '../art/primitives';
 
@@ -229,7 +229,17 @@ function farm(a: Art, rand: Rand, box: Box) {
 
 // --- The vehicles
 
-type Vehicle = { id: string; title: string; subtitle: string; source: string; setting: Setting; fit?: { height?: number; maxWidth?: number; footY?: number } };
+type Vehicle = {
+  id: string;
+  title: string;
+  subtitle: string;
+  source: string;
+  setting: Setting;
+  fit?: { height?: number; maxWidth?: number; footY?: number };
+  regions?: Pick<RegionOptions, 'keepSpots'>;
+  /** Region ids to swap back after regenerating, so saved colorings keep their colours (ids are by size order). */
+  rename?: Record<string, string>;
+};
 
 const VEHICLES: Vehicle[] = [
   { id: 'bicycle', title: 'Bicycle', subtitle: 'Ring ring! Ride the bicycle!', source: 'Bicycle', setting: 'road' },
@@ -255,7 +265,7 @@ const VEHICLES: Vehicle[] = [
   { id: 'school-bus', title: 'School Bus', subtitle: 'All aboard the school bus!', source: 'School_bus', setting: 'road' },
   { id: 'seaplane', title: 'Seaplane', subtitle: 'This plane lands on water!', source: 'Seaplane', setting: 'sea' },
   { id: 'snowmobile', title: 'Snowmobile', subtitle: 'Zoom across the snow!', source: 'Snowmobile', setting: 'snow' },
-  { id: 'steam-train', title: 'Steam Train', subtitle: 'Choo choo! Puff puff!', source: 'Steam_locomotive_front_view', setting: 'track' },
+  { id: 'steam-train', title: 'Steam Train', subtitle: 'Choo choo! Puff puff!', source: 'Steam_locomotive_front_view', setting: 'track', regions: { keepSpots: true }, rename: { 'part-2': 'part-3', 'part-3': 'part-2' } },
   { id: 'submarine', title: 'Submarine', subtitle: 'Deep under the sea!', source: 'Submarine', setting: 'underwater' },
   { id: 'tow-truck', title: 'Tow Truck', subtitle: 'The tow truck helps other cars!', source: 'Tow_truck', setting: 'road' },
   { id: 'tractor', title: 'Tractor', subtitle: 'The tractor works on the farm!', source: 'Tractor', setting: 'farm' },
@@ -297,7 +307,8 @@ async function main() {
     else if (v.setting === 'playground') playground(a, rand, box);
     else if (v.setting === 'snow') snow(a);
     else farm(a, rand, box);
-    await addClipartRegions(a, clip, { minArea: 0.0015 * 1024 * 768, eyes: false });
+    await addClipartRegions(a, clip, { minArea: 0.0015 * 1024 * 768, eyes: false, ...v.regions });
+    for (const r of a.regions) r.name = v.rename?.[r.name] ?? r.name;
     pages.push({ id: `vehicle-${v.id}-01`, title: v.title, subtitle: v.subtitle, age: '4-5', regions: a.regions, details: a.details, lines: a.lines });
   }
   writePages(pages, join(ROOT, 'art/svg/vehicles'), 'vehicles', { theme: 'Vehicles', generator: 'tools/vehicles/generate.ts' });

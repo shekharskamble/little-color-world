@@ -14,6 +14,5 @@
   { "id": "flowers", "title": "Flowers", "color": "#E2609A", "emoji": "🌷", "order": 12, "cover": "bloom-daisy" },
   { "id": "buildings", "title": "Buildings", "color": "#C9733F", "emoji": "🏠", "order": 13, "cover": "building-castle" },
   { "id": "construction", "title": "Construction", "color": "#E8A317", "emoji": "🚧", "order": 16, "cover": "construction-cement-mixer" },
-  { "id": "tracing", "title": "Trace and Color", "color": "#3DBE6B", "emoji": "✏️", "order": 15, "hidden": true },
-  { "id": "vegetables", "title": "Vegetables", "color": "#D9722B", "emoji": "🥕", "order": 14, "cover": "veg-07" }
+  { "id": "tracing", "title": "Trace and Color", "color": "#3DBE6B", "emoji": "✏️", "order": 15, "hidden": true }
 ]
