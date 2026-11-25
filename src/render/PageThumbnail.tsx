@@ -2,9 +2,10 @@ import { Canvas } from '@shopify/react-native-skia';
 import { useMemo, useState, type ReactNode } from 'react';
 import { View, type LayoutChangeEvent, type StyleProp, type ViewStyle } from 'react-native';
 
+import { fillBaseColor } from '@/content/schema/fill';
 import type { ColoringPage } from '@/content/schema/page';
 import type { FillMap, Stroke } from '@/engine/coloring/history';
-import { fitContain, fitContainRect, fitCover, zoomAbout, type ViewTransform } from '@/engine/geometry/viewTransform';
+import { fitContain, fitContainRect, fitCover, viewRectInPage, zoomAbout, type ViewTransform } from '@/engine/geometry/viewTransform';
 
 import { PageArtwork } from './PageArtwork';
 import { useSkiaPage } from './useSkiaPage';
@@ -65,15 +66,34 @@ export function PageThumbnail({
         : content
           ? fitContainRect(content, w, h, 6)
           : fitContain(pw, ph, w, h);
+  // With `content` the drawing can be smaller than the box. A coloured-in background is painted across the whole box
+  // (the same fill, so a pattern keeps going) and the card drops its white frame. The drawing still fits as before.
+  const transform = zoomAbout(base(box.w, box.h), zoom, box.w / 2, box.h / 2);
+  const backdrop = fit === 'content' && fills.background ? fillBaseColor(fills.background) : undefined;
+  const backgroundFrame =
+    backdrop !== undefined && box.w > 0 ? outset(viewRectInPage(transform, box.w, box.h), 1 / transform.scale) : undefined;
   return (
-    <View style={style} onLayout={onLayout} pointerEvents="none">
+    <View style={[style, backdrop !== undefined && { backgroundColor: backdrop }]} onLayout={onLayout} pointerEvents="none">
       {box.w > 0 && (
         <Canvas style={{ width: box.w, height: box.h }}>
-          <PageArtwork page={page} skia={skia} fills={fills} strokes={strokes} transform={zoomAbout(base(box.w, box.h), zoom, box.w / 2, box.h / 2)} overlay={overlay} />
+          <PageArtwork
+            page={page}
+            skia={skia}
+            fills={fills}
+            strokes={strokes}
+            transform={transform}
+            overlay={overlay}
+            backgroundFrame={backgroundFrame}
+          />
         </Canvas>
       )}
     </View>
   );
+}
+
+/** Grows `r` by `pad` on every side so a rounded card edge cannot show a hairline of the card behind it. */
+function outset(r: { x: number; y: number; width: number; height: number }, pad: number) {
+  return { x: r.x - pad, y: r.y - pad, width: r.width + pad * 2, height: r.height + pad * 2 };
 }
 
 /** A transform at `scale` that puts the centre of `rect` (page units) in the middle of a w × h box. */

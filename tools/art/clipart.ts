@@ -54,6 +54,8 @@ export type Fit = { footY: number; height: number; maxWidth: number; centerX?: n
 
 /** Holes smaller than this (page units², 0.4% of the page: the toddler minimum) stay white instead of being a part. */
 const MIN_PART_AREA = 0.004 * 1024 * 768;
+/** A solid shape smaller than this (page units², 1.5% of the page) with a small hole in it is an eye and its shine. */
+const EYE_MAX = 0.015 * 1024 * 768;
 /**
  * How far each part reaches under the black line around it. The clipart's lines are drawn as they are; growing the
  * parts underneath avoids a pale hairline where a colour meets an antialiased edge.
@@ -165,13 +167,34 @@ function grow(poly: Subpath, by: number): string {
     .join(' L ')} Z`;
 }
 
+/** The area of a one-subpath "M x,y L x,y ... Z" outline. A thin sliver can fold over itself when grown, leaving
+ * almost no area (the page validator rejects such a part), so those stay white. */
+function pathArea(d: string): number {
+  const v = (d.match(/-?\d+(\.\d+)?/g) ?? []).map(Number);
+  let s = 0;
+  for (let i = 0; i + 1 < v.length; i += 2) {
+    const j = (i + 2) % (v.length - (v.length % 2));
+    s += v[i]! * v[j + 1]! - v[j]! * v[i + 1]!;
+  }
+  return Math.abs(s) / 2;
+}
+
 /** Adds the clipart's holes as parts (numbered from `firstPart`) and its black lines as one locked detail on top. */
-export function addClipart(a: Art, { pieces }: Clipart, firstPart = 1) {
+export function addClipart(a: Art, { pieces }: Clipart, firstPart = 1, opts: { smallParts?: boolean } = {}) {
   // Holes, outermost first so a hole inside an island inside a hole sits on top.
   const holes = pieces.filter((p) => p.depth % 2 === 1).sort((p, q) => p.depth - q.depth || q.area - p.area);
+  /** A shine in an eye: a small hole in a small solid shape (an eye), which stays white. */
+  const highlight = (hole: Piece) => {
+    const at = hole.poly.points[0]!;
+    const parent = pieces.find((q) => q.depth === hole.depth - 1 && boundsContain(q.bounds, at) && containsPoint([q.poly], at, 'nonzero'));
+    return !!parent && parent.area < EYE_MAX && hole.area < 0.3 * parent.area;
+  };
   let part = firstPart - 1;
+  let small = 0;
   for (const hole of holes) {
     if (hole.area >= MIN_PART_AREA) a.fillOnly(`part-${++part}`, `<path d="${grow(hole.poly, TUCK)}"`);
+    // With `smallParts`, small areas (a spine, a stripe, a pebble) can still be coloured; only eye shines stay white.
+    else if (opts.smallParts && hole.area >= SMALL_MIN && pathArea(grow(hole.poly, TUCK)) >= SMALL_MIN && !highlight(hole)) a.fillOnly(`small-${++small}`, `<path d="${grow(hole.poly, TUCK)}"`);
     else a.d('small-hole', `<path d="${grow(hole.poly, TUCK)}"`, '#ffffff', ';stroke:none');
   }
   // All the black artwork as one shape, drawn as is: even-odd turns the holes back into holes.
@@ -342,6 +365,9 @@ export type RegionOptions = {
   thinSpots?: number;
   /** Outline thickness for opened solid spots (e.g. closed eyes), when they should be thinner than the lines. */
   spotLine?: number;
+  /** The drawing's line width when it is known (pre-drawn uniform lines), instead of measuring it: the measure can be
+   * misled by fine detail (the insect Mayfly measured 28 for lines of 10.5) and then thins the lines away. */
+  lineWidth?: number;
   /**
    * Keep every loose solid spot black, as drawn, instead of opening it: for packs that draw eyes as plain black ovals
    * with no highlight, and noses, mouths and jack-o'-lantern faces as solid shapes. Solid areas joined to lines
@@ -364,7 +390,7 @@ export type RegionOptions = {
 export async function addClipartRegions(a: Art, clip: Clipart, o: RegionOptions = {}) {
   const target = o.target ?? ANIMAL_LINE;
   const minArea = o.minArea ?? MIN_PART_AREA;
-  const by = Math.max(0, (lineWidth(clip) - target) / 2);
+  const by = Math.max(0, ((o.lineWidth ?? lineWidth(clip)) - target) / 2);
   const ck = await canvasKit();
   const path = (d: string) => ck.Path.MakeFromSVGString(d)!;
   const round = { join: ck.StrokeJoin.Round, cap: ck.StrokeCap.Round };

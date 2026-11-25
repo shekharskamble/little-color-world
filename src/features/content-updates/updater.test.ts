@@ -22,7 +22,7 @@ const publicKeyHex = bytesToHex(ed25519.getPublicKey(secret));
 
 /** A real bundled page, re-labelled as a new picture in theme `themeId`. */
 function page(id: string, themeId: string): object {
-  const raw = JSON.parse(readFileSync(join(__dirname, '../../../content/pages/flower-03.json'), 'utf8')) as Record<string, unknown>;
+  const raw = JSON.parse(readFileSync(join(__dirname, '../../../content/pages/bloom-rose.json'), 'utf8')) as Record<string, unknown>;
   return { ...raw, id, themeId, title: id };
 }
 
@@ -83,7 +83,7 @@ async function setup(files: Map<string, Uint8Array>, overrides: Partial<UpdaterD
     source,
     publicKeyHex,
     appVersion: '0.1.0',
-    existing: () => ({ themeIds: new Set(['flowers', 'animals']), pageIds: new Set(['flower-03']) }),
+    existing: () => ({ themeIds: new Set(['flowers', 'animals']), pageIds: new Set(['bloom-rose']) }),
     now: () => 1000,
     fetchBytes: async (url, max) => {
       fetched.push(url);
@@ -153,7 +153,7 @@ describe('checkForUpdates', () => {
   });
 
   it('refuses ids the app already has', async () => {
-    const { deps } = await setup(cdn([{ id: 'dupe', version: 1, pages: [page('flower-03', 'flowers')] }]));
+    const { deps } = await setup(cdn([{ id: 'dupe', version: 1, pages: [page('bloom-rose', 'flowers')] }]));
     const r = await checkForUpdates(deps, () => {});
     expect(r.failed[0]?.reason).toMatch(/already exists/);
   });

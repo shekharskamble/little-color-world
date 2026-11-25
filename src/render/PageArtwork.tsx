@@ -21,6 +21,11 @@ type Props = {
   underlay?: ReactNode;
   /** Drawn in page units above everything, outline included (a tracing's crayon ink). */
   overlay?: ReactNode;
+  /**
+   * Page-space rectangle to paint `fills.background` across, outside the page clip. Thumbnails use it so a coloured
+   * background (a solid, a pattern, a rainbow) continues into the card instead of stopping at the page edge.
+   */
+  backgroundFrame?: { x: number; y: number; width: number; height: number };
 };
 
 /**
@@ -31,28 +36,37 @@ type Props = {
  * Everything is clipped to the page, so art that runs past the edge (a ground
  * shape and its outline) never shows outside it. Must be rendered inside a Skia <Canvas>.
  */
-export function PageArtwork({ page, skia, fills, strokes = [], transform, underlay, overlay }: Props) {
+export function PageArtwork({ page, skia, fills, strokes = [], transform, underlay, overlay, backgroundFrame }: Props) {
   const [, , w, h] = page.viewBox;
+  const background = skia.regions.find((r) => r.id === 'background');
+  const backgroundFill = fills.background;
   return (
-    <Group transform={[{ translateX: transform.tx }, { translateY: transform.ty }, { scale: transform.scale }]} clip={rect(0, 0, w, h)}>
-      <Rect x={0} y={0} width={w} height={h} color={page.background} />
-      {!skia.regions.some((r) => r.id === 'background') && underlay}
-      {skia.regions.map((r) => (
-        <Fragment key={r.id}>
-          <RegionFill region={r} fill={fills[r.id] ?? r.defaultFill} />
-          {r.id === 'background' && underlay}
-        </Fragment>
-      ))}
-      {/* Brush paint has its own layer, so eraser strokes clear only paint and the fills show through again. */}
-      {strokes.length > 0 && (
-        <Group layer>
-          {strokes.map((s, i) => (
-            <BrushStroke key={i} stroke={s} skia={skia} />
-          ))}
-        </Group>
+    <Group transform={[{ translateX: transform.tx }, { translateY: transform.ty }, { scale: transform.scale }]}>
+      {backgroundFrame && backgroundFill && (
+        <Rect x={backgroundFrame.x} y={backgroundFrame.y} width={backgroundFrame.width} height={backgroundFrame.height} color={fillBaseColor(backgroundFill)}>
+          <FillShader fill={backgroundFill} bounds={background?.bounds ?? rect(0, 0, w, h)} />
+        </Rect>
       )}
-      <Outline page={page} skia={skia} />
-      {overlay}
+      <Group clip={rect(0, 0, w, h)}>
+        <Rect x={0} y={0} width={w} height={h} color={page.background} />
+        {!background && underlay}
+        {skia.regions.map((r) => (
+          <Fragment key={r.id}>
+            <RegionFill region={r} fill={fills[r.id] ?? r.defaultFill} />
+            {r.id === 'background' && underlay}
+          </Fragment>
+        ))}
+        {/* Brush paint has its own layer, so eraser strokes clear only paint and the fills show through again. */}
+        {strokes.length > 0 && (
+          <Group layer>
+            {strokes.map((s, i) => (
+              <BrushStroke key={i} stroke={s} skia={skia} />
+            ))}
+          </Group>
+        )}
+        <Outline page={page} skia={skia} />
+        {overlay}
+      </Group>
     </Group>
   );
 }

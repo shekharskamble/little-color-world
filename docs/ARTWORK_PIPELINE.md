@@ -134,15 +134,17 @@ sea, sky, under the sea, rails, snow or farm. The sky is the Happy Car's (sun to
 small clouds and birds placed clear of the vehicle. Scenery that passes behind a vehicle (rails, field furrows) is made
 of shapes, not lines, because lines are always drawn above every fill.
 
-**Sea Animals (2026-11-02).** `tools/sea-animals/generate.ts` makes 100 pages (`sea-<name>`) from the owner's "Cute Sea
-Animals" clipart (Illustrator exports, `art/svg/sea-animals/source/NNN.svg`), with the same converter. The background is
-minimal at the owner's request: swimmers and sea-floor things get a sandy seabed and a short column of bubbles each side
-(`sea`), shore animals (seals, otters, penguins, gulls) only the sand (`shore`), and pictures that already have scenery,
-plus plants, shells and boats, nothing (`none`). Two converter options were added for this clipart: `minCore` (1500
-here, default 40) leaves the blobs where its brush lines swell at joins as drawn instead of opening them into tiny
-beads, and `maxRegions` (80, the 4-5 limit) merges the smallest leftover small parts into one region on busy pages.
-Pages with no scene have no outline strokes: their lines are the locked artwork region, which the schema now allows.
-The solid-black orca (source 37) is not used: opening its black body loses its face (the second orca, source 38, is).
+**Sea Animals (2026-11-25).** `tools/sea-animals/generate.ts` makes 41 pages (`ocean-<name>`) from the owner's "Cute
+Fish" clipart (`art/svg/sea-animals/fish/NN.svg`). Each source is first trimmed to the other packs' line thickness by
+`tools/sea-animals/thin_all.sh` (`tools/art/uniform_lines.py --cap`, into `art/svg/sea-animals/fish-thin/`): every line
+wider than 10.5 is cut down to 10.5 around its centre line, while thinner lines, solid shapes drawn as such (pupils) and
+small separate shapes (dots, little rings, brows) stay exactly as drawn; eyes the trimming still hollowed are kept as
+drawn with `--keep x,y,r` (set per drawing in `thin_all.sh`). The page is then made with `addClipart`
+(`smallParts`): lines exactly as trimmed, every white area colourable (small areas as `small-` parts), eye shines white.
+No background; each picture big and centred. Dropped along the way (owner, 2026-11-25): a one-width redraw (changed the
+shapes) and thinning inside `addClipartRegions` (hollowed pupils, opened dots into rings, faded thin lines). The earlier
+pack (100 pages, `sea-<name>`) was replaced because its licence does not cover the app; its generator is kept as
+`tools/sea-animals/generate-retired.ts` and its ids are not reused.
 
 ## Insects
 

@@ -105,6 +105,8 @@ function ThemeCard({ theme, width, isNew }: { theme: Theme; width: number; isNew
       label={theme.title}
       accent={theme.color}
       isNew={isNew}
+      // A coloured-in background runs to the card's border instead of sitting in a white frame.
+      bleed={progress?.fills.background !== undefined}
       onPress={() => router.push({ pathname: '/themes/[themeId]', params: { themeId: theme.id } })}
       style={{ width, aspectRatio: CARD_ASPECT }}
     >

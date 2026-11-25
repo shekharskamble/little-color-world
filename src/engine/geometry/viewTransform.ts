@@ -37,3 +37,8 @@ export function screenToPage(t: ViewTransform, p: Point): Point {
 export function pageToScreen(t: ViewTransform, p: Point): Point {
   return { x: p.x * t.scale + t.tx, y: p.y * t.scale + t.ty };
 }
+
+/** The page-space rectangle that covers a whole `viewW` × `viewH` box under `t`. */
+export function viewRectInPage(t: ViewTransform, viewW: number, viewH: number): { x: number; y: number; width: number; height: number } {
+  return { x: -t.tx / t.scale, y: -t.ty / t.scale, width: viewW / t.scale, height: viewH / t.scale };
+}

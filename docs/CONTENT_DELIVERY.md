@@ -15,7 +15,7 @@ New pictures reach existing installs without an App Store update. They download 
 3. Build a pack. Each version is immutable:
    ```
    npm run lcw -- pack build garden --version 1 --theme garden          # new theme (listed in remote.json)
-   npm run lcw -- pack build more-flowers --version 1 --pages flower-41,flower-42
+   npm run lcw -- pack build more-flowers --version 1 --pages bloom-new-1,bloom-new-2
    ```
    Optional `--min-app 1.2.0` for pages that need a newer app (e.g. a new fill type).
 4. `npm run lcw -- pack manifest`: lists the newest version of every built pack and signs `manifest.json` with the Keychain key.

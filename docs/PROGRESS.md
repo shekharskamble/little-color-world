@@ -1351,3 +1351,123 @@ Not seen on a device yet: it needs a native rebuild (`npx expo run:ios`, or the 
 **Follow-up (8 more from Pack 4):** files 1, 5, 10, 11, 14, 16, 17, 20 copied as `halloween-p4-<nn>.svg` and added as `halloween-35`..`42`: Howling Wolf, Ghost Kitty, Top Hat Skeleton, Flying Pot, Magic Mirror, Pumpkin Ghost, Skeleton Dance, Flying Witch. Their eyes have highlights and convert normally; only Pumpkin Ghost needed `keepSpots` to keep its jack-o'-lantern face black. Halloween now has 42 pages. Debug previews of all 8 checked by eye.
 
 **Follow-up (3 more from Pack 5):** files 1, 2, 4 copied as `halloween-p5-<nn>.svg` and added as `halloween-43`..`45`: Trick-or-Treat Ghost, Heart-Eyes Pumpkin, Cat in a Pot. The ghost needed `keepSpots` to keep its candy basket's jack-o'-lantern face black. Halloween now has 45 pages. Debug previews checked by eye.
+
+## 2026-11-24: Skeleton Fox removed from Halloween
+
+**What changed (owner: "remove skeleton fox from halloween"):** `halloween-26` deleted (page JSON and generated SVG), dropped from `tools/halloween/generate.ts` with a note that its number is not reused, and its provenance row marked removed. The source drawing stays in `art/svg/halloween/source/halloween-p3-05.svg`. Halloween now has 44 pages. A child's saved coloring of this page, if any, no longer has a page to open.
+
+**Verified:** index regenerated; typecheck and lint clean; tests and page validation below.
+
+## 2026-11-24: Construction theme (20 pages), licence not yet cleared
+
+**What changed (owner: "create new theme Construction, cement truck as cover"):** 20 vehicles from the owner's FunnyStrokeCo "Construction Vehicle" pack (`~/Desktop/Little Color World/02_CONSTRUCTION_VEHICLE/SVG`) copied to `art/svg/construction/source/` with the pack's licence file, and converted by the new `tools/construction/generate.ts` (no background, big and centred, `eyes: false` as the vehicles have no faces). Pages `construction-<name>`: Cement Mixer (cover), Backhoe Loader, Bulldozer, Cherry Picker, Compactor, Crane Truck, Dump Truck, Excavator, Flatbed Truck, Forklift, Motor Grader, Pickup Truck, Road Roller, Scissor Lift, Skid Steer, Little Dump Truck, Tower Crane, Tractor, Wheel Loader, Wrecking Ball. New `construction` theme (yellow `#E8A317`, 🚧) at order 16, after Buildings.
+
+**Licence: NOT cleared.** The FunnyStrokeCo Standard License caps commercial use at 500 end products and allows digital products only when the art is flattened so vectors cannot be extracted. The app may sell more than 500 copies and stores pages as vector outlines, so the theme must not ship until the owner buys the Extended Commercial License and the seller confirms app use (and App Store screenshots) in writing. Recorded in `art/PROVENANCE.md`.
+
+**Verified:** all 20 imported with 0 errors and 0 warnings; debug previews checked by eye.
+
+**Follow-up (2026-11-24):** the owner bought FunnyStrokeCo's Extended Commercial License for the Construction pack, which removes the 500-product cap. Remaining check: the extended licence text (or a written reply from the seller) must allow use inside an app, where pages are stored as vector outlines, and in App Store screenshots. Provenance rows updated.
+
+## 2026-11-25: Christmas cleared (paid licence)
+
+**What changed:** the owner paid RheyaStudio's custom $89 "Commercial App Usage License" for the Kawaii Christmas pack. It covers the app on all platforms and future versions, delivery from our servers, saving finished pictures, App Store screenshots and promotional videos, perpetual and irrevocable. Owner accepted the seller's note that some designs may be AI-made, with liability capped at the fee; all 30 pages were reviewed on 2026-11-24 and none resembles a famous character or brand. All 30 `christmas-` rows in `art/PROVENANCE.md` now say covered.
+
+**Next (owner):** keep the licence PDF and the Etsy receipt with the pack.
+
+## 2026-11-25: Licence bought for Sea Animals, Insects, Space and Flowers (terms to check)
+
+**What changed:** the owner bought the seller's "Unlimited Commercial License for one set" (Etsy listing 1770786009). Etsy pages can't be read from here, so its terms are not yet checked: it must allow use inside an app (not only physical products) and App Store screenshots, and "for one set" may mean one licence per pack (four packs). Provenance rows for the four packs note the purchase; they stay not covered until the terms are confirmed.
+
+**Follow-up:** the licence's terms (pasted by the owner): "applies to one single SVG file/bundle listing; purchase a separate commercial license for multiple bundles", granting use on "unlimited physical end products". So it does not cover the app (physical products only) and covers one of the four packs. The four packs stay not covered; the owner needs written permission or a custom app licence from the seller (Jodelyn Paet).
+
+**Follow-up:** the rest of the licence says it may not be used "for digital products like Instagram highlight icons, app icons, or any digital form". The bought licence explicitly excludes the app.
+
+## 2026-11-25: Insects theme replaced with a new pack (30 pages)
+
+**What changed (owner: "remove all the insects and replace them with these; I have the licence"):**
+- The 33 old Insects pages (`insect-<name>`, from the pack whose licence forbids digital use) are deleted: page JSON and generated SVGs. Their source drawings stay in `art/svg/insects/source/`; their generator is kept as `tools/insects/generate-retired.ts` (marked do-not-run) and their provenance rows are marked removed.
+- 30 new pages from the owner's insect pack (`~/Desktop/Little Color World/Insects`, potrace SVGs) copied to `art/svg/insects/bugs/` and converted by a new `tools/insects/generate.ts`, ids `bug-<name>` so no old id is reused (a saved coloring of an old page can never open on different art). Butterfly, Ant, Aphid, Bumblebee, Caterpillar, Cicada, Click Beetle, Damselfly, Dragonfly, Earwig, Bug Eggs, Firefly, Honeybee, Fly, Hoverfly, Bug Net, Ladybug, Leafhopper, Mayfly, Mosquito, Moth, Wasp Nest, Praying Mantis, Shield Bug, Cocoon, Silverfish, Stag Beetle, Stick Insect, Wasp, Weevil. Theme cover is now `bug-butterfly`.
+- `eyes: false` for the pack (the bugs have no faces; a ladybird spot was taken for an eye and left white). The Mayfly's line width measured twice its real thickness and thinning erased its lines; it gets `target: 29`.
+
+**Verified:** all 30 imported with 0 errors and 0 warnings; debug previews of all 30 checked by eye.
+
+**Open:** record the new pack's seller and licence text (owner says it is licensed); App Store screenshot 06 shows the old Butterfly and must be re-shot (`tools/store/colors.json` still has the old `insect-butterfly-01` entry).
+
+**Follow-up (owner: "fix butterfly, inside the wing the lines don't look good"):** the Butterfly's inner wing curves stopped short of the body (a loose, tapered line end), and its upper and lower wings were one shape. `tools/insects/generate.ts` now takes `close` lines per page; the Butterfly gets four, measured from the drawing: each inner curve continued into the body outline, and each wing notch extended to the body. Each side is now an outer band, an inner panel and a lower wing (plus its spot). Previews checked by eye.
+
+**Follow-up (owner: "it looks terrible, no uniformity between strokes, width is wrong as well"):** the pack draws thick outlines and thin, tapered inner lines, and thinning everything by one amount made the inner lines thinner still (and the added closing lines a third width). New dev-only preprocessing step `tools/art/uniform_lines.py` (driven by `tools/insects/uniform_all.sh`): renders each source onto the page, reduces every line to its centre line (skeleton, short stubs pruned), redraws it with a round pen of width 10.5, keeps only blobs where a line ends (antenna knobs) solid, and traces the result back to smooth outlines in `art/svg/insects/bugs-uniform/`. The Butterfly's four closing lines are drawn in this step, so they match. `tools/insects/generate.ts` reads the uniform files and passes the new `lineWidth` option to `addClipartRegions` (`tools/art/clipart.ts`), so they are not thinned again (the Mayfly measured 28 for lines of 10.5 and was being thinned away). The Caterpillar uses a higher solid threshold so its feet are lines, not blobs. Needs rsvg-convert and Python with numpy, scipy, scikit-image and pillow (a throwaway venv); the app never runs it, and the outputs are committed.
+
+**Verified:** all 30 re-imported with 0 errors and 0 warnings; plain previews of all 30 checked by eye (one line width throughout); typecheck, lint, tests and page validation below.
+
+## 2026-11-25: Sea Animals theme replaced with the Cute Fish pack (41 pages)
+
+**What changed (owner: "I found a replacement for sea animals and got the permission to use it too"):**
+- The 98 old Sea Animals pages (`sea-<name>`, from the pack whose licence forbids digital use) are deleted: page JSON, generated SVGs and their source drawings. Their generator is kept as `tools/sea-animals/generate-retired.ts` (marked do-not-run) and their provenance rows are marked removed.
+- 41 new pages from the owner's "Cute Fish" pack (`~/Desktop/Little Color World/sea animals/selected`, 41 SVGs) copied to `art/svg/sea-animals/fish/NN.svg` and converted by a new `tools/sea-animals/generate.ts`, ids `ocean-<name>` so no old id is reused. Clownfish, Oarfish, Happy Fish, Crab, Sturgeon, Angelfish, Carp, Lionfish, Seahorse, Flying Fish, Sea Urchin, Sea Anemone, Stripy Fish, Arowana, Perch, Fancy Fish, Sea Plant, Betta Fish, Sea Grass, Butterflyfish, Honeycomb Fish, Tetra, Discus Fish, Sea Sponges, Kelp, Flowery Fish, Grouper, Clam and Pearl, Hammerhead Shark, Goldfish, Squid, Sunfish, Sea Turtle, Starfish, Leafy Sea Dragon, Eel, Guppy, Leafy Plant, Anglerfish, Koi, Sea Snail. No seabed or bubbles. Theme cover is now `ocean-clownfish`.
+- `uniform_lines.py` moved to `tools/art/` (shared with any future pack).
+
+**Verified:** all 41 imported with 0 errors and 0 warnings; debug previews of all 41 checked by eye. Typecheck ok, lint ok, 981/981 tests (per-page tests went from 98 to 41 sea pages), 636/636 pages valid.
+
+**Open:** record the Cute Fish seller and permission text (owner says permission is given) and whether it covers App Store screenshots; screenshot 08 (old Orca) must be replaced (`tools/store/colors.json` still has `sea-orca`). The Oarfish and Arowana have many very small scale cells; check them on an iPad.
+
+**Follow-up (owner: "we don't have to change every shape to colour, it looks ugly now; fix it based on the original SVGs"):** the one-width redraw is dropped for this pack (`tools/sea-animals/uniform_all.sh` and `art/svg/sea-animals/fish-uniform/` removed). The generator now converts the original drawings the standard way (like Halloween and Christmas), so shapes are as drawn and scales and fin rays stay lines instead of tiny areas. Two pages lost thin lines to thinning and set `lineWidth`: Betta 10.5 (not thinned), Starfish 13 (keeps its dots and black eyes). Pages re-imported with `--allow-removed` (they have never shipped). Debug previews of all 41 checked by eye.
+
+**Follow-up (owner: Betta, Crab eyes, Clownfish, Hammerhead eyes, and the circles on Lionfish, Seahorse, Sea Sponges, Squid, Sunfish, Tetra "all look bad"):** thinning to the Animals thickness hollowed pupils, opened solid dots into thin rings and turned thin inner lines into hairlines. These 10 pages now use `asDrawn`: shapes merged (nonzero union, as a viewer sees them) and converted with `addClipart`, lines exactly as drawn. `addClipart` gained `smallParts` (default off, so Vegetables is unchanged): areas below the part minimum but above the small-part minimum become colourable `small-` parts, and only eye shines stay white. Compared side by side with the source drawings; all 10 match. The Betta no longer needs `lineWidth`.
+
+**Follow-up (owner: "reduce the stroke thickness for all sea animals and keep it consistent with other svgs"):** new `--cap` mode in `tools/art/uniform_lines.py`, run by `tools/sea-animals/thin_all.sh` into `art/svg/sea-animals/fish-thin/`: lines wider than 10.5 (the other packs' thickness) are trimmed to 10.5 around their centre line; thinner lines keep their drawn shape, pupils stay solid, and small separate shapes (dots, the Sunfish's little rings, brows) are kept exactly as drawn. All 41 pages now take one path: `addClipart` with `smallParts` on the trimmed drawings (the per-page `lineWidth`/`asDrawn` settings are gone). Plain previews of all 41 checked by eye: one line weight across the pack, eyes and dots as drawn.
+
+**Follow-up (owner: "make squid, seahorse, koi, angelfish, arowana eyes back to original"):** trimming had hollowed these eyes (pupil and shine read as thick lines). `uniform_lines.py` gained `--keep x,y,r`: the drawn shape at that point is kept exactly as drawn within the circle. `tools/sea-animals/thin_all.sh` sets it for each of those eyes, and for the Squid's solid mouth. Compared side by side with the sources: all match.
+
+
+## 2026-11-25: Flowers theme replaced with the Simple Flowers pack (24 pages)
+
+**What changed (owner: "remove flowers and add these, I have got the permission to use them"):**
+- The 40 old Flowers pages (`flower-NN`, "Bold Flowers", whose licence forbids digital use) are deleted: page JSON, generated SVGs and source drawings. Their provenance rows are marked removed.
+- 24 new pages from the owner's "Simple Flowers" pack (`~/Desktop/Little Color World/Flowers/Selected`, the 25 SVGs the owner pasted, 1 to 25) copied to `art/svg/flowers/simple/NN.svg`, ids `bloom-<name>` so no old id is reused: Sunflower, Coneflower, Wild Rose, Baby's Breath, Hibiscus, Magnolia, Orchid, Black-Eyed Susan, Phlox, Tulip, Carnation, Little Sunflower, Lavender, Buttercups, Big Tulip, Hollyhock, Big Hibiscus, Poppy, Zinnia, Daisy, Rosebud, Rose, Pink Carnation, Lupine. Source 01 (Yarrow) is left out: its tiny florets are far over the region limit and without them nothing is left to colour. Theme cover is now `bloom-sunflower`.
+- Converted like the Sea Animals pack: `tools/flowers/thin_all.sh` (`uniform_lines.py --cap`) trims lines over 10.5 into `art/svg/flowers/simple-thin/`, also drawing closing lines where the Hibiscus, Big Hibiscus and Pink Carnation petals were open; `tools/flowers/generate.ts` then runs `addClipart` with `smallParts`. (The standard `addClipartRegions` left outer carnation and hibiscus petals uncoloured.)
+- `updater.test.ts` reads `bloom-rose.json` instead of the removed `flower-03.json`.
+
+**Verified:** all 24 imported with 0 errors and 0 warnings; colour-filled previews of all 24 checked by eye (every petal and leaf colourable except the Carnation's hair-thin leaves, which stay as drawn). Typecheck ok, lint ok, 965/965 tests, all pages valid.
+
+**Open:** record the Simple Flowers seller and permission text and whether it covers App Store screenshots.
+
+## 2026-11-25: Flowers 26 to 70 added (66 Flowers pages)
+
+**Changed:** the owner asked for the rest of the Simple Flowers pack ("don't redraw, keep stroke width same as other svgs"). 42 of sources 26 to 70 are now `bloom-<name>` pages, made the same way as the first 24: lines over 10.5 trimmed to 10.5 (`tools/flowers/thin_all.sh`), thinner lines and dots as drawn, every white area colourable.
+- Closing lines added in `thin_all.sh` where the artist left outlines open: 42 Pinwheel Flower, 59 Dog Rose, 61 Star Lily (stems open at the bottom, so the joined leaves leaked into the background) and 49 Hibiscus Bloom (two petals open at the stamen).
+- Left out: 46 Wildflowers, 64 Sweet Pea, 66 Chamomile. They are sketchy drawings with dozens of broken lines, so most leaves and petals would not be colourable.
+- `tools/art/clipart.ts` `addClipart`: a small part whose outline collapses to almost no area when grown (a thin sliver folding over itself) now stays white instead of failing the import (Morning Glory, Chamomile). This only changes parts that the validator would reject, so existing pages are unaffected.
+
+**Verified:** all 42 imported with 0 errors; colour-filled previews of all 42 checked by eye. Typecheck ok, lint ok, 1007/1007 tests, 662/662 pages valid.
+
+**Open:** the Simple Flowers licence record, as above.
+
+## 2026-11-25: Flowers cover is the Daisy
+
+**Changed:** `content/themes.json` Flowers cover `bloom-sunflower` → `bloom-daisy` (owner request).
+
+**Verified:** typecheck ok, 1007/1007 tests, 662/662 pages valid.
+
+## 2026-11-25: Theme covers with a coloured-in background fill the card
+
+**Changed:** when a child had coloured a cover picture's background (Space, Animals, Vehicles), the theme picker showed that colour only on the page rectangle, with white bands and the card's white frame around it. `PageThumbnail` (fit `content`) now fills its whole box with the background's colour, and `CatalogPager`'s `ThemeCard` drops the white frame (`bleed`) when the cover's background is coloured. Covers without a coloured background look as before.
+
+**Verified:** typecheck ok, lint ok, all tests pass; checked on the iPad simulator (Space and Animals cards fill edge to edge; the others unchanged). Vehicles sits on the next picker page and uses the same code.
+
+## 2026-11-25: Space replaced with the owner's new space pack (25 pages)
+
+**Changed:** the owner asked to replace the Space pictures with a new pack they have permission to use ("replace space svgs with these"). The 61 `space-<nn>` pages, their SVGs and sources (`art/svg/space/source/`) are removed; 25 new `orbit-<name>` pages come from `~/Desktop/Little Color World/Space/01_mercury.svg` to `25_comet3.svg` (the nine planets, four astronauts, three rockets, moon, two UFOs, two satellites, sun, space shuttle, moon rover, comet). Made like Flowers and Sea Animals: lines over 10.5 trimmed to 10.5 (`tools/space/thin_all.sh`, sources copied to `art/svg/space/pack/`), thinner lines, eyes and dots as drawn, every white area colourable, no background, big and centred (`tools/space/generate.ts`). The old generator is kept as `tools/space/generate-retired.ts` (its sources are gone).
+- Closing line added for 16 Lift Off: the smoke cloud was open between its two middle puffs, so it filled the background.
+- The Space cover is now `orbit-rocket` (was `space-70`). Children's saved colourings of the removed pages are no longer shown, the same as for the earlier pack replacements.
+- `art/PROVENANCE.md`: 25 `orbit-*` rows; the old rows are marked removed.
+- Not updated: `tools/store/colors.json` (store screenshot colours) still names `space-70`, and already named the removed `sea-orca`. Update it before the screenshots are next remade.
+
+**Verified:** all 25 imported with 0 errors; leak map and colour-filled previews of all 25 checked by eye. Typecheck ok, lint ok, 971/971 tests (36 fewer pages, so 36 fewer per-page tests), 626/626 pages valid. Not yet checked in the simulator.
+
+**Open:** record the space pack's seller, permission text and whether it covers App Store screenshots.
+
+## 2026-11-25: Christmas cover pattern fills the card
+
+**Changed:** a coloured cover background that is a pattern (the Christmas tree's red dots) stopped at the page rectangle, so the white card showed around it. A solid colour already covered the card because the page is larger than the drawing. `PageThumbnail` now paints that same background fill across the whole cover, outside the page clip, so the pattern continues to the border.
+
+**Verified:** typecheck and lint clean; 972/972 tests, including `viewRectInPage`. Not yet checked on the simulator.

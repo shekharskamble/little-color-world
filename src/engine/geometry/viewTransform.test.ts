@@ -1,4 +1,4 @@
-import { fitContain, fitContainRect, pageToScreen, zoomAbout } from './viewTransform';
+import { fitContain, fitContainRect, pageToScreen, viewRectInPage, zoomAbout } from './viewTransform';
 
 describe('zoomAbout', () => {
   it('keeps the zoom point fixed and scales distances from it', () => {
@@ -25,5 +25,14 @@ describe('fitContainRect', () => {
     expect(t.scale).toBeCloseTo(280 / 400);
     expect(pageToScreen(t, { x: 300, y: 300 })).toEqual({ x: 150, y: 150 });
     expect(pageToScreen(t, { x: 100, y: 300 }).x).toBeCloseTo(10);
+  });
+});
+
+describe('viewRectInPage', () => {
+  it('is the page rectangle that lands on the view corners', () => {
+    const t = fitContainRect({ x: 200, y: 100, width: 400, height: 400 }, 300, 200);
+    const r = viewRectInPage(t, 300, 200);
+    expect(pageToScreen(t, { x: r.x, y: r.y })).toEqual({ x: 0, y: 0 });
+    expect(pageToScreen(t, { x: r.x + r.width, y: r.y + r.height })).toEqual({ x: 300, y: 200 });
   });
 });

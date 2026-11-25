@@ -4,6 +4,7 @@
 //   npx tsx tools/halloween/generate.ts              writes art/svg/halloween/halloween-<nn>.svg
 //   npx tsx tools/halloween/generate.ts --import     also imports each page (npm run lcw -- page import)
 // Converted like the Christmas pages (tools/art/clipart.ts): no background, each picture drawn big and centred.
+// Page 26 (Skeleton Fox, Pack 3 file 5) was removed by the owner (2026-11-24); its number is not reused.
 import { join } from 'node:path';
 
 import { addClipartRegions, Art, loadClipart } from '../art/clipart';
@@ -44,7 +45,6 @@ const PICS: Pic[] = [
   { n: '23', src: 'p2-22', title: 'Mummy Walk', subtitle: 'A mummy goes for a walk!', eyeAt: [[4981, 7659], [6526, 7661]] },
   { n: '24', src: 'p2-24', title: 'Count Vampire', subtitle: 'A vampire with tiny fangs!', eyeAt: [[5039, 7127], [6820, 7126]] },
   { n: '25', src: 'p3-03', title: 'Wizard Frog', subtitle: 'A frog with a magic wand!', keepSpots: true },
-  { n: '26', src: 'p3-05', title: 'Skeleton Fox', subtitle: 'A fox in a bone costume!', keepSpots: true },
   { n: '27', src: 'p3-06', title: 'Pumpkin Puppy', subtitle: 'A puppy in a pumpkin hat!', keepSpots: true },
   { n: '28', src: 'p3-07', title: 'Witchy Owl', subtitle: 'An owl sits on a pumpkin!', keepSpots: true },
   { n: '29', src: 'p3-08', title: 'Pumpkin Piggy', subtitle: 'A piggy in a pumpkin hood!', keepSpots: true },
